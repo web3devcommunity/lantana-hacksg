@@ -1,3 +1,4 @@
+const { withTemplate } = require('./webpack.config.template');
 const withTM = require('next-transpile-modules')([
     '@mui/material',
     '@mui/system',
@@ -12,17 +13,9 @@ module.exports = withTM({
         // do not run on stories during build
         dirs: ['pages', 'libs', 'domain', 'app', 'components'],
     },
-    webpack: (config) => {
 
-        config.resolve.fallback = {
-            buffer: require.resolve('buffer/'),
-        };
-
-        config.resolve.alias = {
-            ...config.resolve.alias,
-            '@mui/styled-engine': '@mui/styled-engine-sc',
-        };
-        return config;
-    }
+    webpack: (config, { configType }) => {
+        return withTemplate(config);
+    },
 });
 
