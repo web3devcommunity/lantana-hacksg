@@ -11,8 +11,7 @@ import { LensProvider } from "@lens-protocol/react-web";
 
 const lensConfig = createConfig();
 
-// HOC  
-export const AccountProvider = ({ children }) => {
+export const AccountProvider = ({ children }: { children: React.ReactNode }) => {
     const wagmi = useParticleNetworkWagmi();
     if (!wagmi) return <></>;
 

@@ -39,7 +39,9 @@ export const createProfile = async (wallet: ethers.Wallet, handle: string) => {
     address,
   );
 
-  const dispatcherResults = await setDispatcher(lensClient, wallet, profileId);
+  const dispatcherResults = await setDispatcher(
+    wallet._signTypedData.bind(wallet),
+  )(lensClient, profileId);
 
   return {
     profileId,

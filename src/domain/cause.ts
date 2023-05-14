@@ -6,7 +6,7 @@ export type Cause = {
   imageUrl?: string;
   descriptionShort: string;
   stats: any;
-  publicationId: string;
+  publicationId?: string;
 };
 
 export type CauseInput = {
@@ -14,7 +14,7 @@ export type CauseInput = {
   date: string;
   imageUrl?: string;
   descriptionShort?: string;
-  publicationId: string;
+  publicationId?: string;
 };
 
 export const mapPublicationAsCause = (publication: any): Cause => {

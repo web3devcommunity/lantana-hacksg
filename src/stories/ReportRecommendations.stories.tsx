@@ -13,9 +13,6 @@ const meta: Meta<typeof ReportRecommendations> = {
     component: ReportRecommendations,
     tags: ["autodocs"],
     argTypes: {
-        backgroundColor: {
-            control: "color",
-        },
     }
 };
 
@@ -26,7 +23,5 @@ type Story = StoryObj<typeof ReportRecommendations>;
 export const Primary: Story = {
     args: {
         actions: <></>,
-
-        label: "ReportRecommendations",
     },
 };

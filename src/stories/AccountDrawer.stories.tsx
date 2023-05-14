@@ -10,9 +10,6 @@ const meta: Meta<typeof AccountDrawer> = {
     component: AccountDrawer,
     tags: ['autodocs'],
     argTypes: {
-        backgroundColor: {
-            control: 'color',
-        },
     }
 };
 
@@ -26,6 +23,5 @@ export const Primary: Story = {
                 Manage Account
             </div>
         ),
-        label: 'AccountDrawer'
     },
 };

@@ -3,11 +3,15 @@ const withTM = require('next-transpile-modules')([
     '@mui/system',
     '@mui/icons-material', // If @mui/icons-material is being used,
     // this make wagmi esm works
-    // '@lens-protocol/wagmi'
+    // avoid unhandledRejection Error [ERR_REQUIRE_ESM]:
+    '@lens-protocol/wagmi'
 ]);
 
 module.exports = withTM({
-
+    eslint: {
+        // do not run on stories during build
+        dirs: ['pages', 'libs', 'domain', 'app', 'components'],
+    },
     webpack: (config) => {
 
         config.resolve.fallback = {

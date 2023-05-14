@@ -16,18 +16,13 @@ const meta: Meta<typeof CauseCard> = {
   component: CauseCard,
   tags: ["autodocs"],
   argTypes: {
-    backgroundColor: {
-      control: "color",
-    },
   },
   decorators: [
     (Story) => (
       <AccountProvider>
-        <LensProvider config={lensConfig}>
 
-          {/* 👇 Decorators in Storybook also accept a function. Replace <Story/> with Story() to enable it  */}
-          <Story />
-        </LensProvider>
+        {/* 👇 Decorators in Storybook also accept a function. Replace <Story/> with Story() to enable it  */}
+        <Story />
       </AccountProvider>
     ),
   ]
@@ -41,7 +36,6 @@ export const Primary: Story = {
   args: {
     cause: TEST_CAUSES[0],
     actions: <div></div>,
-    label: "CauseCard",
   },
 };
 
@@ -50,6 +44,5 @@ export const CollectionAcitons: Story = {
   args: {
     cause: TEST_CAUSES[0],
     actions: <CauseCardActions publication={PUBLICATIONS_RAW[1]} />,
-    label: "CauseCard",
   },
 };

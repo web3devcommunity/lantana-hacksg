@@ -35,7 +35,7 @@ export const getPostUrl = (postId: string) => {
 // there is also lensClient.transaction.waitForIsIndexed
 
 // avoid wallet deps, signTypedData
-export const createSetDispatcher =
+export const setDispatcher =
   (signTypedData: any) => async (lensClient: LensClient, profileId: string) => {
     const typedDataResult =
       await lensClient.profile.createSetDispatcherTypedData({
@@ -106,7 +106,7 @@ export const createProfile =
     const { lensterUrl } = getProfileUrl(handle);
 
     console.log("lensterUrl", lensterUrl, "profileId", profileId);
-    const dispatcherResults = await createSetDispatcher(signTypedData)(
+    const dispatcherResults = await setDispatcher(signTypedData)(
       lensClient,
       // wallet,
       profileId,

@@ -37,14 +37,13 @@ export const asCause = (cause: CauseInput): Cause => {
     }
 }
 
-
-// useCollect
-export const CauseCard = ({ cause, publication, actions }: { cause: Cause, publication: any, actions: any }) => {
+// decouple lens specific actions / api from presentation
+export const CauseCard = ({ cause, actions }: { cause: Cause, actions?: any }) => {
     const displayedDate = format(cause.date, 'MM/dd/yyyy HH:mm');
 
     const { data, error, loading } = useActiveProfile();
     const collector = data!;
-    const operations = useCollect({ collector, publication })
+
     return (
         <Card sx={{ maxWidth: 345 }}>
             <CardHeader

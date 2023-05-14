@@ -13,7 +13,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import IconButton from '@mui/material/IconButton';
 
-export const AccountDrawer = ({ children }) => {
+export const AccountDrawer = ({ children }: { children: React.ReactNode }) => {
 
     const [isOpen, setIsOpen] = React.useState(false);
 

@@ -3,35 +3,25 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Feed } from '../components/Feed';
 import { TEST_CAUSES } from '@/domain/cause.fixture';
 import { createFilters } from '@/libs/lens/create-filters';
-import { LensProvider, PublicationSortCriteria } from '@lens-protocol/react-web';
-import { getWagmiClient } from '@/libs/wagmi';
-import { WagmiConfig } from 'wagmi';
-import { createConfig } from '@/components/lens-binding';
+import { PublicationSortCriteria } from '@lens-protocol/react-web';
 import { APP_VERSION_TAG } from "../env";
+import { AccountProvider } from '@/components/AccountProvider';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
-
-const lensConfig = createConfig();
-const wagmiClient = getWagmiClient({});
 
 const meta: Meta<typeof Feed> = {
     title: 'Example/Feed',
     component: Feed,
     tags: ['autodocs'],
     argTypes: {
-        backgroundColor: {
-            control: 'color',
-        },
     },
     decorators: [
         (Story) => (
-            <WagmiConfig client={wagmiClient}>
-                <LensProvider config={lensConfig}>
+            <AccountProvider>
 
-                    {/* 👇 Decorators in Storybook also accept a function. Replace <Story/> with Story() to enable it  */}
-                    <Story />
-                </LensProvider>
-            </WagmiConfig>
+                {/* 👇 Decorators in Storybook also accept a function. Replace <Story/> with Story() to enable it  */}
+                <Story />
+            </AccountProvider>
         ),
     ]
 };
@@ -44,7 +34,6 @@ export const All: Story = {
     args: {
         // PublicationSortCriteria
         metadataFilter: {},
-        label: 'Feed',
     },
 };
 
@@ -56,7 +45,7 @@ export const All: Story = {
 
 const appFilter = createFilters({
     restrictPublicationTagsTo: {
-        all: ["beachsignalv2145"]
+        all: [APP_VERSION_TAG]
     }
 })?.metadataFilter
 
@@ -64,14 +53,12 @@ const appFilter = createFilters({
 export const AppOnly: Story = {
     args: {
         metadataFilter: appFilter,
-        label: 'Feed',
     },
 };
 
 export const Latest: Story = {
     args: {
         sortCriteria: PublicationSortCriteria.Latest,
-        label: 'Feed',
     },
 };
 
@@ -80,7 +67,6 @@ export const TopCommented: Story = {
     args: {
         metadataFilter: {},
         sortCriteria: PublicationSortCriteria.TopCommented,
-        label: 'Feed',
     },
 };
 

@@ -1,30 +1,10 @@
+import React from 'react';
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { createWalletModalProviderConfig } from '@/components/wallet-config';
 
-import {
-    ModalProvider as ParticleNetworkModalProvider, useParticleProvider
-} from '@particle-network/connect-react-ui';
 import { Account } from '../components/Account';
-import { ConnectButton, connectorsForWallets, RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
-import {
-    argentWallet,
-    coinbaseWallet,
-    imTokenWallet,
-    injectedWallet,
-    ledgerWallet,
-    metaMaskWallet,
-    omniWallet,
-    rainbowWallet,
-    trustWallet,
-    walletConnectWallet,
-} from '@rainbow-me/rainbowkit/wallets';
-
 import { configureChains, createClient, WagmiConfig, useAccount, useConnect, useSigner } from 'wagmi';
-import { mainnet, polygon, optimism, arbitrum } from 'wagmi/chains';
-import { publicProvider } from 'wagmi/providers/public';
 import '../rainbowkit.css';
-import { particleWallet } from '@particle-network/rainbowkit-ext';
 import { useEffect, useMemo } from 'react';
 import { ParticleNetwork } from '@particle-network/auth';
 
@@ -32,16 +12,12 @@ import { LensProvider, useActiveProfile, useActiveWallet, useCreateProfile, useW
 import { getWagmiClient } from '@/libs/wagmi';
 import { ReactNode } from 'react';
 import { PN_PROJECT_ID, PN_CLIENT_KEY, PN_APP_ID } from "@/env";
-import { useParticleNetworkWagmi } from '@/components/hooks/pn-wagmi';
 import { AccountProvider } from '@/components/AccountProvider';
-import { saveAccount } from '@/app/api.service';
 import { useWalletLogout } from '@lens-protocol/react-web';
-import { loadClient } from '@/libs/lens/client';
 import { generateHandle } from '@/libs/lens/utils';
-import { LensClient } from '@lens-protocol/client';
-import React from 'react';
 
-const WagmiStateWrapper = ({ children }) => {
+
+const WagmiStateWrapper = ({ children }: { children: React.ReactElement }) => {
     const { address } = useAccount();
     // const { isLoading, isSuccess } = useConnect();
 
@@ -65,7 +41,6 @@ const SignUpWithActiveProfile = () => {
     const { data: signer, isError, isLoading } = useSigner();
     const activeProfileResults = useActiveProfile();
     const { execute: login, error, isPending } = useWalletLogin();
-    const { execute: logout } = useWalletLogout();
     const profile = activeProfileResults?.data!;
     return (
         <div>
@@ -155,21 +130,12 @@ const SignUpWidget = () => {
 }
 
 
-
-// TODO extract config type
-const modalConfig: any = createWalletModalProviderConfig()
-
-
-
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta: Meta<typeof Account> = {
     title: 'Example/Account',
     component: Account,
     tags: ['autodocs'],
     argTypes: {
-        backgroundColor: {
-            control: 'color',
-        },
     },
     decorators: [
         (Story) => (
