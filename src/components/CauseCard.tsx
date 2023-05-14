@@ -21,19 +21,30 @@ import { Cause, CauseInput } from '@/domain/cause';
 import RecommendIcon from '@mui/icons-material/Recommend';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import CommentIcon from '@mui/icons-material/Comment';
+import PaidIcon from '@mui/icons-material/Paid';
+import { useActiveProfile, useCollect } from '@lens-protocol/react-web';
 
 export const asCause = (cause: CauseInput): Cause => {
 
     return {
         title: cause.title!,
         date: parseISO(cause.date),
-        descriptionShort: cause.descriptionShort || ''
+        imageUrl: cause.imageUrl || '',
+        descriptionShort: cause.descriptionShort || '',
+        stats: {},
+        publicationId: cause.publicationId
     }
 }
 
-export const CauseCard = ({ cause }: { cause: Cause }) => {
-    const displayedDate = format(cause.date, 'MM/dd/yyyy');
 
+// useCollect
+export const CauseCard = ({ cause, publication, actions }: { cause: Cause, publication: any, actions: any }) => {
+    const displayedDate = format(cause.date, 'MM/dd/yyyy HH:mm');
+
+    const { data, error, loading } = useActiveProfile();
+    const collector = data!;
+    const operations = useCollect({ collector, publication })
     return (
         <Card sx={{ maxWidth: 345 }}>
             <CardHeader
@@ -50,34 +61,23 @@ export const CauseCard = ({ cause }: { cause: Cause }) => {
                 title={cause.title}
                 subheader={displayedDate}
             />
-            <CardMedia
-                component="img"
-                height="194"
-                image="/clean1.jpg"
-                alt="Paella dish"
-            />
+            {
+                cause.imageUrl && <CardMedia
+                    component="img"
+                    height="194"
+                    image={cause.imageUrl}
+                    alt="Post Image"
+                />
+            }
             <CardContent>
                 <Typography variant="body2" color="text.secondary">
                     {cause.descriptionShort}
+                    <br />
+                    <b>{"totalComments"}</b> {cause.stats?.totalAmountOfComments}
+                    <b> {"totalMirrors"}</b> {cause.stats?.totalAmountOfMirrors}
                 </Typography>
             </CardContent>
-            <CardActions disableSpacing>
-                <IconButton aria-label="vote up">
-                    <FavoriteIcon />
-                </IconButton>
-                <IconButton aria-label="support">
-                    <VolunteerActivismIcon />
-                </IconButton>
-
-                <IconButton aria-label="share">
-                    <ShareIcon />
-                </IconButton>
-                <IconButton aria-label="collect">
-                    <BookmarkAddIcon />
-                </IconButton>
-
-
-            </CardActions>
+            {actions}
             <CardContent>
 
             </CardContent>

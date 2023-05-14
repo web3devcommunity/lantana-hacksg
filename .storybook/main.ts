@@ -1,6 +1,8 @@
 import type { StorybookConfig } from "@storybook/nextjs";
-import path from 'path';
+import path from "path";
+import { withTemplate } from "../webpack.config.template";
 
+console.log("template", withTemplate);
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
   addons: [
@@ -15,16 +17,9 @@ const config: StorybookConfig = {
   docs: {
     autodocs: "tag",
   },
-  staticDirs: ['../public'],
+  staticDirs: ["../public"],
   webpackFinal: async (config, { configType }) => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@': path.resolve(__dirname, "../src/"),
-    };
-    // Make whatever fine-grained changes you need
-    // Return the altered config
-    return config;
+    return withTemplate(config);
   },
-
 };
 export default config;

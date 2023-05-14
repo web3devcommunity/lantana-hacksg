@@ -2,6 +2,21 @@
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+### Note on Lens
+
+- wagmi@0.12.13 is used Lens packages do not support latest version of wagmi which use viem
+  - namely, LensProvider in "@lens-protocol/react-web" with @lens-protocol/wagmi requires bindings which use ethers Provider / Signer, and thus rely
+- we are also not using @particle-network/connect-react-ui but wallet, to avoid need of injecting provider to wagmi
+
+- On successful login via the useWalletLogin hook, the Lens SDK retrieves the Lens Profile owned by the authenticated wallet address and selects the first profile as the Active Profile.
+- creating another lens sdk via `loadClient` cannot retrieve the state of the one inside wagmi
+- will need to create from established signer -> wallet onto lens
+
+### Environment variables
+
+- check env.sample and configure `.env` at local
+- env-cmd should automatically pick up from that, while it is expected environment variables is injected in Prd/CI
+
 ## Getting Started
 
 First, run the development server:
