@@ -8,6 +8,7 @@ const template = {
         },
         alias: {
             '@': path.resolve(__dirname, "./src/"),
+            '@mui/styled-engine': '@mui/styled-engine-sc'
         }
     },
     plugins: [
@@ -24,6 +25,11 @@ withTemplate = (config) => {
     newConfig.resolve.fallback = Object.assign({}, config.resolve.fallback, template.resolve.fallback);
     newConfig.resolve.alias = Object.assign({}, config.resolve.alias, template.resolve.alias);
     newConfig.plugins = [...config.plugins, ...template.plugins];
+
+    newConfig.module.rules.push({
+        exclude: /\.(stories|fixture)\.ts$/,
+    });
+
     return newConfig
 }
 

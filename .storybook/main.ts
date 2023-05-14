@@ -1,8 +1,6 @@
 import type { StorybookConfig } from "@storybook/nextjs";
-import path from "path";
 import { withTemplate } from "../webpack.config.template";
 
-console.log("template", withTemplate);
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
   addons: [
