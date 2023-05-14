@@ -39,7 +39,7 @@ const meta: Meta<typeof Feed> = {
 export default meta;
 type Story = StoryObj<typeof Feed>;
 
-// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
+
 export const All: Story = {
     args: {
         // PublicationSortCriteria

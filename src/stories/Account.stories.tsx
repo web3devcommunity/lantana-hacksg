@@ -191,7 +191,6 @@ const meta: Meta<typeof Account> = {
 export default meta;
 type Story = StoryObj<typeof Account>;
 
-// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Primary: Story = {
     args: {
         primary: true,

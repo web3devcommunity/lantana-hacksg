@@ -22,7 +22,7 @@ const meta: Meta<typeof ReportRecommendations> = {
 export default meta;
 type Story = StoryObj<typeof ReportRecommendations>;
 
-// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
+
 export const Primary: Story = {
     args: {
         actions: <></>,

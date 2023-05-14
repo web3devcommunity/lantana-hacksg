@@ -36,7 +36,7 @@ const meta: Meta<typeof CauseCard> = {
 export default meta;
 type Story = StoryObj<typeof CauseCard>;
 
-// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
+
 export const Primary: Story = {
   args: {
     cause: TEST_CAUSES[0],
@@ -45,7 +45,7 @@ export const Primary: Story = {
   },
 };
 
-// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
+
 export const CollectionAcitons: Story = {
   args: {
     cause: TEST_CAUSES[0],
