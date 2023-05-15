@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import { CauseCard } from "../components/CauseCard";
 import { TEST_CAUSES } from "@/domain/cause.fixture";
-import { CauseCardActions } from "@/components/CauseCardAction";
+import { EventCardActions } from "@/components/EventCardAction";
 import { createConfig } from '@/components/lens-binding';
 import { LensProvider } from "@lens-protocol/react-web";
 import { PUBLICATIONS_RAW } from "@/libs/lens/publication.fixture";
@@ -40,9 +40,3 @@ export const Primary: Story = {
 };
 
 
-export const CollectionAcitons: Story = {
-  args: {
-    cause: TEST_CAUSES[0],
-    actions: <CauseCardActions publication={PUBLICATIONS_RAW[1]} />,
-  },
-};

@@ -80,14 +80,11 @@ export const CauseAttestationList = ({ causeAttestations }: { causeAttestations:
                             {
                                 causeAttestations.filter(cA => !cA.isProfessional).map(
                                     (causeAttestation: CauseAttestation, i: number) => {
-
                                         return (
                                             <Avatar key={i} alt={causeAttestation.user.name} src="/static/images/avatar/1.jpg" />
                                         )
                                     })
                             }
-
-
                         </AvatarGroup>
                     </Grid>
 

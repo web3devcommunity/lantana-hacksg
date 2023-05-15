@@ -8,5 +8,6 @@ describe("#event", () => {
     const publication = PUBLICATIONS_RAW[0];
     const event = mapPublicationAsEvent(publication);
     expect(event?.descriptionShort).toEqual("Hello Josh :)");
+    expect(event?.date.getTime()).toEqual(1650098005000);
   });
 });

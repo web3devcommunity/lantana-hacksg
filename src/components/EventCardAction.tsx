@@ -10,7 +10,6 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Image from 'next/image'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { format, compareAsc, parseISO } from 'date-fns'
-import { Cause, CauseInput } from '@/domain/cause';
 import RecommendIcon from '@mui/icons-material/Recommend';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
@@ -19,7 +18,7 @@ import PaidIcon from '@mui/icons-material/Paid';
 
 import { useActiveProfile, useCollect } from '@lens-protocol/react-web';
 
-export const CauseCardActions = ({ publication }: { publication: any }) => {
+export const EventCardActions = ({ publication }: { publication: any }) => {
     const { data, error, loading } = useActiveProfile();
     console.log('active profile, data', data, loading)
     const collector = data!;

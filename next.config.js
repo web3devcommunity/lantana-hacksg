@@ -8,13 +8,15 @@ const withTM = require('next-transpile-modules')([
     '@lens-protocol/wagmi'
 ]);
 
+
 module.exports = withTM({
+
     eslint: {
         // do not run on stories during build
         dirs: ['pages', 'libs', 'domain', 'app', 'components'],
     },
 
-    webpack: (config, { configType }) => {
+    webpack: (config, { webpack }) => {
         return withTemplate(config);
     },
 });

@@ -1,6 +1,5 @@
 import { mainnet, polygon, optimism, arbitrum } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
-import "../../rainbowkit.css";
 import { useEffect, useMemo } from "react";
 import { ParticleNetwork } from "@particle-network/auth";
 

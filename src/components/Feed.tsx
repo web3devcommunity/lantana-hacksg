@@ -3,32 +3,40 @@ import { useRouter } from 'next/router'
 
 import { Inter } from 'next/font/google'
 import Grid from '@mui/material/Grid'
-import { Avatar, Button } from '@mui/material'
+import { Avatar, Button, Link } from '@mui/material'
 import Typography from '@mui/material/Typography';
 
 import { usePublications, useFeed, useExplorePublications, useSearchPublications, useComments, PublicationTypes } from '@lens-protocol/react-web';
 import { createFilters } from '@/libs/lens/create-filters';
 import { useActiveProfile, useActiveWallet, useWalletLogout } from '@lens-protocol/react-web';
-import { CauseCard, asCause } from './CauseCard';
-import { mapPublicationAsCause } from '@/domain/cause';
+import { CauseCard } from './CauseCard';
+import { mapPublicationAsEvent } from '@/domain/event';
+import { EventCard } from './EventCard';
 
+// we want to use feed of lens directly
+// will need to group by cause
+
+// for now simplify with event card
 
 const FeedItems = ({ publications }: { publications: any[] }) => {
 
     return (
         <div>
-            <Grid container>
+            <Grid container spacing={6}>
                 {
                     publications.map((publication, i) => {
+                        const event = mapPublicationAsEvent(publication);
                         return (
-                            <Grid key={i} className="item">
-                                <CauseCard cause={mapPublicationAsCause(publication)} />
+                            <Grid item key={i} className="item">
+                                <Link href={`/cause/${event.causeKey}`}>
+                                    <EventCard event={event} />
+                                </Link>
                             </Grid>
                         )
                     })
                 }
             </Grid>
-        </div>
+        </div >
     )
 }
 

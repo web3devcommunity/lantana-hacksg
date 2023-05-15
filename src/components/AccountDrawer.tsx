@@ -18,7 +18,7 @@ export const AccountDrawer = ({ children }: { children: React.ReactNode }) => {
     const [isOpen, setIsOpen] = React.useState(false);
 
     const toggleDrawer =
-        (open: boolean) =>
+        (isOpen: boolean) =>
             (event: React.KeyboardEvent | React.MouseEvent) => {
                 if (
                     event.type === 'keydown' &&
@@ -28,7 +28,7 @@ export const AccountDrawer = ({ children }: { children: React.ReactNode }) => {
                     return;
                 }
 
-                setIsOpen(true);
+                setIsOpen(isOpen);
             };
 
     return (
@@ -44,7 +44,7 @@ export const AccountDrawer = ({ children }: { children: React.ReactNode }) => {
                 onClose={toggleDrawer(false)}
             >
                 <Box
-                    // sx="250"
+                    sx={{ width: 300 }}
                     role="presentation"
                     onClick={toggleDrawer(false)}
                     onKeyDown={toggleDrawer(false)}

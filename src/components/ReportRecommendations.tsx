@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 
 // TOOD props data
-export const ReportRecommendations = () => {
+export const ReportRecommendations = ({ causeData }: { causeData: Record<string, any> }) => {
 
     const [aiRecommendations, setAiRecommendations] = useState({
         "gri": "",

@@ -1,30 +1,27 @@
-import { parseISO } from "date-fns";
+import { Event, EventInput } from "./event";
+import { User } from "./user";
 
-export type Cause = {
+export type CauseOrganizer = {
   title: string;
-  date: Date;
+};
+export type Cause = {
+  key: string;
+  title: string;
   imageUrl?: string;
   descriptionShort: string;
-  stats: any;
-  publicationId?: string;
+  events: Event[];
+  organizer: CauseOrganizer;
+  volunteers: Partial<User>[];
+  volunteersCounts: number;
 };
 
 export type CauseInput = {
+  key: string;
   title: string;
-  date: string;
+  organizer: CauseOrganizer;
   imageUrl?: string;
   descriptionShort?: string;
-  publicationId?: string;
-};
-
-export const mapPublicationAsCause = (publication: any): Cause => {
-  return {
-    title: publication?.metadata?.name,
-    date: parseISO(publication?.createdAt) || new Date(),
-    // date: publication,
-    imageUrl: publication?.metadata?.media?.[0]?.original.url,
-    descriptionShort: publication?.metadata?.content,
-    stats: publication?.stats,
-    publicationId: publication?.id,
-  };
+  events: EventInput[];
+  volunteers?: Partial<User>[];
+  volunteersCounts: number;
 };

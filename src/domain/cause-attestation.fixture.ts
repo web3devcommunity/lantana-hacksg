@@ -1,5 +1,3 @@
-import { asCause } from "@/components/CauseCard";
-import { Cause, CauseInput } from "./cause";
 import { CauseAttestation } from "./cause-attestation";
 import { TEST_USERS_RAW } from "./user.fixture";
 import _ from "lodash";

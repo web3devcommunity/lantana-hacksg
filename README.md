@@ -4,6 +4,13 @@
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Objects on Lens
+
+- We create both Causes and Events as lens object Publication, so we can query in similar fashion
+- Practically, user can follow / mint i.e. donate to Cause / Event .
+- will need to query events of causes dynamically via tag, while we can just join the data at discovery feed
+- We skipped to create event page for now, actions do-able inside cause page
+
 ### Note on Lens
 
 - wagmi@0.12.13 is used Lens packages do not support latest version of wagmi which use viem
