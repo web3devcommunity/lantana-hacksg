@@ -14,7 +14,6 @@ import {
   useActiveProfile,
   useActiveWallet,
   useCreateProfile,
-  useProfilesOwnedByMe,
   useWalletLogin,
 } from '@lens-protocol/react-web';
 import { PN_PROJECT_ID, PN_APP_ID } from '@/env';
@@ -43,7 +42,6 @@ const SignUpWithActiveProfile = () => {
 
   const { execute: create } = useCreateProfile();
   const { data: signer, isError, isLoading } = useSigner();
-  const { data: profilesOwnedByMe } = useProfilesOwnedByMe();
   const activeProfileResults = useActiveProfile();
   const { execute: login, error, isPending } = useWalletLogin();
   const profile = activeProfileResults?.data!;

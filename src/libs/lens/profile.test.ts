@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 import { LensClient, development } from '@lens-protocol/client';
 import { loadClient, loadClientAuthenticated } from './client';
 import { generateHandle } from './utils';
-import { createProfile } from './profile';
+import { createProfile, createProfileWithWallet } from './profile';
 
 jest.setTimeout(60 * 1000);
 describe('profile', () => {
@@ -19,11 +19,7 @@ describe('profile', () => {
 
   it('should create a profile', async () => {
     const handle = generateHandle();
-    const profile = await createProfile(
-      client,
-      wallet._signTypedData.bind(wallet),
-    )(wallet.address, handle);
-
+    const profile = await createProfileWithWallet(client, wallet, handle);
     const { profileId, lensterUrl, dispatcherResults } = profile!;
 
     expect(!!lensterUrl.match(handle)).toEqual(true);
