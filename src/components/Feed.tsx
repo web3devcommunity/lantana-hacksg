@@ -12,16 +12,24 @@ import { useActiveProfile, useActiveWallet, useWalletLogout } from '@lens-protoc
 import { CauseCard } from './CauseCard';
 import { mapPublicationAsEvent } from '@/domain/event';
 import { EventCard } from './EventCard';
+import { styled } from 'styled-components';
 
 // we want to use feed of lens directly
 // will need to group by cause
 
 // for now simplify with event card
 
+const FeedItemsWrapper = styled.div`
+    a{
+        text-decoration: none;
+
+    }
+`
+
 const FeedItems = ({ publications }: { publications: any[] }) => {
 
     return (
-        <div>
+        <FeedItemsWrapper>
             <Grid container spacing={6}>
                 {
                     publications.map((publication, i) => {
@@ -36,7 +44,7 @@ const FeedItems = ({ publications }: { publications: any[] }) => {
                     })
                 }
             </Grid>
-        </div >
+        </FeedItemsWrapper >
     )
 }
 

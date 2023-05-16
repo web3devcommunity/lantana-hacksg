@@ -1,4 +1,4 @@
-export const APP_VERSION_TAG = "lantanav202305100100";
+export const APP_VERSION_TAG = 'lantanav202305161600';
 
 // particle network proejct
 

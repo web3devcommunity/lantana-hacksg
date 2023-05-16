@@ -29,7 +29,7 @@ import { AvatarGroup } from '@mui/material';
 import { User } from '@/domain/user';
 
 // decouple lens specific actions / api from presentation
-export const EventCard = ({ event, actions, isThumbnailOnly = false }: { event: Event, actions?: any, isThumbnailOnly: boolean }) => {
+export const EventCard = ({ event, actions, isThumbnailOnly = false }: { event: Event, actions?: any, isThumbnailOnly?: boolean }) => {
 
     const { data, error, loading } = useActiveProfile();
     const collector = data!;

@@ -1,51 +1,70 @@
 import { ethers } from "ethers";
 import { loadClientAuthenticated } from "./client";
-import { isRelayerResult } from "@lens-protocol/client";
+import {
+  LensClient,
+  ProfileFragment,
+  isRelayerResult,
+} from "@lens-protocol/client";
 import { getProfileUrl, setDispatcher } from "./utils";
 
-// deduplciate with key value store
-
-export const createProfile = async (wallet: ethers.Wallet, handle: string) => {
-  const address = wallet.address;
-  const lensClient = await loadClientAuthenticated({ wallet });
-  const profileCreateResult = await lensClient.profile.create({
+export const createProfileWithWallet = (
+  lensClient: LensClient,
+  wallet: ethers.Wallet,
+  handle: string,
+) => {
+  return createProfile(lensClient, wallet._signTypedData.bind(wallet))(
+    wallet.address,
     handle,
-  });
-
-  const profileCreateResultValue = profileCreateResult.unwrap();
-
-  if (!isRelayerResult(profileCreateResultValue)) {
-    console.error(`Something went wrong`, profileCreateResultValue);
-    return;
-  }
-
-  await lensClient.transaction.waitForIsIndexed(profileCreateResultValue.txId);
-
-  const allOwnedProfiles = await lensClient.profile.fetchAll({
-    ownedBy: [address],
-  });
-
-  const profile = allOwnedProfiles.items?.[0];
-  const profileId = profile?.id || "";
-
-  const { lensterUrl } = getProfileUrl(handle);
-
-  console.log(
-    "lensterUrl",
-    lensterUrl,
-    "profileId",
-    profileId,
-    "first address",
-    address,
   );
-
-  const dispatcherResults = await setDispatcher(
-    wallet._signTypedData.bind(wallet),
-  )(lensClient, profileId);
-
-  return {
-    profileId,
-    lensterUrl,
-    dispatcherResults,
-  };
 };
+// deduplciate with key value store
+export const createProfile =
+  (lensClient: LensClient, signTypedData: (...args: any) => any) =>
+  async (walletAddress: string, handle: string) => {
+    const profileCreateResult = await lensClient.profile.create({
+      handle,
+      // other request args
+    });
+
+    const profileCreateResultValue = profileCreateResult.unwrap();
+
+    if (!isRelayerResult(profileCreateResultValue)) {
+      console.log(`Something went wrong`, profileCreateResultValue);
+      throw new Error("Error creating Profile");
+    }
+
+    console.log("profileCreateResultValue", profileCreateResultValue);
+
+    await lensClient.transaction.waitForIsIndexed(
+      profileCreateResultValue.txId,
+    );
+
+    const allOwnedProfiles = await lensClient.profile.fetchAll({
+      ownedBy: [walletAddress],
+    });
+
+    const profile: ProfileFragment = allOwnedProfiles.items?.[0];
+    const profileId = profile?.id!;
+    console.log(
+      "first profile by address",
+      walletAddress,
+      profileId,
+      // JSON.stringify(allOwnedProfiles.items),
+    );
+
+    const { lensterUrl } = getProfileUrl(handle);
+
+    console.log("lensterUrl", lensterUrl, "profileId", profileId);
+    const dispatcherResults = await setDispatcher(signTypedData)(
+      lensClient,
+      // wallet,
+      profileId,
+    );
+
+    return {
+      handle,
+      profileId,
+      lensterUrl,
+      dispatcherResults,
+    };
+  };

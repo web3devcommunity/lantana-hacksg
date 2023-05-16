@@ -1,10 +1,10 @@
 import _ from "lodash";
 import { jest, describe, expect, it, beforeAll } from "@jest/globals";
 import { ethers } from "ethers";
-import { createProfile, getProfileUrl } from "./utils";
 import { LensClient, development } from "@lens-protocol/client";
 import { loadClient, loadClientAuthenticated } from "./client";
 import { generateHandle } from "./utils";
+import { createProfile } from "./profile";
 
 jest.setTimeout(60 * 1000);
 describe("profile", () => {

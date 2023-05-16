@@ -1,8 +1,13 @@
-import { parseISO } from "date-fns";
-import { User } from "./user";
+import { parseISO } from 'date-fns';
+import { User } from './user';
+import { PublicationFragment } from '@lens-protocol/client';
+import { PublicationInputBase } from '@/libs/lens/publication';
+import { findEntityTag, formatEntityTag, parseEntityTag } from './cause';
 
 export type Event = {
-  causeKey: string;
+  key: string;
+  // for convenience, link back to cause
+  causeKey?: string;
   title: string;
   date: Date;
   imageUrl?: string;
@@ -15,7 +20,8 @@ export type Event = {
 };
 
 export type EventInput = {
-  causeKey: string;
+  key: string;
+  causeKey?: string;
   title: string;
   date?: string;
   imageUrl?: string;
@@ -26,8 +32,16 @@ export type EventInput = {
   volunteersCount: number;
 };
 
-export const mapPublicationAsEvent = (publication: any): Event => {
+// TODO fix type from sdk
+export type LensPublication = any;
+
+export const mapPublicationAsEvent = (publication: LensPublication): Event => {
+  const tags = publication?.metadata?.tags || [];
+
+  const causeTag = findEntityTag(tags, 'cause');
+
   return {
+    causeKey: parseEntityTag(causeTag || '')?.key,
     title: publication?.metadata?.name,
     date: parseISO(publication?.createdAt) || new Date(),
     // date: publication,
@@ -36,21 +50,33 @@ export const mapPublicationAsEvent = (publication: any): Event => {
     stats: publication?.stats,
     publicationId: publication?.id,
     // TODO fix hardcode
-    causeKey: "beach-cleanup-sg",
-    volunteers: [{ name: "josh" }],
+    key: 'beach-cleanup-sg',
+    volunteers: [{ name: 'josh' }],
     volunteersCount: 234,
     // volunteers: event.volunteers,
     // volunteersCount: event.volunteersCount,
   };
 };
 
+export const mapEventAsPublication = (event: Event) => {
+  return {
+    name: event.title,
+    content: event.descriptionShort,
+    imageUrl: event.imageUrl,
+    tags: [
+      formatEntityTag(event.key, 'event'),
+      formatEntityTag(event.causeKey!, 'cause'),
+    ],
+  };
+};
+
 export const asEvent = (event: EventInput): Event => {
   return {
-    causeKey: event.causeKey,
+    key: event.key,
     title: event.title!,
     date: parseISO(event.date!),
-    imageUrl: event.imageUrl || "",
-    descriptionShort: event.descriptionShort || "",
+    imageUrl: event.imageUrl || '',
+    descriptionShort: event.descriptionShort || '',
     stats: {},
     publicationId: event.publicationId,
     volunteers: event.volunteers || [],

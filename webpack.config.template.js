@@ -9,7 +9,6 @@ const template = {
         },
         alias: {
             '@': path.resolve(__dirname, "./src/"),
-            '@mui/styled-engine': '@mui/styled-engine-sc'
         }
     },
     plugins: [

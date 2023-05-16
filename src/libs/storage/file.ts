@@ -1,8 +1,11 @@
-import { File, Filelike, Web3Storage, getFilesFromPath } from "web3.storage";
+import { File, Filelike, Web3Storage, getFilesFromPath } from 'web3.storage';
 
+export const getClient = () => {
+  const token = process.env.WEB3_STORAGE_TOKEN || '';
+  return new Web3Storage({ token });
+};
 export const uploadWithPaths = async (paths: string[]) => {
-  const token = process.env.WEB3_STORAGE_TOKEN || "";
-  const storage = new Web3Storage({ token });
+  const storage = getClient();
   const files = await getFilesFromPath(paths);
 
   const cid = await storage.put(files as Iterable<Filelike>);
@@ -11,9 +14,7 @@ export const uploadWithPaths = async (paths: string[]) => {
 };
 
 export const uploadWithValues = async (values: any[]) => {
-  const token = process.env.WEB3_STORAGE_TOKEN || "";
-  const storage = new Web3Storage({ token });
-
+  const storage = getClient();
   const files = values.map((v, i) => {
     const buffer = Buffer.from(JSON.stringify(v));
     return new File([buffer], i.toString());

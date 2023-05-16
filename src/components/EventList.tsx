@@ -1,12 +1,19 @@
 import { Event, mapPublicationAsEvent } from "@/domain/event"
-import { Grid } from "@mui/material"
+import { Grid, styled } from "@mui/material"
 import { EventCard } from "./EventCard"
+
+const EventListWrapper = styled.div`
+    a{
+        text-decoration: none;
+
+    }
+`
 
 // TODO group by upcoming vs past events
 export const EventList = ({ events }: { events: Event[] }) => {
 
     return (
-        <div>
+        <EventListWrapper>
             <Grid container spacing={6}>
                 {
                     events.map((event, i) => {
@@ -18,6 +25,6 @@ export const EventList = ({ events }: { events: Event[] }) => {
                     })
                 }
             </Grid>
-        </div >
+        </EventListWrapper >
     )
 }
