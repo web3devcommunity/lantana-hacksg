@@ -1,11 +1,11 @@
-import { ethers } from "ethers";
-import { loadClientAuthenticated } from "./client";
+import { ethers } from 'ethers';
+import { loadClientAuthenticated } from './client';
 import {
   LensClient,
   ProfileFragment,
   isRelayerResult,
-} from "@lens-protocol/client";
-import { getProfileUrl, setDispatcher } from "./utils";
+} from '@lens-protocol/client';
+import { getProfileUrl, setDispatcher } from './utils';
 
 export const createProfileWithWallet = (
   lensClient: LensClient,
@@ -30,10 +30,10 @@ export const createProfile =
 
     if (!isRelayerResult(profileCreateResultValue)) {
       console.log(`Something went wrong`, profileCreateResultValue);
-      throw new Error("Error creating Profile");
+      throw new Error('Error creating Profile');
     }
 
-    console.log("profileCreateResultValue", profileCreateResultValue);
+    console.log('profileCreateResultValue', profileCreateResultValue);
 
     await lensClient.transaction.waitForIsIndexed(
       profileCreateResultValue.txId,
@@ -46,7 +46,7 @@ export const createProfile =
     const profile: ProfileFragment = allOwnedProfiles.items?.[0];
     const profileId = profile?.id!;
     console.log(
-      "first profile by address",
+      'first profile by address',
       walletAddress,
       profileId,
       // JSON.stringify(allOwnedProfiles.items),
@@ -54,7 +54,7 @@ export const createProfile =
 
     const { lensterUrl } = getProfileUrl(handle);
 
-    console.log("lensterUrl", lensterUrl, "profileId", profileId);
+    console.log('lensterUrl', lensterUrl, 'profileId', profileId);
     const dispatcherResults = await setDispatcher(signTypedData)(
       lensClient,
       // wallet,

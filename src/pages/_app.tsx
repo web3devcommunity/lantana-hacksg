@@ -8,19 +8,17 @@ import { AppProps } from 'next/app';
 import themes from '../themes';
 import { CssBaseline } from '@mui/material';
 
-
-interface PageProps { }
-
+interface PageProps {}
 
 const MyApp = ({ Component, pageProps }: AppProps<PageProps>) => {
-
-    return (<React.Fragment>
-        {/* <CssBaseline /> */}
-        <AccountProvider>
-            <Component {...pageProps} />
-        </AccountProvider>
-    </React.Fragment >);
-}
-
+  return (
+    <React.Fragment>
+      {/* <CssBaseline /> */}
+      <AccountProvider>
+        <Component {...pageProps} />
+      </AccountProvider>
+    </React.Fragment>
+  );
+};
 
 export default MyApp;

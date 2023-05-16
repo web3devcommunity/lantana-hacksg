@@ -1,13 +1,13 @@
-import { mainnet, polygon, optimism, arbitrum } from "wagmi/chains";
-import { publicProvider } from "wagmi/providers/public";
-import { useEffect, useMemo } from "react";
-import { ParticleNetwork } from "@particle-network/auth";
+import { mainnet, polygon, optimism, arbitrum } from 'wagmi/chains';
+import { publicProvider } from 'wagmi/providers/public';
+import { useEffect, useMemo } from 'react';
+import { ParticleNetwork } from '@particle-network/auth';
 
-import { LensProvider } from "@lens-protocol/react-web";
-import { getWagmiClient } from "@/libs/wagmi";
-import { ReactNode } from "react";
-import { PN_PROJECT_ID, PN_CLIENT_KEY, PN_APP_ID } from "@/env";
-import { useParticleProvider } from "@particle-network/connect-react-ui";
+import { LensProvider } from '@lens-protocol/react-web';
+import { getWagmiClient } from '@/libs/wagmi';
+import { ReactNode } from 'react';
+import { PN_PROJECT_ID, PN_CLIENT_KEY, PN_APP_ID } from '@/env';
+import { useParticleProvider } from '@particle-network/connect-react-ui';
 
 export const useParticleNetworkWagmi = () => {
   // implicit deps, init particle before related wallets

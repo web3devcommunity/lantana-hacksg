@@ -1,21 +1,21 @@
-import _ from "lodash";
+import _ from 'lodash';
 import {
   LensClient,
   ProfileFragment,
   development,
   isRelayerResult,
-} from "@lens-protocol/client";
+} from '@lens-protocol/client';
 
-import { ethers } from "ethers";
-import { loadClientAuthenticated } from "./client";
+import { ethers } from 'ethers';
+import { loadClientAuthenticated } from './client';
 // we either
 // - query ownedby wallet address to find latest created
 // - poll txn until indexed to get profileid
 
 // replies
-export const getProfileUrl = (handle: string, type = "profile") => {
+export const getProfileUrl = (handle: string, type = 'profile') => {
   const lensterUrl =
-    "https://testnet.lenster.xyz/u/" + handle + "?type=" + type;
+    'https://testnet.lenster.xyz/u/' + handle + '?type=' + type;
 
   return {
     lensterUrl,
@@ -23,7 +23,7 @@ export const getProfileUrl = (handle: string, type = "profile") => {
 };
 
 export const getPostUrl = (postId: string) => {
-  const lensterUrl = "https://testnet.lenster.xyz/posts/" + postId;
+  const lensterUrl = 'https://testnet.lenster.xyz/posts/' + postId;
 
   return {
     lensterUrl,
@@ -69,6 +69,6 @@ export const setDispatcher =
     );
   };
 
-export const generateHandle = (handlePrefix = "lantanatestuser") => {
+export const generateHandle = (handlePrefix = 'lantanatestuser') => {
   return handlePrefix + _.random(1, 10000);
 };

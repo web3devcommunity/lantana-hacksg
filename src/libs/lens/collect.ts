@@ -1,6 +1,6 @@
-import { splitSignature } from "ethers/lib/utils.js";
-import { loadClientAuthenticated } from "./client";
-import { ethers } from "ethers";
+import { splitSignature } from 'ethers/lib/utils.js';
+import { loadClientAuthenticated } from './client';
+import { ethers } from 'ethers';
 
 export const collect = async (wallet: ethers.Wallet, publicationId: string) => {
   const lensClient = await loadClientAuthenticated({ wallet });
@@ -9,7 +9,7 @@ export const collect = async (wallet: ethers.Wallet, publicationId: string) => {
     publicationId,
   });
 
-  console.log("publicationId", publicationId);
+  console.log('publicationId', publicationId);
 
   const data = typedDataResult.unwrap();
 
@@ -25,5 +25,5 @@ export const collect = async (wallet: ethers.Wallet, publicationId: string) => {
     signature: signedTypedData,
   });
 
-  console.log("broadcastResult", broadcastResult.unwrap());
+  console.log('broadcastResult', broadcastResult.unwrap());
 };

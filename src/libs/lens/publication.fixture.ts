@@ -1,10 +1,10 @@
 // https://docs.lens.xyz/docs/explore-publications
 export const PUBLICATIONS_RAW = [
   {
-    __typename: "Post",
-    id: "0x03b0-0x01",
+    __typename: 'Post',
+    id: '0x03b0-0x01',
     profile: {
-      id: "0x03b0",
+      id: '0x03b0',
       name: null,
       bio: null,
       attributes: [],
@@ -13,10 +13,10 @@ export const PUBLICATIONS_RAW = [
       followNftAddress: null,
       metadata: null,
       isDefault: true,
-      handle: "jojay",
+      handle: 'jojay',
       picture: {
         original: {
-          url: "https://ipfs.infura.io/ipfs/QmcKD5Zxic7JAum22jKRnT3ENY4tCCp7qQSPJTCLkHAApm",
+          url: 'https://ipfs.infura.io/ipfs/QmcKD5Zxic7JAum22jKRnT3ENY4tCCp7qQSPJTCLkHAApm',
           width: null,
           height: null,
           mimeType: null,
@@ -25,7 +25,7 @@ export const PUBLICATIONS_RAW = [
         medium: null,
       },
       coverPicture: null,
-      ownedBy: "0x0c0E611A29b339D8c1048F2Edf9d4160A5fb8F22",
+      ownedBy: '0x0c0E611A29b339D8c1048F2Edf9d4160A5fb8F22',
       dispatcher: null,
       stats: {
         totalFollowers: 1,
@@ -37,17 +37,17 @@ export const PUBLICATIONS_RAW = [
         totalCollects: 0,
       },
       followModule: {
-        type: "FeeFollowModule",
+        type: 'FeeFollowModule',
         amount: {
           asset: {
-            name: "Wrapped Matic",
-            symbol: "WMATIC",
+            name: 'Wrapped Matic',
+            symbol: 'WMATIC',
             decimals: 18,
-            address: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
+            address: '0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889',
           },
-          value: "10.0",
+          value: '10.0',
         },
-        recipient: "0x0c0E611A29b339D8c1048F2Edf9d4160A5fb8F22",
+        recipient: '0x0c0E611A29b339D8c1048F2Edf9d4160A5fb8F22',
       },
     },
     stats: {
@@ -56,45 +56,45 @@ export const PUBLICATIONS_RAW = [
       totalAmountOfComments: 3,
     },
     metadata: {
-      name: "Post by @jojay",
-      description: "Hello Josh :)",
-      content: "Hello Josh :)",
+      name: 'Post by @jojay',
+      description: 'Hello Josh :)',
+      content: 'Hello Josh :)',
       media: [],
       attributes: [
         {
           displayType: null,
-          traitType: "type",
-          value: "post",
+          traitType: 'type',
+          value: 'post',
         },
       ],
     },
-    createdAt: "2022-04-16T08:33:25.000Z",
+    createdAt: '2022-04-16T08:33:25.000Z',
     collectModule: {
-      __typename: "RevertCollectModuleSettings",
-      type: "RevertCollectModule",
+      __typename: 'RevertCollectModuleSettings',
+      type: 'RevertCollectModule',
     },
     referenceModule: null,
-    appId: "Lenster",
+    appId: 'Lenster',
     hidden: false,
     reaction: null,
     mirrors: [],
     hasCollectedByMe: false,
   },
   {
-    __typename: "Post",
-    id: "0x0f-0xa0",
+    __typename: 'Post',
+    id: '0x0f-0xa0',
     profile: {
-      id: "0x0f",
+      id: '0x0f',
       name: null,
       bio: null,
       attributes: [],
-      followNftAddress: "0x8A8bd1E37b099aE3386D13947b6a90d97675e9a1",
+      followNftAddress: '0x8A8bd1E37b099aE3386D13947b6a90d97675e9a1',
       metadata: null,
       isDefault: true,
-      handle: "wagmi.lens",
+      handle: 'wagmi.lens',
       picture: {
         original: {
-          url: "https://ipfs.infura.io/ipfs/Qma8mXoeorvPqodDazf7xqARoFD394s1njkze7q1X4CK8U",
+          url: 'https://ipfs.infura.io/ipfs/Qma8mXoeorvPqodDazf7xqARoFD394s1njkze7q1X4CK8U',
           width: null,
           height: null,
           mimeType: null,
@@ -103,7 +103,7 @@ export const PUBLICATIONS_RAW = [
         medium: null,
       },
       coverPicture: null,
-      ownedBy: "0x3A5bd1E37b099aE3386D13947b6a90d97675e5e3",
+      ownedBy: '0x3A5bd1E37b099aE3386D13947b6a90d97675e5e3',
       dispatcher: null,
       stats: {
         totalFollowers: 111,
@@ -122,27 +122,27 @@ export const PUBLICATIONS_RAW = [
       totalAmountOfComments: 6,
     },
     metadata: {
-      name: "Post by @yoginth",
+      name: 'Post by @yoginth',
       description:
-        "Testing hashflags\n\n#lenster #Lenster #LENSTER #lens #ethereum #Bitcoin",
+        'Testing hashflags\n\n#lenster #Lenster #LENSTER #lens #ethereum #Bitcoin',
       content:
-        "Testing hashflags\n\n#lenster #Lenster #LENSTER #lens #ethereum #Bitcoin",
+        'Testing hashflags\n\n#lenster #Lenster #LENSTER #lens #ethereum #Bitcoin',
       media: [],
       attributes: [
         {
           displayType: null,
-          traitType: "string",
-          value: "post",
+          traitType: 'string',
+          value: 'post',
         },
       ],
     },
-    createdAt: "2022-04-20T06:26:56.000Z",
+    createdAt: '2022-04-20T06:26:56.000Z',
     collectModule: {
-      __typename: "FreeCollectModuleSettings",
-      type: "FreeCollectModule",
+      __typename: 'FreeCollectModuleSettings',
+      type: 'FreeCollectModule',
     },
     referenceModule: null,
-    appId: "Lenster",
+    appId: 'Lenster',
     hidden: false,
     reaction: null,
     mirrors: [],

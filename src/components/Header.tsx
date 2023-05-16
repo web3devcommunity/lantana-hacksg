@@ -10,53 +10,46 @@ import LogoImage from '../../public/logo.png';
 import Link from 'next/link';
 
 const StyledAppBar = styled(AppBar)`
- 
-    color: black;
-    background-color: #fff;
-`
+  color: black;
+  background-color: #fff;
+`;
 export const Header = () => {
-    return (
-        <Box sx={{ flexGrow: 1 }}>
-            <StyledAppBar
-                position="static"
-                elevation={0}
-            >
-                <Toolbar>
-                    <Box sx={{ display: 'flex', m: 1 }}>
-                        <Image src={LogoImage} width={100} alt="Lantana" />
-                    </Box>
-                    <Box sx={{ display: 'flex', m: 2 }}>
-                        <Link href="/discover">
-                            Discover
-                        </Link>
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <StyledAppBar position="static" elevation={0}>
+        <Toolbar>
+          <Box sx={{ display: 'flex', m: 1 }}>
+            <Image src={LogoImage} width={100} alt="Lantana" />
+          </Box>
+          <Box sx={{ display: 'flex', m: 2 }}>
+            <Link href="/discover">Discover</Link>
+          </Box>
+          <Box sx={{ display: 'flex', m: 2 }}>
+            <Link href="/organize">Organize</Link>
+          </Box>
+          <Box sx={{ display: 'flex', m: 2 }}>
+            <Link href="/enterprise">Enterprise</Link>
+          </Box>
+          <Box sx={{ flexGrow: 1 }} />
+          <AccountDrawer>
+            <div>
+              {' '}
+              <Grid container direction="column">
+                <Grid item>
+                  <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    Account
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Account />
+                </Grid>
+              </Grid>
+            </div>
+          </AccountDrawer>
+        </Toolbar>
+      </StyledAppBar>
+    </Box>
+  );
+};
 
-                    </Box>
-                    <Box sx={{ display: 'flex', m: 2 }}>
-                        <Link href="/organize">
-                            Organize
-                        </Link>
-                    </Box>
-                    <Box sx={{ display: 'flex', m: 2 }}>
-                        <Link href="/enterprise">
-                            Enterprise
-                        </Link>
-                    </Box>
-                    <Box sx={{ flexGrow: 1 }} />
-                    <AccountDrawer>
-                        <div> <Grid container direction="column">
-                            <Grid item>
-                                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                                    Account
-                                </Typography>
-                            </Grid>
-                            <Grid item>
-                                <Account /></Grid>
-                        </Grid></div></AccountDrawer>
-                </Toolbar>
-            </StyledAppBar>
-        </Box>
-    )
-
-}
-
-export default Header
+export default Header;
