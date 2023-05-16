@@ -8,7 +8,8 @@ const template = {
         },
         alias: {
             '@': path.resolve(__dirname, "./src/"),
-            '@mui/styled-engine': '@mui/styled-engine-sc'
+            // avoid duplication
+            // '@mui/styled-engine': '@mui/styled-engine-sc'
         }
     },
     plugins: [
