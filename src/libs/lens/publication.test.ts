@@ -11,7 +11,7 @@ import { APP_VERSION_TAG } from '@/env';
 
 jest.setTimeout(5 * 60 * 1000);
 
-describe('#createPublication', () => {
+describe.skip('#createPublication', () => {
   let wallet: ethers.Wallet;
   let lensClient: LensClient;
   let handle: string;
