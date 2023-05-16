@@ -2,10 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { CauseCard } from '../components/CauseCard';
 import { TEST_CAUSES } from '@/domain/cause.fixture';
-import { EventCardActions } from '@/components/EventCardAction';
 import { createConfig } from '@/components/lens-binding';
-import { LensProvider } from '@lens-protocol/react-web';
-import { PUBLICATIONS_RAW } from '@/libs/lens/publication.fixture';
 import { AccountProvider } from '@/components/AccountProvider';
 
 const lensConfig = createConfig();

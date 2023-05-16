@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Feed } from '../components/Feed';
-import { TEST_CAUSES } from '@/domain/cause.fixture';
 import { createFilters } from '@/libs/lens/create-filters';
 import { PublicationSortCriteria } from '@lens-protocol/react-web';
 import { APP_VERSION_TAG } from '../env';

@@ -4,17 +4,11 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { Account } from '../components/Account';
 import {
-  configureChains,
-  createClient,
-  WagmiConfig,
   useAccount,
-  useConnect,
   useSigner,
 } from 'wagmi';
 import '../rainbowkit.css';
 import { useEffect, useMemo } from 'react';
-import { ParticleNetwork } from '@particle-network/auth';
-
 import {
   LensProvider,
   useActiveProfile,
@@ -23,8 +17,7 @@ import {
   useWalletLogin,
 } from '@lens-protocol/react-web';
 import { getWagmiClient } from '@/libs/wagmi';
-import { ReactNode } from 'react';
-import { PN_PROJECT_ID, PN_CLIENT_KEY, PN_APP_ID } from '@/env';
+import { PN_PROJECT_ID, PN_APP_ID } from '@/env';
 import { AccountProvider } from '@/components/AccountProvider';
 import { useWalletLogout } from '@lens-protocol/react-web';
 import { generateHandle } from '@/libs/lens/utils';

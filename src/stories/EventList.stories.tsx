@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { TEST_CAUSES } from '@/domain/cause.fixture';
 import { EventList } from '@/components/EventList';
-import { createConfig } from '@/components/lens-binding';
 import { AccountProvider } from '@/components/AccountProvider';
 import { asEvent } from '@/domain/event';
 
