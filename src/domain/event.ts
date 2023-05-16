@@ -48,13 +48,14 @@ export const mapPublicationAsEvent = (publication: LensPublication): Event => {
     imageUrl: publication?.metadata?.media?.[0]?.original.url,
     descriptionShort: publication?.metadata?.content,
     stats: publication?.stats,
-    publicationId: publication?.id,
-    // TODO fix hardcode
+    publicationId: publication.id,
     key: 'beach-cleanup-sg',
-    volunteers: [{ name: 'josh' }],
-    volunteersCount: 234,
+    // TODO load from followers
     // volunteers: event.volunteers,
+    volunteers: [{ name: 'josh' }],
+    // TODO load from attributes
     // volunteersCount: event.volunteersCount,
+    volunteersCount: 234,
   };
 };
 
