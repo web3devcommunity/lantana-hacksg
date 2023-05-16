@@ -12,7 +12,7 @@ export type Cause = {
   events: Event[];
   organizer: CauseOrganizer;
   volunteers: Partial<User>[];
-  volunteersCounts: number;
+  volunteersCount: number;
 };
 
 export type CauseInput = {
@@ -23,5 +23,5 @@ export type CauseInput = {
   descriptionShort?: string;
   events: EventInput[];
   volunteers?: Partial<User>[];
-  volunteersCounts: number;
+  volunteersCount: number;
 };

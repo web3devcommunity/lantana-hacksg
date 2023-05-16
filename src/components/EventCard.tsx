@@ -56,7 +56,7 @@ export const EventCard = ({ event, actions, isThumbnailOnly = false }: { event: 
             }
 
             <AvatarGroup
-                max={6} total={event.volunteersCounts}>
+                max={6} total={event.volunteersCount}>
                 {
                     event.volunteers.map(
                         (volunteer: Partial<User>, i: number) => {

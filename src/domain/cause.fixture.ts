@@ -34,7 +34,7 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
       },
     ],
     volunteers: _.take(TEST_USERS_RAW, 5),
-    volunteersCounts: 311,
+    volunteersCount: 311,
   },
   {
     key: "365-trees",
@@ -71,7 +71,7 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
         name: "Daryl",
       },
     ],
-    volunteersCounts: 178,
+    volunteersCount: 178,
   },
 ];
 

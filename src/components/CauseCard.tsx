@@ -62,7 +62,7 @@ export const CauseCard = ({ cause, actions, isThumbnailOnly = false, }: { cause:
             }
 
             <AvatarGroup
-                max={6} total={cause.volunteersCounts}>
+                max={6} total={cause.volunteersCount}>
                 {
                     cause.volunteers.map(
                         (volunteer: Partial<User>, i: number) => {

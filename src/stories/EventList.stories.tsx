@@ -5,11 +5,9 @@ import { createConfig } from '@/components/lens-binding';
 import { AccountProvider } from "@/components/AccountProvider";
 import { asEvent } from "@/domain/event";
 
-const lensConfig = createConfig();
-
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta: Meta<typeof EventList> = {
-    title: "Example/Event",
+    title: "Example/EventList",
     component: EventList,
     tags: ["autodocs"],
     argTypes: {
@@ -17,8 +15,6 @@ const meta: Meta<typeof EventList> = {
     decorators: [
         (Story) => (
             <AccountProvider>
-
-                {/* 👇 Decorators in Storybook also accept a function. Replace <Story/> with Story() to enable it  */}
                 <Story />
             </AccountProvider>
         ),

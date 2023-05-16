@@ -23,7 +23,7 @@ export type EventInput = {
   publicationId?: string;
 
   volunteers?: Partial<User>[];
-  volunteersCount?: number;
+  volunteersCount: number;
 };
 
 export const mapPublicationAsEvent = (publication: any): Event => {
@@ -38,14 +38,15 @@ export const mapPublicationAsEvent = (publication: any): Event => {
     // TODO fix hardcode
     causeKey: "beach-cleanup-sg",
     volunteers: [{ name: "josh" }],
-    volunteersCounts: 234,
+    volunteersCount: 234,
     // volunteers: event.volunteers,
-    // volunteersCounts: event.volunteersCounts,
+    // volunteersCount: event.volunteersCount,
   };
 };
 
 export const asEvent = (event: EventInput): Event => {
   return {
+    causeKey: event.causeKey,
     title: event.title!,
     date: parseISO(event.date!),
     imageUrl: event.imageUrl || "",
@@ -53,6 +54,6 @@ export const asEvent = (event: EventInput): Event => {
     stats: {},
     publicationId: event.publicationId,
     volunteers: event.volunteers || [],
-    volunteersCounts: event.volunteersCounts,
+    volunteersCount: event.volunteersCount,
   };
 };
