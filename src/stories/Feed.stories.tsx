@@ -18,8 +18,6 @@ const meta: Meta<typeof Feed> = {
     decorators: [
         (Story) => (
             <AccountProvider>
-
-                {/* 👇 Decorators in Storybook also accept a function. Replace <Story/> with Story() to enable it  */}
                 <Story />
             </AccountProvider>
         ),
