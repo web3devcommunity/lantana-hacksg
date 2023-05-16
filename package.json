@@ -19,6 +19,7 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.3",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
+    "@mui/styled-engine-sc": "^5.12.0",
     "@particle-network/auth": "^0.13.0",
     "@particle-network/connect-react-ui": "^0.13.0",
     "@particle-network/provider": "^0.13.0",
