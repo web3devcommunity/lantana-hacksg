@@ -8,8 +8,13 @@ const template = {
       buffer: require.resolve('buffer/'),
     },
     alias: {
-      '@': path.resolve(__dirname, './src/'),
-    },
+      '@': path.resolve(__dirname, "./src/"),
+      // avoid duplication
+      // '@mui/styled-engine': '@mui/styled-engine-sc'
+    }
+  },
+  alias: {
+    '@': path.resolve(__dirname, './src/'),
   },
   plugins: [
     new webpack.ProvidePlugin({
