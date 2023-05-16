@@ -4,82 +4,91 @@ import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
+
 import Avatar from '@mui/material/Avatar';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Image from 'next/image'
+import Image from 'next/image';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { format, compareAsc, parseISO } from 'date-fns'
+import { format, compareAsc, parseISO } from 'date-fns';
 import { Cause, CauseInput } from '@/domain/cause';
-import RecommendIcon from '@mui/icons-material/Recommend';
-import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
-import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
-import CommentIcon from '@mui/icons-material/Comment';
-import PaidIcon from '@mui/icons-material/Paid';
+
 import { useActiveProfile, useCollect } from '@lens-protocol/react-web';
+import { EventInput, asEvent } from '@/domain/event';
+import { AvatarGroup } from '@mui/material';
+import { User } from '@/domain/user';
 
-export const asCause = (cause: CauseInput): Cause => {
-
-    return {
-        title: cause.title!,
-        date: parseISO(cause.date),
-        imageUrl: cause.imageUrl || '',
-        descriptionShort: cause.descriptionShort || '',
-        stats: {},
-        publicationId: cause.publicationId
-    }
-}
-
+// @deprecated, replace with EventCard
 // decouple lens specific actions / api from presentation
-export const CauseCard = ({ cause, actions }: { cause: Cause, actions?: any }) => {
-    const displayedDate = format(cause.date, 'MM/dd/yyyy HH:mm');
+export const CauseCard = ({
+  cause,
+  actions,
+  isThumbnailOnly = false,
+}: {
+  cause: Cause;
+  actions?: any;
+  isThumbnailOnly: boolean;
+}) => {
+  const { data, error, loading } = useActiveProfile();
+  const collector = data!;
 
-    const { data, error, loading } = useActiveProfile();
-    const collector = data!;
+  // simplify do not show cause with no event
+  const featuredEvent = cause?.events?.[0];
+  if (!featuredEvent || !cause) return null;
 
-    return (
-        <Card sx={{ maxWidth: 345 }}>
-            <CardHeader
-                avatar={
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                        R
-                    </Avatar>
-                }
-                action={
-                    <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                    </IconButton>
-                }
-                title={cause.title}
-                subheader={displayedDate}
+  const displayedDate = format(featuredEvent.date, 'MM/dd/yyyy HH:mm');
+
+  return (
+    <Card sx={{ maxWidth: 345 }}>
+      <CardHeader
+        action={
+          <IconButton aria-label="settings">
+            <MoreVertIcon />
+          </IconButton>
+        }
+        title={
+          <>
+            {featuredEvent.title} <br />
+            <Typography color="text.secondary">by {cause.title}</Typography>
+          </>
+        }
+        subheader={displayedDate}
+      />
+      {featuredEvent.imageUrl && (
+        <CardMedia
+          component="img"
+          height="194"
+          image={featuredEvent.imageUrl}
+          alt="Post Image"
+        />
+      )}
+
+      <AvatarGroup max={6} total={cause.volunteersCount}>
+        {cause.volunteers.map((volunteer: Partial<User>, i: number) => {
+          return (
+            <Avatar
+              key={i}
+              alt={volunteer.name}
+              src="/static/images/avatar/1.jpg"
             />
-            {
-                cause.imageUrl && <CardMedia
-                    component="img"
-                    height="194"
-                    image={cause.imageUrl}
-                    alt="Post Image"
-                />
-            }
-            <CardContent>
-                <Typography variant="body2" color="text.secondary">
-                    {cause.descriptionShort}
-                    <br />
-                    <b>{"totalComments"}</b> {cause.stats?.totalAmountOfComments}
-                    <b> {"totalMirrors"}</b> {cause.stats?.totalAmountOfMirrors}
-                </Typography>
-            </CardContent>
-            {actions}
-            <CardContent>
+          );
+        })}
+      </AvatarGroup>
 
-            </CardContent>
-        </Card>
-    );
-}
+      {!isThumbnailOnly && (
+        <CardContent>
+          <Typography variant="body2" color="text.secondary">
+            {featuredEvent.descriptionShort}
+            <br />
+            <b>{'totalComments'}</b>{' '}
+            {featuredEvent.stats?.totalAmountOfComments}
+            <b> {'totalMirrors'}</b> {featuredEvent.stats?.totalAmountOfMirrors}
+          </Typography>
+        </CardContent>
+      )}
+      {!isThumbnailOnly && actions}
+    </Card>
+  );
+};

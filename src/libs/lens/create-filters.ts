@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { usePublications, useFeed, useExplorePublications, useSearchPublications, PublicationMetadataFilters } from '@lens-protocol/react-web';
-
-
+import {
+  usePublications,
+  useFeed,
+  useExplorePublications,
+  useSearchPublications,
+  PublicationMetadataFilters,
+} from '@lens-protocol/react-web';
 
 // dont nest hooks
-export const createFilters = (params: Record<string, any>)=>{
+export const createFilters = (params: Record<string, any>) => {
   const metadataFilter: PublicationMetadataFilters = {
     // restrictPublicationMainFocusTo?: PublicationMainFocus[];
     // restrictPublicationLocaleTo?: string;
@@ -12,11 +16,10 @@ export const createFilters = (params: Record<string, any>)=>{
     //   oneOf: PublicationContentWarning[];
     // };
 
-    ...params
+    ...params,
   };
 
   return {
-    metadataFilter
-  }
-
-}
+    metadataFilter,
+  };
+};

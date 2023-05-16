@@ -1,30 +1,58 @@
-import { parseISO } from "date-fns";
+import { de } from 'date-fns/locale';
+import { Event, EventInput } from './event';
+import { User } from './user';
+import _ from 'lodash';
+import { c } from '@wagmi/cli/dist/config-c09a23a5';
 
-export type Cause = {
+export type CauseOrganizer = {
   title: string;
-  date: Date;
-  imageUrl?: string;
+};
+export type Cause = {
+  key: string;
+  title: string;
+
+  organizer: CauseOrganizer;
+  imageUrl: string;
   descriptionShort: string;
-  stats: any;
-  publicationId?: string;
+  events: Event[];
+  volunteers: Partial<User>[];
+  volunteersCount: number;
 };
 
 export type CauseInput = {
+  key: string;
   title: string;
-  date: string;
+  organizer: CauseOrganizer;
   imageUrl?: string;
   descriptionShort?: string;
-  publicationId?: string;
+  events: EventInput[];
+  volunteers?: Partial<User>[];
+  volunteersCount: number;
 };
 
-export const mapPublicationAsCause = (publication: any): Cause => {
+export const mapCauseAsPublication = (cause: Cause) => {
+  const { key, title, descriptionShort, imageUrl } = cause;
   return {
-    title: publication?.metadata?.name,
-    date: parseISO(publication?.createdAt) || new Date(),
-    // date: publication,
-    imageUrl: publication?.metadata?.media?.[0]?.original.url,
-    descriptionShort: publication?.metadata?.content,
-    stats: publication?.stats,
-    publicationId: publication?.id,
+    imageUrl: imageUrl,
+    name: 'Cause:' + title,
+    content: descriptionShort,
+    tags: [formatEntityTag(key, 'cause')],
   };
+};
+
+export const findEntityTag = (tags: string[], entityToFind: string) => {
+  return _.find(tags, (tag) => {
+    const { entity, key } = parseEntityTag(tag);
+
+    return entity === entityToFind;
+  });
+};
+
+export const formatEntityTag = (key: string, entity: string) =>
+  [entity, key].join('-');
+
+export const parseEntityTag = (tag: string) => {
+  const [entity, ...rest] = tag.split('-');
+  const key = rest.join('-');
+  return { entity, key };
 };

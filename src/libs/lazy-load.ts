@@ -4,7 +4,7 @@ export const lazyLoadFactory = <T>(initializeClient: (args: any) => T) => {
   let lastArgs: any;
 
   // use sync & do not await to simplify
-  return function loadClientAuthenticated(args = undefined): T {
+  return function loadClient(args = undefined): T {
     if (client === null || lastArgs !== args) {
       client = initializeClient(args);
       lastArgs = args;

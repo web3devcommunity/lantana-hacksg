@@ -1,5 +1,5 @@
-import { development as developmentConfig } from "@lens-protocol/react-web";
-import { bindings as wagmiBindings } from "@lens-protocol/wagmi";
+import { development as developmentConfig } from '@lens-protocol/react-web';
+import { bindings as wagmiBindings } from '@lens-protocol/wagmi';
 
 export const createConfig = () => {
   return {

@@ -1,7 +1,7 @@
-import { Environment, LensClient, development } from "@lens-protocol/client";
+import { Environment, LensClient, development } from '@lens-protocol/client';
 
-import { ethers } from "ethers";
-import { lazyLoadAsyncFactory } from "../lazy-load";
+import { ethers } from 'ethers';
+import { lazyLoadAsyncFactory } from '../lazy-load';
 
 // wagmi doesnt expose ethers.Wallet even in older version
 // simplify to delegate login by useWalletLogin for UI
