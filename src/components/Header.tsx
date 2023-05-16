@@ -8,6 +8,7 @@ import { styled } from 'styled-components';
 import Image from 'next/image';
 import LogoImage from '../../public/logo.png';
 import Link from 'next/link';
+import { ConnectLens } from './ConnectLens';
 
 const StyledAppBar = styled(AppBar)`
   color: black;
@@ -33,7 +34,6 @@ export const Header = () => {
           <Box sx={{ flexGrow: 1 }} />
           <AccountDrawer>
             <div>
-              {' '}
               <Grid container direction="column">
                 <Grid item>
                   <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -43,12 +43,15 @@ export const Header = () => {
                 <Grid item>
                   <Account />
                 </Grid>
+                <Grid item sx={{ marginTop: '50px' }}>
+                  <ConnectLens />
+                </Grid>
               </Grid>
             </div>
           </AccountDrawer>
         </Toolbar>
       </StyledAppBar>
-    </Box>
+    </Box >
   );
 };
 

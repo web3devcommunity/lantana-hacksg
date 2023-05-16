@@ -77,6 +77,7 @@ describe.skip('#demo', () => {
         await Promise.all(
           cause.events.map(async (event) => {
             const postInput = mapEventAsPublication(event);
+            const imageUrl = await withInternetUrl(postInput.imageUrl);
 
             return createPostWithClient(lensClient)(wallet, {
               ...postInput,

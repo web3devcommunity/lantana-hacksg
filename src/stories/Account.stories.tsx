@@ -14,6 +14,7 @@ import {
   useActiveProfile,
   useActiveWallet,
   useCreateProfile,
+  useProfilesOwnedByMe,
   useWalletLogin,
 } from '@lens-protocol/react-web';
 import { PN_PROJECT_ID, PN_APP_ID } from '@/env';
@@ -42,9 +43,12 @@ const SignUpWithActiveProfile = () => {
 
   const { execute: create } = useCreateProfile();
   const { data: signer, isError, isLoading } = useSigner();
+  const { data: profilesOwnedByMe } = useProfilesOwnedByMe();
   const activeProfileResults = useActiveProfile();
   const { execute: login, error, isPending } = useWalletLogin();
   const profile = activeProfileResults?.data!;
+
+  // active profile is null before login again, useProfilesOwnedByMe also cant be use
   return (
     <div>
       Lens {profile?.id} {profile?.handle} <br />
@@ -52,10 +56,11 @@ const SignUpWithActiveProfile = () => {
         onClick={() => {
           // after login, use sdk to load client will not be able the track the authenticated lens client
           if (address) {
+            console.log('loaded', address, profile);
             login(signer!).then(async (loginResult) => {
               // check if exists
 
-              console.log('loaded', profile);
+
               if (profile?.handle) {
                 console.log(
                   'user profile already exists',
@@ -85,7 +90,7 @@ const SignUpWithActiveProfile = () => {
           }
         }}
       >
-        Force Sign up
+        Connect Lens
       </button>
     </div>
   );
@@ -105,10 +110,8 @@ const SignUpWidget = () => {
   useEffect(() => {
     console.log('isConnected', isConnected, address, activeWallet?.address);
     if (isConnected) {
-      if (address !== activeWallet?.address) {
-        // now always refresh profile
-        // TODO we cant tell from the lens.development.activeProfiles alone
-        // should check against lens.development.wallets in localstorage
+      if (activeWallet && address !== activeWallet?.address) {
+        // there are times lens.development.activeProfiles / lens.development.wallets in localstorage not matching current ui state
         // find profile from cache and reset if not matching, (via e.g. restart) if there is error  "Pofile not owned by the active wallet"
         // happens when re-connecting wallet with different address
         logout().then(() => {

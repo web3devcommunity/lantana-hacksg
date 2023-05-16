@@ -6,9 +6,14 @@ import { PUBLICATIONS_RAW } from '../libs/lens/publication.fixture';
 describe('#event', () => {
   test('#mapPublicationAsEvent', () => {
     const publication = PUBLICATIONS_RAW[0];
-
-    //@ts-ignore
-    publication.metadata.tags = ['cause-abc'];
+    publication.metadata.attributes = [
+      {
+        //@ts-ignore
+        displayType: 'string',
+        traitType: 'cause',
+        value: 'abc',
+      },
+    ];
 
     const event = mapPublicationAsEvent(publication);
     expect(event?.descriptionShort).toEqual('Hello Josh :)');

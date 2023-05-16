@@ -19,6 +19,7 @@ import { useActiveProfile, useCollect } from '@lens-protocol/react-web';
 import { EventInput, asEvent } from '@/domain/event';
 import { AvatarGroup } from '@mui/material';
 import { User } from '@/domain/user';
+import { withIpfsGateway } from '@/libs/lens/utils';
 
 // @deprecated, replace with EventCard
 // decouple lens specific actions / api from presentation
@@ -39,6 +40,8 @@ export const CauseCard = ({
   if (!featuredEvent || !cause) return null;
 
   const displayedDate = format(featuredEvent.date, 'MM/dd/yyyy HH:mm');
+
+  const imageUrl = withIpfsGateway(featuredEvent.imageUrl);
 
   return (
     <Card sx={{ maxWidth: 345 }}>

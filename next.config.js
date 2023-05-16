@@ -13,6 +13,14 @@ module.exports = withTM({
     // do not run on stories during build
     dirs: ['pages', 'libs', 'domain', 'app', 'components'],
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
+  },
 
   webpack: (config, { webpack }) => {
     return withTemplate(config);
