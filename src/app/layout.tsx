@@ -1,8 +1,9 @@
 import './globals.css';
 import DynamicWagmi from './components/DynamicWagmi';
+import Navbar from './components/Navbar/Navbar';
 
 export const metadata = {
-  title: 'Lantana',
+  title: 'Lantana - Volunteering Events Website',
   description: '',
   icons: {
     icon: './favicon',
@@ -17,7 +18,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <DynamicWagmi>{children}</DynamicWagmi>
+        <DynamicWagmi>
+          <Navbar />
+          <main>
+            {children}
+          </main>
+        </DynamicWagmi>
       </body>
     </html>
   );
