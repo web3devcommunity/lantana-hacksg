@@ -7,3 +7,19 @@
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem;
+}
+
+.navbar_link {
+  display: flex;
+  justify-content: space-around;
+}
+
+.navbar_link-items {
+  padding: 1rem;
+}
