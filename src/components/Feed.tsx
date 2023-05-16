@@ -13,6 +13,7 @@ import {
   useSearchPublications,
   useComments,
   PublicationTypes,
+  PublicationSortCriteria,
 } from '@lens-protocol/react-web';
 import { createFilters } from '@/libs/lens/create-filters';
 import {

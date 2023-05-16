@@ -1,6 +1,5 @@
 import { EventList } from '@/components/EventList';
 import SocialLayout from '@/components/SocialLayout';
-import { Cause } from '@/domain/cause';
 import { Grid, Typography } from '@mui/material';
 import Image from 'next/image';
 import { CauseAttestationList } from '@/components/CauseAttestationList';

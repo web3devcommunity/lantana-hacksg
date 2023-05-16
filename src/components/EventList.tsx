@@ -1,6 +1,7 @@
 import { Event, mapPublicationAsEvent } from '@/domain/event';
-import { Grid, styled } from '@mui/material';
+import { Grid } from '@mui/material';
 import { EventCard } from './EventCard';
+import styled from 'styled-components';
 
 const EventListWrapper = styled.div`
   a {

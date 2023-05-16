@@ -2,17 +2,12 @@ import { TEST_CAUSES, TEST_CAUSES_RAW } from './cause.fixture';
 
 import _ from 'lodash';
 import { jest, describe, test, expect, it, beforeAll } from '@jest/globals';
-import {
-  EventInput,
-  mapEventAsPublication,
-  mapPublicationAsEvent,
-} from './event';
-import { PUBLICATIONS_RAW } from '../libs/lens/publication.fixture';
+import { mapEventAsPublication } from './event';
 import { loadClientAuthenticated } from '@/libs/lens/client';
 
 import { LensClient } from '@lens-protocol/client';
 import { ethers } from 'ethers';
-import { createProfile, createProfileWithWallet } from '@/libs/lens/profile';
+import { createProfileWithWallet } from '@/libs/lens/profile';
 import { Cause } from './cause';
 import { generateHandle } from '@/libs/lens/utils';
 import { createPostWithClient } from '@/libs/lens/publication';

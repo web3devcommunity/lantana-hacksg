@@ -24,6 +24,6 @@ type Story = StoryObj<typeof EventList>;
 
 export const Primary: Story = {
   args: {
-    events: TEST_CAUSES[0]?.events.map(asEvent),
+    events: TEST_CAUSES[0]?.events,
   },
 };

@@ -16,7 +16,6 @@ import {
   useCreateProfile,
   useWalletLogin,
 } from '@lens-protocol/react-web';
-import { getWagmiClient } from '@/libs/wagmi';
 import { PN_PROJECT_ID, PN_APP_ID } from '@/env';
 import { AccountProvider } from '@/components/AccountProvider';
 import { useWalletLogout } from '@lens-protocol/react-web';

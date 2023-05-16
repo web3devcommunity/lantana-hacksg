@@ -1,5 +1,4 @@
 import { ethers } from 'ethers';
-import { loadClientAuthenticated } from './client';
 import {
   LensClient,
   ProfileFragment,
@@ -7,17 +6,6 @@ import {
 } from '@lens-protocol/client';
 import { getProfileUrl, setDispatcher } from './utils';
 
-export const createProfileWithWallet = (
-  lensClient: LensClient,
-  wallet: ethers.Wallet,
-  handle: string,
-) => {
-  return createProfile(lensClient, wallet._signTypedData.bind(wallet))(
-    wallet.address,
-    handle,
-  );
-};
-// deduplciate with key value store
 export const createProfile =
   (lensClient: LensClient, signTypedData: (...args: any) => any) =>
   async (walletAddress: string, handle: string) => {
@@ -68,3 +56,15 @@ export const createProfile =
       dispatcherResults,
     };
   };
+
+export const createProfileWithWallet = (
+  lensClient: LensClient,
+  wallet: ethers.Wallet,
+  handle: string,
+) => {
+  return createProfile(lensClient, wallet._signTypedData.bind(wallet))(
+    wallet.address,
+    handle,
+  );
+};
+// deduplciate with key value store

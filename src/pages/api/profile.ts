@@ -1,5 +1,3 @@
-import { loadClientAuthenticated } from '@/libs/lens/client';
-import { createProfile } from '@/libs/lens/utils';
 import { invokeCreateUser } from '@/libs/retool-api';
 import { NextApiRequest, NextApiResponse } from 'next';
 

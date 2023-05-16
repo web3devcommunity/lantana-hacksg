@@ -1,5 +1,5 @@
 import { loadClient, loadClientAuthenticated } from '@/libs/lens/client';
-import { createProfile, generateHandle } from '@/libs/lens/utils';
+import { generateHandle } from '@/libs/lens/utils';
 import fetch from 'cross-fetch';
 import { signTypedData } from '@wagmi/core';
 // move to API
