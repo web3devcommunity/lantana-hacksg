@@ -33,3 +33,9 @@ jobs:
         run: yarn run test
       - name: Build
         run: yarn run build
+      - name: Build Docker
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
