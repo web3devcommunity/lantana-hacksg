@@ -10,7 +10,7 @@ import { TEST_CAUSES } from '@/domain/cause.fixture';
 import { createFilters } from '@/libs/lens/create-filters';
 import { formatEntityTag, mapPublicationAsCause } from '@/domain/cause';
 import { APP_VERSION_TAG, CURRENCY_LANTANA_ADDRESS } from '@/env';
-import { PublicationId, useExplorePublications, usePublications, useWhoCollectedPublication } from '@lens-protocol/react-web';
+import { PublicationId, useExplorePublications, usePublicationRevenue, usePublications, useWhoCollectedPublication } from '@lens-protocol/react-web';
 import { mapPublicationAsEvent } from '@/domain/event';
 import styled from 'styled-components';
 import { CollectButtonWrapper } from '@/components/CollectButtonWrapper';
@@ -43,18 +43,27 @@ export default function CausePage() {
 
   const post = _.first(data);
 
+  const publicationId = post?.id as PublicationId;
 
   const { data: whoCollected, loading: whoCollectedLoading } = useWhoCollectedPublication({
     limit: 10,
-    publicationId: post?.id as PublicationId
+    publicationId
   });
+
+  const { data: revenue, loading } = usePublicationRevenue({
+    publicationId
+  });
+
+  //@ts-ignore
+  const total = revenue?.totalAmount || 0;
+
 
   if (!post) return (<div>loading</div>);
   const cause = mapPublicationAsCause(post);
   const events = cause.events;
 
 
-  console.log('whoCollected', whoCollected, whoCollectedLoading)
+  console.log('whoCollected', whoCollected, whoCollectedLoading, revenue);
 
   return (
     <SocialLayout>
@@ -63,7 +72,6 @@ export default function CausePage() {
         <Typography variant="h4" color="text.secondary">
           organized by {cause.organizer.title}
         </Typography>
-
         <Image src={cause.imageUrl} width={800} height={600} alt="Lantana" />
         <Grid container sx={{ marginTop: '50px' }}>
           <Grid item xs={12} md={12}>
@@ -74,7 +82,12 @@ export default function CausePage() {
           </Grid>
           <Grid item xs={12} md={6}>
             <StatsWrapper>
-              <div>Funding Received: $123,456</div>
+
+              <Typography variant="body1" color="text.secondary">
+
+                Funding Received: ${total} <br />
+                from {whoCollected?.length} people
+              </Typography>
               <div>
 
                 <CollectButtonWrapper publicationId={post.id} currencyAddress={CURRENCY_LANTANA_ADDRESS}>
