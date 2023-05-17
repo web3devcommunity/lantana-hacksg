@@ -38,9 +38,6 @@ export default function CausePage() {
     metadataFilter: appFilter,
   });
 
-  // TODO fix hardcode
-  // query causes via api
-  // const events = cause.events;
   const post = _.first(data);
   if (!post) return (<div>loading</div>);
   const cause = mapPublicationAsCause(post);
