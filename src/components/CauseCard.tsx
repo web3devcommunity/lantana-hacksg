@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -10,13 +9,11 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Image from 'next/image';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+
 import { format, compareAsc, parseISO } from 'date-fns';
 import { Cause, CauseInput } from '@/domain/cause';
 
 import { useActiveProfile, useCollect } from '@lens-protocol/react-web';
-import { EventInput, asEvent } from '@/domain/event';
 import { AvatarGroup } from '@mui/material';
 import { User } from '@/domain/user';
 import { withIpfsGateway } from '@/libs/lens/utils';

@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 import { LensClient, development } from '@lens-protocol/client';
 import { loadClient, loadClientAuthenticated } from './client';
 import { generateHandle } from './utils';
-import { createProfile, createProfileWithWallet } from './profile';
+import { createProfileWithWallet } from './profile';
 
 jest.setTimeout(60 * 1000);
 describe('profile', () => {

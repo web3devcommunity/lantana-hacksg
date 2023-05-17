@@ -1,6 +1,5 @@
-import { TEST_CAUSES, TEST_CAUSES_RAW } from './cause.fixture';
-
 import _ from 'lodash';
+import { TEST_CAUSES, TEST_CAUSES_RAW } from './cause.fixture';
 import { jest, describe, test, expect, it, beforeAll } from '@jest/globals';
 import { mapEventAsPublication } from './event';
 import { loadClientAuthenticated } from '@/libs/lens/client';

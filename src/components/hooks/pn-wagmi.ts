@@ -1,14 +1,10 @@
-import { mainnet, polygon, optimism, arbitrum } from 'wagmi/chains';
-import { publicProvider } from 'wagmi/providers/public';
-import { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
+import { Chain } from 'wagmi/chains';
 import { ParticleNetwork } from '@particle-network/auth';
-
-import { LensProvider } from '@lens-protocol/react-web';
 import { getWagmiClient } from '@/libs/wagmi';
-import { ReactNode } from 'react';
 import { PN_PROJECT_ID, PN_CLIENT_KEY, PN_APP_ID } from '@/env';
-import { useParticleProvider } from '@particle-network/connect-react-ui';
 
+import { particleWallet } from '@particle-network/rainbowkit-ext';
 export const useParticleNetworkWagmi = () => {
   // implicit deps, init particle before related wallets
   return useMemo(() => {
@@ -17,6 +13,14 @@ export const useParticleNetworkWagmi = () => {
       clientKey: PN_CLIENT_KEY as string,
       appId: PN_APP_ID as string,
     });
-    return getWagmiClient();
+
+    const wallletsFactory = ({ chains }: { chains: Chain[] }) => [
+      particleWallet({ chains, authType: 'google' }),
+      particleWallet({ chains, authType: 'facebook' }),
+      particleWallet({ chains, authType: 'apple' }),
+      particleWallet({ chains }),
+    ];
+
+    return getWagmiClient({ wallletsFactory });
   }, []);
 };
