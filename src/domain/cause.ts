@@ -4,7 +4,7 @@ import { User } from './user';
 import _ from 'lodash';
 import { c } from '@wagmi/cli/dist/config-c09a23a5';
 import { PublicationMetadataDisplayTypes } from '@lens-protocol/client';
-import { LensPublication } from '@/libs/lens/utils';
+import { LensPublication, withIpfsGateway } from '@/libs/lens/utils';
 import { parseISO } from 'date-fns';
 
 export type CauseOrganizer = {
@@ -87,7 +87,7 @@ export const mapPublicationAsCause = (publication: LensPublication): Cause => {
     organizer: {
       title: 'Singapore Council',
     },
-    imageUrl: publication?.metadata?.media?.[0]?.original.url,
+    imageUrl: withIpfsGateway(publication?.metadata?.media?.[0]?.original.url),
     descriptionShort: publication?.metadata?.content,
     // stats: publication?.stats,
     // publicationId: publication.id,

@@ -1,23 +1,34 @@
 import * as _ from 'lodash';
 import { loadClientAuthenticated } from './client';
 import { jest, describe, test, expect, it, beforeAll } from '@jest/globals';
-import { createPostWithClient } from './publication';
-import { LensClient } from '@lens-protocol/client';
+import { CollectionStrategy, createPostWithClient } from './publication';
+import { CollectModules, LensClient } from '@lens-protocol/client';
 
 import { ethers } from 'ethers';
 import { createProfileWithWallet } from './profile';
 import { generateHandle, getProfileUrl } from './utils';
-import { APP_VERSION_TAG } from '@/env';
+import {
+  APP_VERSION_TAG,
+  CURRENCY_LANTANA_ADDRESS,
+  TEST_RECIPIENT_ADDRESS,
+} from '@/env';
 import { asPublicationAttribute } from '@/domain/cause';
 
 jest.setTimeout(5 * 60 * 1000);
 
 // unstable and being rejected sometimes / on CI, to be investigated
-describe.skip('#createPublication', () => {
+describe('#createPublication', () => {
   let wallet: ethers.Wallet;
   let lensClient: LensClient;
   let handle: string;
   let profileId: string;
+
+  const fixture = {
+    imageUrl:
+      'https://pbs.twimg.com/media/Fs4xCTGWYAULIW_?format=jpg&name=large',
+    content: 'Thanks for doing Beach Cleanups',
+    name: 'Happy Volunteering!',
+  };
 
   beforeAll(async () => {
     wallet = ethers.Wallet.createRandom();
@@ -27,21 +38,14 @@ describe.skip('#createPublication', () => {
     profileId = results.profileId;
   });
 
-  test('create', async () => {
-    const imageUrl =
-      'https://pbs.twimg.com/media/Fs4xCTGWYAULIW_?format=jpg&name=large';
-    const content = 'Thanks for doing Beach Cleanups';
-    const name = 'Happy Volunteering!';
-
+  test.skip('create', async () => {
     const mockAttribute = asPublicationAttribute({
       entity: 'cause',
       value: 'beach-cleanup',
     });
     const results = await createPostWithClient(lensClient)(wallet, {
       profileId,
-      imageUrl,
-      content,
-      name,
+      ...fixture,
       attributes: [mockAttribute],
       tags: ['cause-123'],
     });
@@ -54,8 +58,8 @@ describe.skip('#createPublication', () => {
       results,
     );
 
-    expect(results.contentMetadata.content).toEqual(content);
-    expect(results.contentMetadata.name).toEqual(name);
+    expect(results.contentMetadata.content).toEqual(fixture?.content);
+    expect(results.contentMetadata.name).toEqual(fixture?.name);
     //@ts-ignore
     expect(results['reason']).not.toEqual('REJECTED');
 
@@ -67,5 +71,39 @@ describe.skip('#createPublication', () => {
       APP_VERSION_TAG,
       'cause-123',
     ]);
+  });
+
+  test('create with collect strategies', async () => {
+    const lensClient = await loadClientAuthenticated({ wallet });
+    const result = await lensClient.modules.fetchEnabledCurrencies();
+
+    const resultsFree = await createPostWithClient(lensClient)(wallet, {
+      profileId,
+      ...fixture,
+      content: 'with collect free',
+      collectModuleStrategy: CollectionStrategy.Free,
+    });
+    const resultsWmatic = await createPostWithClient(lensClient)(wallet, {
+      profileId,
+      ...fixture,
+      content: 'with collect wmatic',
+      collectModuleStrategy: CollectionStrategy.Wmatic,
+      collectModuleOptions: {
+        recipientAddress: TEST_RECIPIENT_ADDRESS,
+      },
+    });
+
+    // will need to be whitelist first
+    // https://api-sandbox-mumbai.lens.dev/
+
+    // const resultsLantana = await createPostWithClient(lensClient)(wallet, {
+    //   profileId,
+    //   ...fixture,
+    //   content: 'with collect lantana',
+    //   collectModuleStrategy: CollectionStrategy.Lantana,
+    //   collectModuleOptions: {
+    //     recipientAddress: TEST_RECIPIENT_ADDRESS,
+    //   },
+    // });
   });
 });

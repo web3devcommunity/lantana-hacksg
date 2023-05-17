@@ -9,10 +9,14 @@ import { ethers } from 'ethers';
 import { createProfileWithWallet } from '@/libs/lens/profile';
 import { Cause } from './cause';
 import { generateHandle } from '@/libs/lens/utils';
-import { createPostWithClient } from '@/libs/lens/publication';
+import {
+  CollectionStrategy,
+  createPostWithClient,
+} from '@/libs/lens/publication';
 import { mapCauseAsPublication } from './cause';
 import { uploadWithPaths } from '@/libs/storage/file';
 import path from 'path';
+import { TEST_RECIPIENT_ADDRESS } from '@/env';
 // we hijacked the jest runner to execute the data loading
 // which is better done via ts-node .mjs
 
@@ -83,6 +87,10 @@ describe.skip('#demo', () => {
               imageUrl,
               profileId: profileIds[0],
               content: event.descriptionShort || '',
+              collectModuleStrategy: CollectionStrategy.Lantana,
+              collectModuleOptions: {
+                recipientAddress: TEST_RECIPIENT_ADDRESS,
+              },
             });
           }),
         );

@@ -7,7 +7,7 @@ import styled from 'styled-components';
 const StyledConnectButtonWrapper = styled.div`
   .rainbowkit-connect-btn button {
     height: 100px;
-    font-size: 3em;
+    font-size: 1em;
     width: 100%;
     color: black;
     text-decoration: underline;
