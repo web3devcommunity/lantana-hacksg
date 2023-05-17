@@ -1,50 +1,61 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Button } from './Button';
-import { CollectButton } from '@/components/CollectButton';
+import { CollectButtonWrapper } from '@/components/CollectButtonWrapper';
 import { AccountProvider } from '@/components/AccountProvider';
 import { ConnectLens } from '@/components/ConnectLens';
 import { Account } from '@/components/Account';
 import { PUBLICATIONS_RAW } from '@/libs/lens/publication.fixture';
 import React from 'react';
-import { publicationId, usePublication } from '@lens-protocol/react-web';
+import { CURRENCY_LANTANA_ADDRESS, CURRENCY_USDC_ADDRESS, CURRENCY_WMATIC_ADDRESS } from '@/env';
 
-const publication = PUBLICATIONS_RAW[0]
-
+const publicationId = '0x81f0-0x01'
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
-const meta: Meta<typeof CollectButton> = {
-    title: 'Example/CollectButton',
-    component: CollectButton,
+const meta: Meta<typeof CollectButtonWrapper> = {
+    title: 'Example/CollectButtonWrapper',
+    component: CollectButtonWrapper,
     tags: ['autodocs'],
     argTypes: {
-        backgroundColor: {
-            control: 'color',
-        },
     },
     decorators: [
-        (Story) => (
+        (Story, args) => (
             <AccountProvider>
                 <div>
                     <Account />
-                    {/* address:  {JSON.stringify(address)} */}
+                    <a target="_blank" href={"https://testnet.lenster.xyz/posts/" + publicationId}>Lens Url</a>
+
                     <ConnectLens />
                     <div style={{ minHeight: '200px' }}>
                         <Story />
                     </div>
-
                 </div>
-            </AccountProvider>
+            </AccountProvider >
         ),
     ],
 };
 
 export default meta;
-type Story = StoryObj<typeof CollectButton>;
+type Story = StoryObj<typeof CollectButtonWrapper>;
 
-export const Primary: Story = {
+export const Wmatic: Story = {
     args: {
-        publicationId: PUBLICATIONS_RAW[0].id
+        publicationId,
+        currencyAddress: CURRENCY_WMATIC_ADDRESS
+    },
+};
+
+export const Usdc: Story = {
+    args: {
+        publicationId,
+        currencyAddress: CURRENCY_USDC_ADDRESS
+    },
+};
+
+export const Lantana: Story = {
+    args: {
+        publicationId,
+        currencyAddress: CURRENCY_LANTANA_ADDRESS
     },
 };
 

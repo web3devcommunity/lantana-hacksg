@@ -24,6 +24,7 @@ import { ConnectLens } from '@/components/ConnectLens';
 
 const WagmiStateWrapper = ({ children }: { children: React.ReactElement }) => {
   const { address } = useAccount();
+
   // const { isLoading, isSuccess } = useConnect();
 
   return (

@@ -2,7 +2,11 @@ import _ from 'lodash';
 import { loadClientAuthenticated } from './client';
 import { jest, describe, expect, it, beforeAll } from '@jest/globals';
 import { ethers } from 'ethers';
-import { APP_VERSION_TAG } from '../../env';
+import {
+  APP_VERSION_TAG,
+  CURRENCY_WMATIC_ADDRESS,
+  CURRENCY_LANTANA_ADDRESS,
+} from '@/env';
 import {
   LensClient,
   Profile,
@@ -28,6 +32,8 @@ export type PublicationInputBase = {
   metadata?: any;
   content: string;
   tags?: string[];
+  collectModuleStrategy?: CollectionStrategy;
+  collectModuleOptions?: Record<string, any>;
   attributes?: {
     traitType: string;
     value: string;
@@ -176,28 +182,38 @@ export const createComment = async (
 
 export const createCollectModule = (
   strategy: CollectionStrategy,
-  recipientAddress?: string,
+  options: Record<string, any> = {},
 ) => {
+  // supports only 0-100 with 2dp
+  const createBaseFeeCollectModule = (currency: string) => {
+    return {
+      feeCollectModule: {
+        amount: {
+          currency,
+          value: '0.01',
+        },
+        followerOnly: false,
+        /** The collect module recipient address */
+        recipient: options['recipientAddress'],
+        /** The collect module referral fee */
+        referralFee: 0.01,
+      },
+    };
+  };
+
   if (strategy === CollectionStrategy.Disabled) {
     return {
       revertCollectModule: true,
     };
   }
+  //
   if (strategy === CollectionStrategy.Lantana) {
-    return {
-      // feeCollectModule: {
-      //   amount: {
-      //     currency: "0x9c3C9283D3e44854697Cd22D3Faa240Cfb032889",
-      //     value: "0.01",
-      //   },
-      //   followerOnly: false,
-      //   /** The collect module recipient address */
-      //   recipient: recipientAddress,
-      //   /** The collect module referral fee */
-      //   referralFee: 0.2,
-      // },
-    };
+    return createBaseFeeCollectModule(CURRENCY_LANTANA_DDRESS);
   }
+  if (strategy === CollectionStrategy.Wmatic) {
+    return createBaseFeeCollectModule(CURRENCY_WMATIC_ADDRESS);
+  }
+
   return {
     freeCollectModule: {
       followerOnly: false,
@@ -208,8 +224,7 @@ export const createCollectModule = (
 export const createPostWithClient =
   (lensClient: LensClient) =>
   async (wallet: ethers.Wallet, input: PostInput) => {
-    const { profileId, imageUrl } = input;
-    // const lensClient = await loadClientAuthenticated({ wallet });
+    const { profileId, imageUrl, collectModuleOptions = {} } = input;
 
     const contentMetadata = createPublicationMetadataFactory(
       PublicationStrategy.Post,
@@ -235,10 +250,10 @@ export const createPostWithClient =
       await lensClient.publication.createPostViaDispatcher({
         profileId,
         contentURI,
-        collectModule: {
-          revertCollectModule: true, // collect disabled
-        },
-        // collectModule: createCollectModule(CollectionStrategy.Free),
+        collectModule: createCollectModule(
+          input?.collectModuleStrategy || CollectionStrategy.Free,
+          collectModuleOptions,
+        ),
         referenceModule: {
           followerOnlyReferenceModule: false, // anybody can comment or mirror
         },
@@ -256,4 +271,5 @@ export enum CollectionStrategy {
   Free = 'free',
   Disabled = 'disabled',
   Lantana = 'lantana',
+  Wmatic = 'wmatic',
 }

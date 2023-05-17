@@ -9,7 +9,10 @@ import { ethers } from 'ethers';
 import { createProfileWithWallet } from '@/libs/lens/profile';
 import { Cause } from './cause';
 import { generateHandle } from '@/libs/lens/utils';
-import { createPostWithClient } from '@/libs/lens/publication';
+import {
+  CollectionStrategy,
+  createPostWithClient,
+} from '@/libs/lens/publication';
 import { mapCauseAsPublication } from './cause';
 import { uploadWithPaths } from '@/libs/storage/file';
 import path from 'path';
@@ -83,6 +86,10 @@ describe.skip('#demo', () => {
               imageUrl,
               profileId: profileIds[0],
               content: event.descriptionShort || '',
+              collectModuleStrategy: CollectionStrategy.Lantana,
+              collectModuleOptions: {
+                recipientAddress: '0x5CA76c95a877bfE72e837B63464Db191faDe405F',
+              },
             });
           }),
         );
