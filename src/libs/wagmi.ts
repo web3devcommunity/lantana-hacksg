@@ -2,7 +2,7 @@ import { Chain, WagmiConfig, configureChains, createClient } from 'wagmi';
 import { InjectedConnector } from '@wagmi/core/connectors/injected';
 import { getDefaultProvider } from 'ethers';
 import { publicProvider } from '@wagmi/core/providers/public';
-import { mainnet, polygon, optimism } from '@wagmi/core/chains';
+import { polygonMumbai, mainnet, polygon, optimism } from '@wagmi/core/chains';
 
 import {
   argentWallet,
@@ -26,7 +26,8 @@ export const getWagmiClient = ({
 }) => {
   // TODO fix with inject
   const { chains, provider, webSocketProvider } = configureChains(
-    [mainnet, polygon, optimism],
+    // [mainnet, polygon, optimism],
+    [polygonMumbai],
     // [injectedProvider],
     [publicProvider()],
   );
