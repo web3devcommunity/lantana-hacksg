@@ -5,27 +5,19 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Account } from '../components/Account';
 import {
   useAccount,
-  useSigner,
 } from 'wagmi';
 import '../rainbowkit.css';
 import { useEffect, useMemo } from 'react';
 import {
-  LensProvider,
-  useActiveProfile,
   useActiveWallet,
-  useCreateProfile,
-  useWalletLogin,
 } from '@lens-protocol/react-web';
 import { PN_PROJECT_ID, PN_APP_ID } from '@/env';
 import { AccountProvider } from '@/components/AccountProvider';
 import { useWalletLogout } from '@lens-protocol/react-web';
-import { generateHandle } from '@/libs/lens/utils';
 import { ConnectLens } from '@/components/ConnectLens';
 
 const WagmiStateWrapper = ({ children }: { children: React.ReactElement }) => {
   const { address } = useAccount();
-
-  // const { isLoading, isSuccess } = useConnect();
 
   return (
     <div>
@@ -42,9 +34,7 @@ const WagmiStateWrapper = ({ children }: { children: React.ReactElement }) => {
 
 const SignUpWidget = () => {
   const { address, isConnected } = useAccount();
-  const { data: signer, isError, isLoading } = useSigner();
 
-  const { execute: login, error, isPending } = useWalletLogin();
   const { execute: logout } = useWalletLogout();
 
   const { data: activeWallet } = useActiveWallet();
