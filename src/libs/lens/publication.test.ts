@@ -2,12 +2,16 @@ import * as _ from 'lodash';
 import { loadClientAuthenticated } from './client';
 import { jest, describe, test, expect, it, beforeAll } from '@jest/globals';
 import { CollectionStrategy, createPostWithClient } from './publication';
-import { LensClient } from '@lens-protocol/client';
+import { CollectModules, LensClient } from '@lens-protocol/client';
 
 import { ethers } from 'ethers';
 import { createProfileWithWallet } from './profile';
 import { generateHandle, getProfileUrl } from './utils';
-import { APP_VERSION_TAG, TEST_RECIPIENT_ADDRESS } from '@/env';
+import {
+  APP_VERSION_TAG,
+  CURRENCY_LANTANA_ADDRESS,
+  TEST_RECIPIENT_ADDRESS,
+} from '@/env';
 import { asPublicationAttribute } from '@/domain/cause';
 
 jest.setTimeout(5 * 60 * 1000);
@@ -70,6 +74,9 @@ describe('#createPublication', () => {
   });
 
   test('create with collect strategies', async () => {
+    const lensClient = await loadClientAuthenticated({ wallet });
+    const result = await lensClient.modules.fetchEnabledCurrencies();
+
     const resultsFree = await createPostWithClient(lensClient)(wallet, {
       profileId,
       ...fixture,
@@ -85,14 +92,18 @@ describe('#createPublication', () => {
         recipientAddress: TEST_RECIPIENT_ADDRESS,
       },
     });
-    const resultsLantana = await createPostWithClient(lensClient)(wallet, {
-      profileId,
-      ...fixture,
-      content: 'with collect lantana',
-      collectModuleStrategy: CollectionStrategy.Lantana,
-      collectModuleOptions: {
-        recipientAddress: TEST_RECIPIENT_ADDRESS,
-      },
-    });
+
+    // will need to be whitelist first
+    // https://api-sandbox-mumbai.lens.dev/
+
+    // const resultsLantana = await createPostWithClient(lensClient)(wallet, {
+    //   profileId,
+    //   ...fixture,
+    //   content: 'with collect lantana',
+    //   collectModuleStrategy: CollectionStrategy.Lantana,
+    //   collectModuleOptions: {
+    //     recipientAddress: TEST_RECIPIENT_ADDRESS,
+    //   },
+    // });
   });
 });
