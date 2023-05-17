@@ -1,5 +1,4 @@
 import SocialLayout from '@/components/SocialLayout';
-import Image from 'next/image';
 import { Feed } from '../components/Feed';
 import { Typography } from '@mui/material';
 import { APP_VERSION_TAG } from '@/env';
@@ -21,7 +20,10 @@ export default function Discover() {
           Singapore
         </Typography>
         <br />
-        <Feed metadataFilter={appFilter} sortCriteria={PublicationSortCriteria.Latest} />
+        <Feed
+          metadataFilter={appFilter}
+          sortCriteria={PublicationSortCriteria.Latest}
+        />
       </main>
     </SocialLayout>
   );

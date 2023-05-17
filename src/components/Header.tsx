@@ -1,14 +1,12 @@
-import { AppBar, Box, Toolbar, Typography, useMediaQuery } from '@mui/material';
-import { AccountDrawer } from './AccountDrawer';
-import { Account } from './Account';
-
+import { AppBar, Box, Toolbar, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { styled } from 'styled-components';
 import Image from 'next/image';
-import LogoImage from '../../public/logo.png';
 import Link from 'next/link';
+import LogoImage from '../../public/logo.png';
 import { ConnectLens } from './ConnectLens';
+import { AccountDrawer } from './AccountDrawer';
 
 const StyledAppBar = styled(AppBar)`
   color: black;
@@ -32,6 +30,8 @@ export const Header = () => {
             <Link href="/enterprise">Enterprise</Link>
           </Box>
           <Box sx={{ flexGrow: 1 }} />
+
+          <ConnectButton />
           <AccountDrawer>
             <div>
               <Grid container direction="column">
@@ -41,7 +41,8 @@ export const Header = () => {
                   </Typography>
                 </Grid>
                 <Grid item>
-                  <Account />
+                  {/* use the deafult design as above ? */}
+                  <ConnectButton />
                 </Grid>
                 <Grid item sx={{ marginTop: '50px' }}>
                   <ConnectLens />
@@ -51,7 +52,7 @@ export const Header = () => {
           </AccountDrawer>
         </Toolbar>
       </StyledAppBar>
-    </Box >
+    </Box>
   );
 };
 

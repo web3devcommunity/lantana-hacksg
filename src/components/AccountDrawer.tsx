@@ -1,8 +1,8 @@
 import * as React from 'react';
+import IconButton from '@mui/material/IconButton';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import IconButton from '@mui/material/IconButton';
 
 export const AccountDrawer = ({ children }: { children: React.ReactNode }) => {
   const [isOpen, setIsOpen] = React.useState(false);
