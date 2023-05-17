@@ -7,7 +7,7 @@ import { LensClient } from '@lens-protocol/client';
 import { ethers } from 'ethers';
 import { createProfileWithWallet } from './profile';
 import { generateHandle, getProfileUrl } from './utils';
-import { APP_VERSION_TAG } from '@/env';
+import { APP_VERSION_TAG, TEST_RECIPIENT_ADDRESS } from '@/env';
 import { asPublicationAttribute } from '@/domain/cause';
 
 jest.setTimeout(5 * 60 * 1000);
@@ -82,7 +82,16 @@ describe('#createPublication', () => {
       content: 'with collect wmatic',
       collectModuleStrategy: CollectionStrategy.Wmatic,
       collectModuleOptions: {
-        recipientAddress: '0x5CA76c95a877bfE72e837B63464Db191faDe405F',
+        recipientAddress: TEST_RECIPIENT_ADDRESS,
+      },
+    });
+    const resultsLantana = await createPostWithClient(lensClient)(wallet, {
+      profileId,
+      ...fixture,
+      content: 'with collect lantana',
+      collectModuleStrategy: CollectionStrategy.Lantana,
+      collectModuleOptions: {
+        recipientAddress: TEST_RECIPIENT_ADDRESS,
       },
     });
   });

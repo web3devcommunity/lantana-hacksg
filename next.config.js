@@ -18,7 +18,7 @@ module.exports = withTM({
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "*",
+        hostname: "**",
       },
     ],
   },

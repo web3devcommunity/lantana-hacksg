@@ -208,7 +208,7 @@ export const createCollectModule = (
   }
   //
   if (strategy === CollectionStrategy.Lantana) {
-    return createBaseFeeCollectModule(CURRENCY_LANTANA_DDRESS);
+    return createBaseFeeCollectModule(CURRENCY_LANTANA_ADDRESS);
   }
   if (strategy === CollectionStrategy.Wmatic) {
     return createBaseFeeCollectModule(CURRENCY_WMATIC_ADDRESS);

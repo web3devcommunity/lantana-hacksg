@@ -16,6 +16,7 @@ import {
 import { mapCauseAsPublication } from './cause';
 import { uploadWithPaths } from '@/libs/storage/file';
 import path from 'path';
+import { TEST_RECIPIENT_ADDRESS } from '@/env';
 // we hijacked the jest runner to execute the data loading
 // which is better done via ts-node .mjs
 
@@ -88,7 +89,7 @@ describe.skip('#demo', () => {
               content: event.descriptionShort || '',
               collectModuleStrategy: CollectionStrategy.Lantana,
               collectModuleOptions: {
-                recipientAddress: '0x5CA76c95a877bfE72e837B63464Db191faDe405F',
+                recipientAddress: TEST_RECIPIENT_ADDRESS,
               },
             });
           }),
