@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import * as _ from 'lodash';
 import { jest, describe, test, expect, it, beforeAll } from '@jest/globals';
 import { mapPublicationAsEvent } from './event';
 import { PUBLICATIONS_RAW } from '../libs/lens/publication.fixture';

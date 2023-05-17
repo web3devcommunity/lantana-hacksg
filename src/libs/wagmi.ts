@@ -1,9 +1,8 @@
-import { WagmiConfig, configureChains, createClient } from 'wagmi';
+import { Chain, WagmiConfig, configureChains, createClient } from 'wagmi';
 import { InjectedConnector } from '@wagmi/core/connectors/injected';
 import { getDefaultProvider } from 'ethers';
 import { publicProvider } from '@wagmi/core/providers/public';
 import { mainnet, polygon, optimism } from '@wagmi/core/chains';
-import { particleWallet } from '@particle-network/rainbowkit-ext';
 
 import {
   argentWallet,
@@ -17,10 +16,14 @@ import {
   trustWallet,
   walletConnectWallet,
 } from '@rainbow-me/rainbowkit/wallets';
-import { connectorsForWallets } from '@rainbow-me/rainbowkit';
+import { Wallet, connectorsForWallets } from '@rainbow-me/rainbowkit';
 
 // TODO lazy create
-export const getWagmiClient = () => {
+export const getWagmiClient = ({
+  wallletsFactory = () => [],
+}: {
+  wallletsFactory?: ({ chains }: { chains: Chain[] }) => Wallet[];
+}) => {
   // TODO fix with inject
   const { chains, provider, webSocketProvider } = configureChains(
     [mainnet, polygon, optimism],
@@ -28,13 +31,11 @@ export const getWagmiClient = () => {
     [publicProvider()],
   );
 
+  const wallets = wallletsFactory({ chains });
   const popularWallets = {
     groupName: 'Popular',
     wallets: [
-      // particleWallet({ chains, authType: "google" }),
-      // particleWallet({ chains, authType: "facebook" }),
-      // particleWallet({ chains, authType: "apple" }),
-      // particleWallet({ chains }),
+      ...wallets,
       injectedWallet({ chains }),
       // rainbowWallet({ chains }),
       // coinbaseWallet({ appName: "RainbowKit demo", chains }),

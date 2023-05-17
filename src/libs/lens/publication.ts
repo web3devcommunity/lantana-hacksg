@@ -14,7 +14,6 @@ import {
 } from '@lens-protocol/client';
 import { v4 as uuidv4 } from 'uuid';
 
-import { EthereumAddress } from '@lens-protocol/react-web';
 import { uploadWithValues } from '../storage/file';
 import { RelayerResult } from '@lens-protocol/client/dist/declarations/src/graphql/types.generated';
 
@@ -29,6 +28,10 @@ export type PublicationInputBase = {
   metadata?: any;
   content: string;
   tags?: string[];
+  attributes?: {
+    traitType: string;
+    value: string;
+  }[];
   stats?: any;
   id?: string;
 };
@@ -43,18 +46,23 @@ export type CommentInput = PublicationInputBase & {
 
 type PublicationInput = PostInput | CommentInput;
 
+// tags can be added but not returned at query (confirmed via MetadataOutput)
+// Need both tag for filtering and attribute for display and in future use address over key for relationships
 export const createPublicationMetadataFactory = (
   strategy: PublicationStrategy,
-  { metadata, imageUrl, content, name, tags }: PublicationInput,
+  {
+    metadata,
+    imageUrl,
+    content,
+    name,
+    attributes = [],
+    tags = [],
+  }: PublicationInput,
 ) => {
   const baseMetadata = {
     // version: PublicationMetadataVersions.one,
     attributes: [
-      // {
-      //   displayType: PublicationMetadataDisplayTypes.String,
-      //   traitType: "Created with",
-      //   value: "LensClient SDK",
-      // },
+      ...attributes,
       {
         displayType: PublicationMetadataDisplayTypes.String,
         traitType: 'Created with',

@@ -12,6 +12,9 @@ import { loadClientAuthenticated } from './client';
 // - query ownedby wallet address to find latest created
 // - poll txn until indexed to get profileid
 
+// TODO fix type from sdk
+export type LensPublication = any;
+
 // replies
 export const getProfileUrl = (handle: string, type = 'profile') => {
   const lensterUrl =
@@ -71,4 +74,11 @@ export const setDispatcher =
 
 export const generateHandle = (handlePrefix = 'lantanatestuser') => {
   return handlePrefix + _.random(1, 10000);
+};
+
+export const withIpfsGateway = (url: string) => {
+  if (url.startsWith('ipfs://')) {
+    return url.replace('ipfs://', 'https://ipfs.io/ipfs/');
+  }
+  return url;
 };

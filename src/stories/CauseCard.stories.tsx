@@ -5,8 +5,6 @@ import { TEST_CAUSES } from '@/domain/cause.fixture';
 import { createConfig } from '@/components/lens-binding';
 import { AccountProvider } from '@/components/AccountProvider';
 
-const lensConfig = createConfig();
-
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta: Meta<typeof CauseCard> = {
   title: 'Example/CauseCard',

@@ -27,6 +27,7 @@ import { useActiveProfile, useCollect } from '@lens-protocol/react-web';
 import { EventInput, Event } from '@/domain/event';
 import { AvatarGroup } from '@mui/material';
 import { User } from '@/domain/user';
+import { withIpfsGateway } from '@/libs/lens/utils';
 
 // decouple lens specific actions / api from presentation
 export const EventCard = ({
@@ -41,6 +42,7 @@ export const EventCard = ({
   const { data, error, loading } = useActiveProfile();
   const collector = data!;
 
+  const imageUrl = withIpfsGateway(event.imageUrl);
   const displayedDate = format(event.date, 'MM/dd/yyyy HH:mm');
 
   return (
@@ -57,7 +59,7 @@ export const EventCard = ({
         <CardMedia
           component="img"
           height="194"
-          image={event.imageUrl}
+          image={imageUrl}
           alt="Post Image"
         />
       )}

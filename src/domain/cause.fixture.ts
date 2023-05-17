@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { Cause, CauseInput } from './cause';
 import { Event, EventInput, asEvent } from './event';
 import { TEST_USERS_RAW } from './user.fixture';
+import { APP_DEFAULT_LOGO_URL } from '@/env';
 
 export const TEST_CAUSES_RAW: CauseInput[] = [
   {
@@ -95,9 +96,7 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
 export const asCause = (causeInput: CauseInput): Cause => {
   return {
     ...causeInput,
-    imageUrl:
-      causeInput.imageUrl ||
-      'https://github.com/lens-protocol/lens-sdk/assets/1883877/1815c300-6833-4d4b-8e25-049f94b783f0',
+    imageUrl: causeInput.imageUrl || APP_DEFAULT_LOGO_URL,
     descriptionShort: causeInput.descriptionShort || '',
     volunteers: causeInput.volunteers || [],
     events: causeInput.events.map(asEvent),

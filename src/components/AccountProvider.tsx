@@ -1,10 +1,9 @@
-import { CauseCard } from '../components/CauseCard';
+import React from 'react';
 import { WagmiConfig } from 'wagmi';
 import { createConfig } from '@/components/lens-binding';
 import { useParticleNetworkWagmi } from './hooks/pn-wagmi';
 import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { LensProvider } from '@lens-protocol/react-web';
-import React from 'react';
 
 const lensConfig = createConfig();
 

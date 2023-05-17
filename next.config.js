@@ -9,9 +9,18 @@ const withTM = require('next-transpile-modules')([
 ]);
 
 module.exports = withTM({
+  output: 'standalone',
   eslint: {
     // do not run on stories during build
     dirs: ['pages', 'libs', 'domain', 'app', 'components'],
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
   },
 
   webpack: (config, { webpack }) => {

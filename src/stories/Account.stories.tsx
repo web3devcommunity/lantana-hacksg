@@ -20,6 +20,7 @@ import { PN_PROJECT_ID, PN_APP_ID } from '@/env';
 import { AccountProvider } from '@/components/AccountProvider';
 import { useWalletLogout } from '@lens-protocol/react-web';
 import { generateHandle } from '@/libs/lens/utils';
+import { ConnectLens } from '@/components/ConnectLens';
 
 const WagmiStateWrapper = ({ children }: { children: React.ReactElement }) => {
   const { address } = useAccount();
@@ -37,59 +38,6 @@ const WagmiStateWrapper = ({ children }: { children: React.ReactElement }) => {
   );
 };
 
-const SignUpWithActiveProfile = () => {
-  const { address, isConnected } = useAccount();
-
-  const { execute: create } = useCreateProfile();
-  const { data: signer, isError, isLoading } = useSigner();
-  const activeProfileResults = useActiveProfile();
-  const { execute: login, error, isPending } = useWalletLogin();
-  const profile = activeProfileResults?.data!;
-  return (
-    <div>
-      Lens {profile?.id} {profile?.handle} <br />
-      <button
-        onClick={() => {
-          // after login, use sdk to load client will not be able the track the authenticated lens client
-          if (address) {
-            login(signer!).then(async (loginResult) => {
-              // check if exists
-
-              console.log('loaded', profile);
-              if (profile?.handle) {
-                console.log(
-                  'user profile already exists',
-                  address,
-                  profile?.id,
-                  profile?.handle,
-                );
-                return;
-              }
-              console.log('user profile not found', address, profile);
-              const handle = generateHandle();
-              const createResults = await create({ handle });
-              // createdResults do not return profile id and profile is not refreshed either
-              // should query explicitly
-              // await saveAccount({
-              //     walletAddress: address,
-              //     lensProfileId: profile.id,
-              //     lensHandle: profile.handle
-              // });
-
-              console.log(
-                'generated account with handle',
-                handle,
-                createResults,
-              );
-            });
-          }
-        }}
-      >
-        Force Sign up
-      </button>
-    </div>
-  );
-};
 
 const SignUpWidget = () => {
   const { address, isConnected } = useAccount();
@@ -105,10 +53,8 @@ const SignUpWidget = () => {
   useEffect(() => {
     console.log('isConnected', isConnected, address, activeWallet?.address);
     if (isConnected) {
-      if (address !== activeWallet?.address) {
-        // now always refresh profile
-        // TODO we cant tell from the lens.development.activeProfiles alone
-        // should check against lens.development.wallets in localstorage
+      if (activeWallet && address !== activeWallet?.address) {
+        // there are times lens.development.activeProfiles / lens.development.wallets in localstorage not matching current ui state
         // find profile from cache and reset if not matching, (via e.g. restart) if there is error  "Pofile not owned by the active wallet"
         // happens when re-connecting wallet with different address
         logout().then(() => {
@@ -125,7 +71,7 @@ const SignUpWidget = () => {
   }
 
   // seems lens load from cache even wallet not collected / using another wallet
-  return <SignUpWithActiveProfile />;
+  return <ConnectLens />;
 };
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction

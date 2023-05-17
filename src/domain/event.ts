@@ -1,8 +1,11 @@
+import * as _ from 'lodash';
 import { parseISO } from 'date-fns';
 import { User } from './user';
 import { PublicationFragment } from '@lens-protocol/client';
 import { PublicationInputBase } from '@/libs/lens/publication';
 import { findEntityTag, formatEntityTag, parseEntityTag } from './cause';
+import { APP_DEFAULT_LOGO_URL } from '@/env';
+import { LensPublication } from '@/libs/lens/utils';
 
 export type Event = {
   key: string;
@@ -10,7 +13,7 @@ export type Event = {
   causeKey?: string;
   title: string;
   date: Date;
-  imageUrl?: string;
+  imageUrl: string;
   descriptionShort: string;
   stats: any;
   publicationId?: string;
@@ -32,16 +35,13 @@ export type EventInput = {
   volunteersCount: number;
 };
 
-// TODO fix type from sdk
-export type LensPublication = any;
-
 export const mapPublicationAsEvent = (publication: LensPublication): Event => {
-  const tags = publication?.metadata?.tags || [];
-
-  const causeTag = findEntityTag(tags, 'cause');
+  const causeKey = publication.metadata.attributes.find(
+    (a: any) => a?.traitType === 'cause',
+  )?.value;
 
   return {
-    causeKey: parseEntityTag(causeTag || '')?.key,
+    causeKey,
     title: publication?.metadata?.name,
     date: parseISO(publication?.createdAt) || new Date(),
     // date: publication,
@@ -76,7 +76,7 @@ export const asEvent = (event: EventInput): Event => {
     key: event.key,
     title: event.title!,
     date: parseISO(event.date!),
-    imageUrl: event.imageUrl || '',
+    imageUrl: event.imageUrl || APP_DEFAULT_LOGO_URL,
     descriptionShort: event.descriptionShort || '',
     stats: {},
     publicationId: event.publicationId,
