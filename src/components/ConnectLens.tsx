@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { useActiveProfile, useCreateProfile, useWalletLogin } from '@lens-protocol/react-web';
 import { useAccount, useSigner } from 'wagmi';
 import { generateHandle } from '@/libs/lens/utils';
+import componentStyleOverrides from '@/themes/compStyleOverride';
 
 // TODO group by upcoming vs past events
 export const ConnectLens = () => {
@@ -17,15 +18,14 @@ export const ConnectLens = () => {
 
     return (
         <div>
-
-            {profile ? <div>
+            {address && profile?.handle ? <div>
                 Lens:  {profile?.handle}
             </div> : (
                 <Button
                     onClick={() => {
                         // after login, use sdk to load client will not be able the track the authenticated lens client
                         if (address) {
-                            login(signer!).then(async (loginResult) => {
+                            login(signer!).then(async () => {
                                 // check if exists
                                 if (profile?.handle) {
                                     return;

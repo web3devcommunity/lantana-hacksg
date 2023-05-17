@@ -31,11 +31,11 @@ export const getWagmiClient = ({
     [publicProvider()],
   );
 
+  const wallets = wallletsFactory({ chains });
   const popularWallets = {
     groupName: 'Popular',
     wallets: [
-      ...wallletsFactory({ chains }),
-
+      ...wallets,
       injectedWallet({ chains }),
       // rainbowWallet({ chains }),
       // coinbaseWallet({ appName: "RainbowKit demo", chains }),
@@ -49,7 +49,6 @@ export const getWagmiClient = ({
     {
       groupName: 'Other',
       wallets: [
-        ...wallets,
         argentWallet({ chains }),
         trustWallet({ chains }),
         omniWallet({ chains }),

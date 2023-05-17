@@ -20,6 +20,7 @@ import { PN_PROJECT_ID, PN_APP_ID } from '@/env';
 import { AccountProvider } from '@/components/AccountProvider';
 import { useWalletLogout } from '@lens-protocol/react-web';
 import { generateHandle } from '@/libs/lens/utils';
+import { ConnectLens } from '@/components/ConnectLens';
 
 const WagmiStateWrapper = ({ children }: { children: React.ReactElement }) => {
   const { address } = useAccount();
@@ -37,62 +38,6 @@ const WagmiStateWrapper = ({ children }: { children: React.ReactElement }) => {
   );
 };
 
-const SignUpWithActiveProfile = () => {
-  const { address, isConnected } = useAccount();
-
-  const { execute: create } = useCreateProfile();
-  const { data: signer, isError, isLoading } = useSigner();
-  const activeProfileResults = useActiveProfile();
-  const { execute: login, error, isPending } = useWalletLogin();
-  const profile = activeProfileResults?.data!;
-
-  // active profile is null before login again, useProfilesOwnedByMe also cant be use
-  return (
-    <div>
-      Lens {profile?.id} {profile?.handle} <br />
-      <button
-        onClick={() => {
-          // after login, use sdk to load client will not be able the track the authenticated lens client
-          if (address) {
-            console.log('loaded', address, profile);
-            login(signer!).then(async (loginResult) => {
-              // check if exists
-
-
-              if (profile?.handle) {
-                console.log(
-                  'user profile already exists',
-                  address,
-                  profile?.id,
-                  profile?.handle,
-                );
-                return;
-              }
-              console.log('user profile not found', address, profile);
-              const handle = generateHandle();
-              const createResults = await create({ handle });
-              // createdResults do not return profile id and profile is not refreshed either
-              // should query explicitly
-              // await saveAccount({
-              //     walletAddress: address,
-              //     lensProfileId: profile.id,
-              //     lensHandle: profile.handle
-              // });
-
-              console.log(
-                'generated account with handle',
-                handle,
-                createResults,
-              );
-            });
-          }
-        }}
-      >
-        Connect Lens
-      </button>
-    </div>
-  );
-};
 
 const SignUpWidget = () => {
   const { address, isConnected } = useAccount();
@@ -126,7 +71,7 @@ const SignUpWidget = () => {
   }
 
   // seems lens load from cache even wallet not collected / using another wallet
-  return <SignUpWithActiveProfile />;
+  return <ConnectLens />;
 };
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction

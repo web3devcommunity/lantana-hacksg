@@ -23,7 +23,6 @@ ENV PORT=3000
 RUN useradd -r -u 1001 -g root lantana
 
 COPY --from=builder /app/public ./public
-
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=lantana:root /app/.next/standalone ./
