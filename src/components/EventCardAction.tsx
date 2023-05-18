@@ -1,21 +1,11 @@
 import CardActions from '@mui/material/CardActions';
-
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Image from 'next/image';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { format, compareAsc, parseISO } from 'date-fns';
-import RecommendIcon from '@mui/icons-material/Recommend';
-import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
-import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
-import CommentIcon from '@mui/icons-material/Comment';
 import PaidIcon from '@mui/icons-material/Paid';
-
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
+import CommentIcon from '@mui/icons-material/Comment';
+import TwitterIcon from '@mui/icons-material/Twitter';
 import { useActiveProfile, useCollect } from '@lens-protocol/react-web';
 
 export const EventCardActions = ({ publication }: { publication: any }) => {
@@ -23,25 +13,38 @@ export const EventCardActions = ({ publication }: { publication: any }) => {
   console.log('active profile, data', data, loading);
   const collector = data!;
   const operations = useCollect({ collector, publication });
-  const onSupportClicked = (evt: any) => {
+  const onSupportClicked = (event: any) => {
     operations.execute();
   };
 
+  // change the share link to respective cause
   return (
     <CardActions>
       <IconButton aria-label="vote up">
         <FavoriteIcon />
       </IconButton>
-      <IconButton onClick={(evt) => onSupportClicked(evt)} aria-label="support">
+      <IconButton
+        onClick={(event) => onSupportClicked(event)}
+        aria-label="support"
+      >
         <VolunteerActivismIcon />
       </IconButton>
-
-      <IconButton aria-label="share">
+      <IconButton
+        aria-label="share-to-lenster"
+        target="_blank"
+        href="https://lenster.xyz?text=Check%20out%20this%20cause&url=https://lantana.social/cause&via=Lantana&hashtags=lantana,lens,web3"
+      >
         <ShareIcon />
       </IconButton>
+      <IconButton
+        aria-label="share-to-twitter"
+        target="_blank"
+        href="https://twitter.com/intent/tweet?text=Check%20out%20this%20cause&url=https://lantana.social/cause&via=Lantana&hashtags=lantana,lens,web3"
+      ><TwitterIcon /></IconButton>
+
       {/* <IconButton aria-label="collect">
-                    <BookmarkAddIcon />
-                </IconButton> */}
+        <BookmarkAddIcon />
+      </IconButton> */}
       <IconButton aria-label="stake">
         <PaidIcon />
       </IconButton>

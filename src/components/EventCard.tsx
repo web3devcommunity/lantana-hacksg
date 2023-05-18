@@ -39,11 +39,12 @@ export const EventCard = ({
   actions?: any;
   isThumbnailOnly?: boolean;
 }) => {
-  const { data, error, loading } = useActiveProfile();
+  const { data } = useActiveProfile();
   const collector = data!;
 
-  const imageUrl = withIpfsGateway(event.imageUrl);
+  const imageUrl = withIpfsGateway(event.imageUrl || '');
   const displayedDate = format(event.date, 'MM/dd/yyyy HH:mm');
+
 
   return (
     <Card sx={{ maxWidth: 345 }}>

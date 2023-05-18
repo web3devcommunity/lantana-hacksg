@@ -6,6 +6,8 @@ import { c } from '@wagmi/cli/dist/config-c09a23a5';
 import { PublicationMetadataDisplayTypes } from '@lens-protocol/client';
 import { LensPublication, withIpfsGateway } from '@/libs/lens/utils';
 import { parseISO } from 'date-fns';
+import { TEST_USERS_RAW } from './user.fixture';
+import { Entity } from './entity';
 
 export type CauseOrganizer = {
   title: string;
@@ -56,7 +58,7 @@ export const mapCauseAsPublication = (cause: Cause) => {
   const { key, title, descriptionShort, imageUrl } = cause;
   const kvs = [
     {
-      entity: 'cause',
+      entity: Entity.Cause,
       value: key,
     },
   ];
@@ -77,7 +79,7 @@ export const mapPublicationAsCause = (publication: LensPublication): Cause => {
   const tags = publication?.metadata?.tags || [];
 
   const key = publication.metadata.attributes.find(
-    (a: any) => a?.traitType === 'cause',
+    (a: any) => a?.traitType === Entity.Cause,
   )?.value;
 
   return {
@@ -93,7 +95,7 @@ export const mapPublicationAsCause = (publication: LensPublication): Cause => {
     // publicationId: publication.id,
     // TODO load from followers
     // volunteers: event.volunteers,
-    volunteers: [{ name: 'josh' }],
+    volunteers: _.take(TEST_USERS_RAW, 5),
     // TODO load from attributes
     // volunteersCount: event.volunteersCount,
     volunteersCount: 234,
