@@ -23,26 +23,34 @@ const goals = [
 const Dashboard = () => {
   return (
     <EnterpriseLayout>
-      <div style={{ padding: '16px' }}>
+      <div style={{ padding: '16px', backgroundColor: '#5A5A6610' }}>
         {/* Top Row */}
         <Grid container spacing={2}>
           <Grid item xs={3}>
-            <Box sx={{ p: 2, bgcolor: '#ffffff', borderRadius: '4px' }}>
-              <Typography variant="h6">SynTech's Sustainability pledges for 2023</Typography>
-              <Typography variant="h3">72.23%</Typography>
-              <Typography variant="caption">Overall progress</Typography>
+            <Box sx={{ p: 2, m: '1rem', borderRadius: '4px' }}>
+              <Typography variant="h5" sx={{ marginBottom: '2rem' }}>SynTech's Sustainability pledges for 2023</Typography>
+              <Typography variant="h2">72.23%</Typography>
+              <Typography variant="subtitle1">Overall progress</Typography>
             </Box>
           </Grid>
           <Grid item xs={9}>
-            <Box sx={{ p: 2, bgcolor: '#ffffff', borderRadius: '4px' }}>
+            <Box sx={{ p: 2, m: '1rem' }}>
               <Grid container spacing={2}>
                 {stats.map((stat) => (
-                  <Grid item xs={4} key={stat.title}>
-                    <Box>
-                      <Typography variant="h6">{stat.title} {stat.icon}</Typography>
-                      <Image src={stat.image} alt="Progress" width={128} height={128} />
-                      <Typography variant="body2">Topics: {stat.topics}</Typography>
-                      <Typography variant="body2">Top Level Goals: {stat.goals}</Typography>
+                  <Grid item xs={4} key={stat.title} >
+                    <Box sx={{ bgcolor: '#ffffff', borderRadius: '4px', p: '1rem', marginX: '0.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                      <Typography variant="subtitle1" sx={{ marginBottom: '1rem' }}>{stat.title} {stat.icon}</Typography>
+                      <Image src={stat.image} alt="Progress" width={150} height={150} />
+                      <Box sx={{ width: '90%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: '1rem' }}>
+                        <Box sx={{ flexDirection: 'column', textAlign: 'center' }}>
+                          <Typography variant="body2">Topics</Typography>
+                          <Typography variant="h6">{stat.topics}</Typography>
+                        </Box>
+                        <Box sx={{ flexDirection: 'column', textAlign: 'center' }}>
+                          <Typography variant="body2">Top Level Goals</Typography>
+                          <Typography variant="h6">{stat.goals}</Typography>
+                        </Box>
+                      </Box>
                     </Box>
                   </Grid>
                 ))}
@@ -54,13 +62,13 @@ const Dashboard = () => {
         {/* Bottom Row */}
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <Box sx={{ p: 2, bgcolor: '#ffffff', borderRadius: '4px' }}>
+            <Box sx={{ p: 2, m: '1rem', bgcolor: '#ffffff', borderRadius: '4px' }}>
               <Typography variant="h6">Supported Causes</Typography>
               <TableContainer component={Paper}>
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell>Categories</TableCell>
+                      <TableCell></TableCell>
                       <TableCell>FY20</TableCell>
                       <TableCell>FY21</TableCell>
                       <TableCell>FY22</TableCell>
@@ -103,19 +111,20 @@ const Dashboard = () => {
             </Box>
           </Grid>
           <Grid item xs={3}>
-            <Box sx={{ p: 2, bgcolor: '#ffffff', borderRadius: '4px' }}>
+            <Box sx={{ p: 2, m: '1rem', bgcolor: '#ffffff', borderRadius: '4px' }}>
               <Typography variant="h6">ESG Maturity Levels Compared to Others</Typography>
-              <Image src={MaturityImage} alt="Maturity Levels" width={202} height={233} />
+              <Box sx={{ display: 'flex', justifyContent: 'center', marginY: '1rem' }}>
+                <Image src={MaturityImage} alt="Maturity Levels" width={202} height={233} />
+              </Box>
             </Box>
           </Grid>
           <Grid item xs={3}>
-            <Box sx={{ p: 2, bgcolor: '#ffffff', borderRadius: '4px' }}>
+            <Box sx={{ p: 2, m: '1rem', bgcolor: '#ffffff', borderRadius: '4px' }}>
               <Typography variant="h6">Top Level Goals</Typography>
               {goals.map((goal) => (
                 <Box key={goal.description} marginBottom={'0.5rem'}>
-                  <Typography variant="body2">{goal.type}</Typography>
                   {/* @ts-ignore */}
-                  <Chip label={goal.status} color={goal.color} />
+                  <Typography variant="body2">{goal.type} <Chip label={goal.status} color={goal.color} size='small' /></Typography>
                   <Typography variant="body2">{goal.description}</Typography>
                 </Box>
               ))}
