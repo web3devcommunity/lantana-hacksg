@@ -1,0 +1,40 @@
+---
+applications:
+  - name: lantana
+    instance: 2
+    memory: 2GB
+    docker:
+      image: docker.io/((DOCKER_USERNAME))/lantana:latest
+    routes:
+      - route: https://lantana.apps.tas.tz-hackathon.net
+        protocol: http2
+    env:
+      NEXT_PUBLIC_PN_PROJECT_ID: ((NEXT_PUBLIC_PN_PROJECT_ID))
+      NEXT_PUBLIC_PN_CLIENT_KEY: ((NEXT_PUBLIC_PN_CLIENT_KEY))
+      NEXT_PUBLIC_PN_APP_ID: ((NEXT_PUBLIC_PN_APP_ID))
+      PN_SERVER_KEY: ((PN_SERVER_KEY))
+      NFT_STORAGE_TOKEN: ((NFT_STORAGE_TOKEN))
+      WEB3_STORAGE_TOKEN: ((WEB3_STORAGE_TOKEN))
+      ALCHEMY_API_TOKEN_OPTIMISM: ((ALCHEMY_API_TOKEN_OPTIMISM))
+      NEXT_PUBLIC_ALCHEMY_API_TOKEN: ((NEXT_PUBLIC_ALCHEMY_API_TOKEN))
+      TEST_PRIVATE_KEY: ((TEST_PRIVATE_KEY))
+      TEST_ACCOUNT_ADDRESS: ((TEST_ACCOUNT_ADDRESS))
+  - name: dev-lantana
+    instance: 1
+    memory: 1GB
+    docker:
+      image: docker.io/((DOCKER_USERNAME))/lantana:test
+    routes:
+      - route: https://dev-lantana.apps.tas.tz-hackathon.net
+        protocol: http2
+    env:
+      NEXT_PUBLIC_PN_PROJECT_ID: ((NEXT_PUBLIC_PN_PROJECT_ID))
+      NEXT_PUBLIC_PN_CLIENT_KEY: ((NEXT_PUBLIC_PN_CLIENT_KEY))
+      NEXT_PUBLIC_PN_APP_ID: ((NEXT_PUBLIC_PN_APP_ID))
+      PN_SERVER_KEY: ((PN_SERVER_KEY))
+      NFT_STORAGE_TOKEN: ((NFT_STORAGE_TOKEN))
+      WEB3_STORAGE_TOKEN: ((WEB3_STORAGE_TOKEN))
+      ALCHEMY_API_TOKEN_OPTIMISM: ((ALCHEMY_API_TOKEN_OPTIMISM))
+      NEXT_PUBLIC_ALCHEMY_API_TOKEN: ((NEXT_PUBLIC_ALCHEMY_API_TOKEN))
+      TEST_PRIVATE_KEY: ((TEST_PRIVATE_KEY))
+      TEST_ACCOUNT_ADDRESS: ((TEST_ACCOUNT_ADDRESS))
