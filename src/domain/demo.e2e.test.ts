@@ -30,7 +30,7 @@ const withInternetUrl = async (url: string) => {
 };
 
 jest.setTimeout(60 * 1000);
-describe.skip('#demo', () => {
+describe('#demo', () => {
   const TOTAL_PROFILES_COUNT = 1;
   let lensClient: LensClient;
   let wallets: ethers.Wallet[] = Array(TOTAL_PROFILES_COUNT);
@@ -87,7 +87,7 @@ describe.skip('#demo', () => {
               imageUrl,
               profileId: profileIds[0],
               content: event.descriptionShort || '',
-              collectModuleStrategy: CollectionStrategy.Lantana,
+              collectModuleStrategy: CollectionStrategy.Wmatic,
               collectModuleOptions: {
                 recipientAddress: TEST_RECIPIENT_ADDRESS,
               },
