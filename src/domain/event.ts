@@ -3,7 +3,12 @@ import { parseISO } from 'date-fns';
 import { User } from './user';
 import { PublicationFragment } from '@lens-protocol/client';
 import { PublicationInputBase } from '@/libs/lens/publication';
-import { findEntityTag, formatEntityTag, parseEntityTag } from './cause';
+import {
+  asPublicationAttribute,
+  findEntityTag,
+  formatEntityTag,
+  parseEntityTag,
+} from './cause';
 import { APP_DEFAULT_LOGO_URL } from '@/env';
 import { LensPublication } from '@/libs/lens/utils';
 import { TEST_USERS_RAW } from './user.fixture';
@@ -62,10 +67,23 @@ export const mapPublicationAsEvent = (publication: LensPublication): Event => {
 };
 
 export const mapEventAsPublication = (event: Event) => {
+  const kvs = [
+    {
+      entity: Entity.Cause,
+      value: event.causeKey!,
+    },
+    {
+      entity: Entity.Event,
+      value: event.key,
+    },
+  ];
+  const attributes = kvs.map(asPublicationAttribute);
+
   return {
     name: event.title,
     content: event.descriptionShort,
     imageUrl: event.imageUrl,
+    attributes,
     tags: [
       formatEntityTag(Entity.Event, Entity.Lantana),
       formatEntityTag(event.key, Entity.Event),

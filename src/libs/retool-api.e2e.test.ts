@@ -1,11 +1,15 @@
-import { invokeAiEsgRecommendations, invokeCreateUser } from './retool-api';
+import {
+  invokeAiEsgRecommendations,
+  invokeCreateUser,
+  invokeGetCompaniesInfo,
+} from './retool-api';
 import { Experimental_CssVarsProvider } from '@mui/material';
 import { jest, describe, expect, it, beforeAll } from '@jest/globals';
 import { ethers } from 'ethers';
 import { generateHandle } from './lens/utils';
 
 jest.setTimeout(60 * 1000);
-describe.skip('retool-api', () => {
+describe('retool-api', () => {
   it('#invokeAiEsgRecommendations', async () => {
     const res = await invokeAiEsgRecommendations();
     const results = await res.json();
@@ -24,5 +28,13 @@ describe.skip('retool-api', () => {
     const res2 = await invokeCreateUser(wallet.address, profileId, handle);
     const results2 = await res2.json();
     expect(res2.status).toEqual(500);
+  });
+
+  it('#invokeGetCompaniesInfo', async () => {
+    const res = await invokeGetCompaniesInfo(['1']);
+
+    const results = await res.json();
+    console.log('results causes', results.companies[0].metadata.causes);
+    expect(typeof results.companies[0].metadata.causes[0]).toEqual('string');
   });
 });

@@ -37,7 +37,7 @@ const FeedItemsWrapper = styled.div`
   }
 `;
 
-const FeedItems = ({ publications }: { publications: any[] }) => {
+export const FeedItems = ({ publications }: { publications: any[] }) => {
   return (
     <FeedItemsWrapper>
       <Grid container spacing={6}>
