@@ -87,7 +87,7 @@ describe.skip('#demo', () => {
               imageUrl,
               profileId: profileIds[0],
               content: event.descriptionShort || '',
-              collectModuleStrategy: CollectionStrategy.Lantana,
+              collectModuleStrategy: CollectionStrategy.Wmatic,
               collectModuleOptions: {
                 recipientAddress: TEST_RECIPIENT_ADDRESS,
               },

@@ -6,6 +6,8 @@ import { PublicationInputBase } from '@/libs/lens/publication';
 import { findEntityTag, formatEntityTag, parseEntityTag } from './cause';
 import { APP_DEFAULT_LOGO_URL } from '@/env';
 import { LensPublication } from '@/libs/lens/utils';
+import { TEST_USERS_RAW } from './user.fixture';
+import { Entity } from './entity';
 
 export type Event = {
   key: string;
@@ -52,7 +54,7 @@ export const mapPublicationAsEvent = (publication: LensPublication): Event => {
     key: 'beach-cleanup-sg',
     // TODO load from followers
     // volunteers: event.volunteers,
-    volunteers: [{ name: 'josh' }],
+    volunteers: _.take(TEST_USERS_RAW, 5),
     // TODO load from attributes
     // volunteersCount: event.volunteersCount,
     volunteersCount: 234,
@@ -65,8 +67,9 @@ export const mapEventAsPublication = (event: Event) => {
     content: event.descriptionShort,
     imageUrl: event.imageUrl,
     tags: [
-      formatEntityTag(event.key, 'event'),
-      formatEntityTag(event.causeKey!, 'cause'),
+      formatEntityTag(Entity.Event, Entity.Lantana),
+      formatEntityTag(event.key, Entity.Event),
+      formatEntityTag(event.causeKey!, Entity.Cause),
     ],
   };
 };

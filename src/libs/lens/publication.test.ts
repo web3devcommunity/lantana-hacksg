@@ -13,6 +13,7 @@ import {
   TEST_RECIPIENT_ADDRESS,
 } from '@/env';
 import { asPublicationAttribute } from '@/domain/cause';
+import { Entity } from '@/domain/entity';
 
 jest.setTimeout(5 * 60 * 1000);
 
@@ -40,7 +41,7 @@ describe('#createPublication', () => {
 
   test.skip('create', async () => {
     const mockAttribute = asPublicationAttribute({
-      entity: 'cause',
+      entity: Entity.Cause,
       value: 'beach-cleanup',
     });
     const results = await createPostWithClient(lensClient)(wallet, {

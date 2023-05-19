@@ -11,9 +11,10 @@ import { createFilters } from '@/libs/lens/create-filters';
 import { formatEntityTag, mapPublicationAsCause } from '@/domain/cause';
 import { APP_VERSION_TAG, CURRENCY_LANTANA_ADDRESS } from '@/env';
 import { PublicationId, useExplorePublications, usePublicationRevenue, usePublications, useWhoCollectedPublication } from '@lens-protocol/react-web';
-import { mapPublicationAsEvent } from '@/domain/event';
 import styled from 'styled-components';
 import { CollectButtonWrapper } from '@/components/CollectButtonWrapper';
+import { Entity } from '@/domain/entity';
+import { mapPublicationAsEvent } from '@/domain/event';
 
 export default function CausePage() {
   const router = useRouter();
@@ -31,7 +32,11 @@ export default function CausePage() {
 
   const appFilter = createFilters({
     restrictPublicationTagsTo: {
-      all: [APP_VERSION_TAG, formatEntityTag(causeKey as string, 'cause')],
+      all: [APP_VERSION_TAG,
+        formatEntityTag(Entity.Cause, Entity.Lantana),
+        formatEntityTag(causeKey as string, Entity.Cause)
+
+      ],
     },
   })?.metadataFilter;
 
@@ -41,7 +46,22 @@ export default function CausePage() {
     metadataFilter: appFilter,
   });
 
+
   const post = _.first(data);
+
+  const eventFilter = createFilters({
+    restrictPublicationTagsTo: {
+      all: [
+        APP_VERSION_TAG,
+        formatEntityTag(Entity.Event, Entity.Lantana),
+        formatEntityTag(causeKey as string, Entity.Cause)
+      ],
+    },
+  })?.metadataFilter;
+
+  const { data: eventPublications } = useExplorePublications({
+    metadataFilter: eventFilter,
+  });
 
   const publicationId = post?.id as PublicationId;
 
@@ -59,9 +79,12 @@ export default function CausePage() {
 
 
   if (!post) return (<div>loading</div>);
-  const cause = mapPublicationAsCause(post);
-  const events = cause.events;
 
+  // event loaded separately
+
+  const cause = mapPublicationAsCause(post);
+
+  const events = (eventPublications || [])?.map(mapPublicationAsEvent)
 
   console.log('whoCollected', whoCollected, whoCollectedLoading, revenue);
 

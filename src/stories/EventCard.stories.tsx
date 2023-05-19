@@ -2,11 +2,12 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { EventCard } from '../components/EventCard';
 import { TEST_CAUSES } from '@/domain/cause.fixture';
-import { EventCardActions } from '@/components/EventCardAction';
+import { EventCardActions, EventCardActionsWithProfile } from '@/components/EventCardAction';
 import { createConfig } from '@/components/lens-binding';
-import { LensProvider } from '@lens-protocol/react-web';
+import { LensProvider, useActiveProfile } from '@lens-protocol/react-web';
 import { PUBLICATIONS_RAW } from '@/libs/lens/publication.fixture';
 import { AccountProvider } from '@/components/AccountProvider';
+import { ConnectDecorator } from './ConnectDecorator';
 
 const lensConfig = createConfig();
 
@@ -17,13 +18,10 @@ const meta: Meta<typeof EventCard> = {
   tags: ['autodocs'],
   argTypes: {},
   decorators: [
-    (Story) => (
-      <AccountProvider>
-        <Story />
-      </AccountProvider>
-    ),
+    ConnectDecorator
   ],
 };
+
 
 export default meta;
 type Story = StoryObj<typeof EventCard>;
@@ -35,9 +33,14 @@ export const Primary: Story = {
   },
 };
 
+// TODO use proper publication instead of fixture for reloading publication state
+
 export const EventAcitons: Story = {
   args: {
     event: TEST_CAUSES[0]?.events[0],
-    actions: <EventCardActions publication={PUBLICATIONS_RAW[1]} />,
+    actions: <EventCardActionsWithProfile
+      publication={PUBLICATIONS_RAW[0]}
+
+    />,
   },
 };

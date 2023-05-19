@@ -23,7 +23,7 @@ const meta: Meta<typeof CollectButtonWrapper> = {
             <AccountProvider>
                 <div>
                     <Account />
-                    <a target="_blank" href={"https://testnet.lenster.xyz/posts/" + publicationId}>Lens Url</a>
+                    <a target="_blank" href={"https://testnet.lenster.xyz/posts/" + args.publicationId}>Lens Url</a>
 
                     <ConnectLens />
                     <div style={{ minHeight: '200px' }}>
