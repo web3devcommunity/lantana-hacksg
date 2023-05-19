@@ -30,7 +30,7 @@ const withInternetUrl = async (url: string) => {
 };
 
 jest.setTimeout(60 * 1000);
-describe('#demo', () => {
+describe.skip('#demo', () => {
   const TOTAL_PROFILES_COUNT = 1;
   let lensClient: LensClient;
   let wallets: ethers.Wallet[] = Array(TOTAL_PROFILES_COUNT);

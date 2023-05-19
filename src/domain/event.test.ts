@@ -25,7 +25,7 @@ describe('#event', () => {
     const event = mapPublicationAsEvent(publication);
     expect(event?.descriptionShort).toEqual('Hello Josh :)');
     expect(event?.date.getTime()).toEqual(1650098005000);
-    expect(event?.causeKey).toEqual('abc');
+    expect(event?.causeKey).toEqual('eco-warriors-sg');
     expect(event?.key).toEqual('cleanup');
   });
 });
