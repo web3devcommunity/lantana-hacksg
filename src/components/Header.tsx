@@ -31,6 +31,9 @@ export const Header = () => {
           <Box sx={{ display: 'flex', m: 2 }}>
             <Link href="/enterprise">Enterprise</Link>
           </Box>
+          <Box sx={{ display: 'flex', m: 2 }}>
+            <Link href="/dashboard">Dashboard</Link>
+          </Box>
           <Box sx={{ flexGrow: 1 }} />
           <AccountDrawer>
             <div>
