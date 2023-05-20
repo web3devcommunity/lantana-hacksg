@@ -3,16 +3,13 @@ import { parseISO } from 'date-fns';
 import { User } from './user';
 import { PublicationFragment } from '@lens-protocol/client';
 import { PublicationInputBase } from '@/libs/lens/publication';
-import {
-  asPublicationAttribute,
-  findEntityTag,
-  formatEntityTag,
-  parseEntityTag,
-} from './cause';
+import { asPublicationAttribute, asPublicationTag } from './cause';
 import { APP_DEFAULT_LOGO_URL } from '@/env';
 import { LensPublication } from '@/libs/lens/utils';
 import { TEST_USERS_RAW } from './user.fixture';
 import { Entity } from './entity';
+import { PublicationContentWarning } from '@lens-protocol/react-web';
+import { findAttributeWithEntity } from '@/libs/lens/publication-entity';
 
 export type Event = {
   key: string;
@@ -43,9 +40,8 @@ export type EventInput = {
 };
 
 export const mapPublicationAsEvent = (publication: LensPublication): Event => {
-  const causeKey = publication.metadata.attributes.find(
-    (a: any) => a?.traitType === 'cause',
-  )?.value;
+  const causeKey = findAttributeWithEntity(publication, Entity.Cause) || '';
+  const eventKey = findAttributeWithEntity(publication, Entity.Event) || '';
 
   return {
     causeKey,
@@ -55,8 +51,8 @@ export const mapPublicationAsEvent = (publication: LensPublication): Event => {
     imageUrl: publication?.metadata?.media?.[0]?.original.url,
     descriptionShort: publication?.metadata?.content,
     stats: publication?.stats,
-    publicationId: publication.id,
-    key: 'beach-cleanup-sg',
+    publicationId: publication?.id,
+    key: eventKey,
     // TODO load from followers
     // volunteers: event.volunteers,
     volunteers: _.take(TEST_USERS_RAW, 5),
@@ -69,6 +65,10 @@ export const mapPublicationAsEvent = (publication: LensPublication): Event => {
 export const mapEventAsPublication = (event: Event) => {
   const kvs = [
     {
+      entity: Entity.Lantana,
+      value: Entity.Event,
+    },
+    {
       entity: Entity.Cause,
       value: event.causeKey!,
     },
@@ -78,17 +78,14 @@ export const mapEventAsPublication = (event: Event) => {
     },
   ];
   const attributes = kvs.map(asPublicationAttribute);
+  const tags = kvs.map(asPublicationTag);
 
   return {
     name: event.title,
     content: event.descriptionShort,
     imageUrl: event.imageUrl,
     attributes,
-    tags: [
-      formatEntityTag(Entity.Event, Entity.Lantana),
-      formatEntityTag(event.key, Entity.Event),
-      formatEntityTag(event.causeKey!, Entity.Cause),
-    ],
+    tags,
   };
 };
 

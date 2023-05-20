@@ -22,7 +22,7 @@ import {
   useWalletLogout,
 } from '@lens-protocol/react-web';
 import { CauseCard } from './CauseCard';
-import { mapPublicationAsEvent } from '@/domain/event';
+import { Event, mapPublicationAsEvent } from '@/domain/event';
 import { EventCard } from './EventCard';
 import { styled } from 'styled-components';
 
@@ -37,7 +37,7 @@ const FeedItemsWrapper = styled.div`
   }
 `;
 
-export const FeedItems = ({ publications }: { publications: any[] }) => {
+export const FeedItems = ({ publications, linkFactory = (event: Event) => `/cause/${event.causeKey}` }: { publications: any[], linkFactory?: (event: Event) => string }) => {
   return (
     <FeedItemsWrapper>
       <Grid container spacing={6}>
@@ -45,7 +45,7 @@ export const FeedItems = ({ publications }: { publications: any[] }) => {
           const event = mapPublicationAsEvent(publication);
           return (
             <Grid item key={i} className="item">
-              <Link href={`/cause/${event.causeKey}`}>
+              <Link href={linkFactory(event)}>
                 <EventCard event={event} />
               </Link>
             </Grid>

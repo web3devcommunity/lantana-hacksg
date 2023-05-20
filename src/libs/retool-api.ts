@@ -9,7 +9,7 @@ export enum ApiEndpoint {
   GetCompaniesInfo = '8bc2fcc8-b89e-4d93-ae06-0b0c45603bc0/startTrigger?workflowApiKey=retool_wk_30511be917b7453fb67e4620da965460',
 }
 
-https: const withProxy = (url: string) => {
+const withProxy = (url: string) => {
   return 'https://corsproxy.io/?' + encodeURIComponent(url);
 };
 

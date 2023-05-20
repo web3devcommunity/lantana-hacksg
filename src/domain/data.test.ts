@@ -19,7 +19,10 @@ describe('#data', () => {
       publicationIds,
     );
 
-    console.log(results.items);
+    console.log(results);
+    const [causeData] = results;
+
+    expect(causeData?.cause?.volunteersCount).toEqual(234);
 
     // const event = aggregateCauseData(publicationId);
     // expect(event?.descriptionShort).toEqual('Hello Josh :)');

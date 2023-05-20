@@ -6,7 +6,7 @@ export default function Enterprise() {
   return (
     <EnterpriseLayout>
       <h1>Enterprise Page</h1>
-
+      <div>on-chain open data</div>
       <div>
         <Typography>Supported Causes</Typography>
 

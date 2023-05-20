@@ -1,10 +1,11 @@
 import SocialLayout from '@/components/SocialLayout';
 import Image from 'next/image';
-import { Feed, FeedItems } from '../components/Feed';
+import { Feed, FeedItems } from '../../components/Feed';
 import { Typography } from '@mui/material';
 import { APP_VERSION_TAG } from '@/env';
 import { createFilters } from '@/libs/lens/create-filters';
 import { PublicationId, PublicationSortCriteria, usePublication } from '@lens-protocol/react-web';
+import { Event } from '@/domain/event';
 
 
 
@@ -32,14 +33,14 @@ export default function EnterpriseFeed() {
     return (
         <SocialLayout>
             <main>
-                <Typography variant="h2">Recommended Causes</Typography>
+                <Typography variant="h2">Donating Causes</Typography>
                 <Typography variant="h4" color="text.secondary">
                     Singapore
                 </Typography>
                 <br />
                 <Feed metadataFilter={appFilter} sortCriteria={PublicationSortCriteria.Latest} />
 
-                <FeedItems publications={[publication1, publication2]} />;
+                <FeedItems publications={[publication1, publication2]} linkFactory={(event: Event) => '/enterprise/cause/' + event.causeKey} />;
             </main>
         </SocialLayout>
     );
