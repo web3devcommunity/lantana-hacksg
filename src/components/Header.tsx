@@ -23,17 +23,17 @@ export const Header = () => {
             <Image src={LogoImage} width={100} alt="Lantana" />
           </Box>
           <Box sx={{ display: 'flex', m: 2 }}>
-            <Link href="/discover">Discover</Link>
+            <Link href="/">Discover</Link>
           </Box>
-          <Box sx={{ display: 'flex', m: 2 }}>
+          {/* <Box sx={{ display: 'flex', m: 2 }}>
             <Link href="/organize">Organize</Link>
-          </Box>
+          </Box> */}
           <Box sx={{ display: 'flex', m: 2 }}>
-            <Link href="/enterprise">Enterprise</Link>
+            <Link href="/enterprise/feed">Enterprise</Link>
           </Box>
-          <Box sx={{ display: 'flex', m: 2 }}>
+          {/* <Box sx={{ display: 'flex', m: 2 }}>
             <Link href="/dashboard">Dashboard</Link>
-          </Box>
+          </Box> */}
           <Box sx={{ flexGrow: 1 }} />
           <AccountDrawer>
             <div>

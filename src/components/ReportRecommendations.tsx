@@ -1,6 +1,9 @@
 import { invokeAiEsgRecommendations } from '@/libs/retool-api';
 import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
+import React from 'react';
+import Alert from '@mui/material/Alert';
+import CheckIcon from '@mui/icons-material/Check';
 
 // TOOD props data
 export const ReportRecommendations = ({
@@ -24,7 +27,9 @@ export const ReportRecommendations = ({
 
   return (
     <div>
-      AI Recommendations by ESG standards. Base on OpenAI GPT 4.0
+      <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">AI Recommendations by ESG standards. Base on OpenAI GPT 4.0</Alert>
+
+
       <Box>
         <h1>GRI standard</h1>
         {aiRecommendations.gri || 'Loading...'}

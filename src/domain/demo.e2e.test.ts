@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _, { keyBy } from 'lodash';
 import { TEST_CAUSES, TEST_CAUSES_RAW } from './cause.fixture';
 import { jest, describe, test, expect, it, beforeAll } from '@jest/globals';
 import { mapEventAsPublication } from './event';
@@ -30,7 +30,7 @@ const withInternetUrl = async (url: string) => {
 };
 
 jest.setTimeout(60 * 1000);
-describe.skip('#demo', () => {
+describe('#demo', () => {
   const TOTAL_PROFILES_COUNT = 1;
   let lensClient: LensClient;
   let wallets: ethers.Wallet[] = Array(TOTAL_PROFILES_COUNT);
@@ -79,7 +79,10 @@ describe.skip('#demo', () => {
 
         await Promise.all(
           cause.events.map(async (event) => {
-            const postInput = mapEventAsPublication(event);
+            const postInput = mapEventAsPublication({
+              ...event,
+              causeKey: cause.key,
+            });
             const imageUrl = await withInternetUrl(postInput.imageUrl);
 
             return createPostWithClient(lensClient)(wallet, {

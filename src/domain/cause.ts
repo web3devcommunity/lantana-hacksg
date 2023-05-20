@@ -8,6 +8,7 @@ import { LensPublication, withIpfsGateway } from '@/libs/lens/utils';
 import { parseISO } from 'date-fns';
 import { TEST_USERS_RAW } from './user.fixture';
 import { Entity } from './entity';
+import { findAttributeWithEntity } from '@/libs/lens/publication-entity';
 
 export type CauseOrganizer = {
   title: string;
@@ -56,12 +57,18 @@ export const asPublicationTag = ({ entity, value }: PublicationKeyValue) => {
 
 export const mapCauseAsPublication = (cause: Cause) => {
   const { key, title, descriptionShort, imageUrl } = cause;
+
   const kvs = [
     {
+      entity: Entity.Lantana,
+      value: Entity.Cause,
+    },
+    {
       entity: Entity.Cause,
-      value: key,
+      value: cause.key,
     },
   ];
+
   const attributes = kvs.map(asPublicationAttribute);
   const tags = kvs.map(asPublicationTag);
   return {
@@ -78,9 +85,7 @@ export const mapCauseAsPublication = (cause: Cause) => {
 export const mapPublicationAsCause = (publication: LensPublication): Cause => {
   const tags = publication?.metadata?.tags || [];
 
-  const key = publication.metadata.attributes.find(
-    (a: any) => a?.traitType === Entity.Cause,
-  )?.value;
+  const key = findAttributeWithEntity(publication, Entity.Cause) || '';
 
   return {
     key,
@@ -89,6 +94,7 @@ export const mapPublicationAsCause = (publication: LensPublication): Cause => {
     organizer: {
       title: 'Singapore Council',
     },
+
     imageUrl: withIpfsGateway(publication?.metadata?.media?.[0]?.original.url),
     descriptionShort: publication?.metadata?.content,
     // stats: publication?.stats,

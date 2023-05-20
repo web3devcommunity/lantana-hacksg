@@ -33,7 +33,7 @@ export default function CausePage() {
   const appFilter = createFilters({
     restrictPublicationTagsTo: {
       all: [APP_VERSION_TAG,
-        formatEntityTag(Entity.Cause, Entity.Lantana),
+        // formatEntityTag(Entity.Cause, Entity.Lantana),
         formatEntityTag(causeKey as string, Entity.Cause)
 
       ],

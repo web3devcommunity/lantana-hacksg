@@ -43,9 +43,7 @@ export const EventCard = ({
   const collector = data!;
 
   const imageUrl = withIpfsGateway(event.imageUrl || '');
-  const displayedDate = format(event.date, 'MM/dd/yyyy HH:mm');
-
-
+  const displayedDate = format(new Date() || event.date, 'MM/dd/yyyy HH:mm');
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader

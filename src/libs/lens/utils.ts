@@ -77,7 +77,7 @@ export const generateHandle = (handlePrefix = 'lantanatestuser') => {
 };
 
 export const withIpfsGateway = (url: string) => {
-  if (url.startsWith('ipfs://')) {
+  if (url && url.startsWith('ipfs://')) {
     return url.replace('ipfs://', 'https://ipfs.io/ipfs/');
   }
   return url;
