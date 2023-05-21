@@ -1,7 +1,6 @@
 import SocialLayout from '@/components/SocialLayout';
-import Image from 'next/image';
 import { Feed } from '../components/Feed';
-import { Typography } from '@mui/material';
+import { Typography, TextField } from '@mui/material';
 import { APP_VERSION_TAG } from '@/env';
 import { createFilters } from '@/libs/lens/create-filters';
 import { PublicationSortCriteria } from '@lens-protocol/react-web';
@@ -15,14 +14,30 @@ export default function Discover() {
 
   return (
     <SocialLayout>
-      <main>
-        <Typography variant="h2">Causes</Typography>
-        <Typography variant="h4" color="text.secondary">
-          Singapore
-        </Typography>
-        <br />
-        <Feed metadataFilter={appFilter} sortCriteria={PublicationSortCriteria.Latest} />
-      </main>
+      <Typography variant="h2" marginBottom={1}>
+        Causes
+      </Typography>
+      <Typography variant="h4" color="text.secondary" marginBottom={1}>
+        Singapore
+      </Typography>
+
+      <TextField
+        size="small"
+        type="search"
+        id="search"
+        placeholder="Search ..."
+        sx={{
+          display: 'flex',
+          maxWidth: '600px',
+          marginTop: '20px',
+          marginBottom: '20px',
+        }}
+      ></TextField>
+
+      <Feed
+        metadataFilter={appFilter}
+        sortCriteria={PublicationSortCriteria.Latest}
+      />
     </SocialLayout>
   );
 }

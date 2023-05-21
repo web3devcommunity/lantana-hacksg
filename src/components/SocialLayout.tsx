@@ -1,6 +1,3 @@
-import { Header } from '@/components/Header';
-import { Inter } from 'next/font/google';
-
 import Container from '@mui/material/Container';
 
 export const metadata = {
@@ -14,11 +11,8 @@ export default function SocialLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      <Header />
-      <Container maxWidth="lg" sx={{ marginTop: '50px' }}>
-        {children}
-      </Container>
-    </div>
+    <Container maxWidth="lg" sx={{ margin: '20px' }}>
+      {children}
+    </Container>
   );
 }

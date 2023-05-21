@@ -5,19 +5,27 @@ import { AccountProvider } from '@/components/AccountProvider';
 import { AppProps } from 'next/app';
 
 // defaultTheme
-import themes from '../themes';
+import theme from '../themes';
+import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
+import Footer from '@/components/Footer';
+import Header from '@/components/Header';
 
 interface PageProps {}
 
 const MyApp = ({ Component, pageProps }: AppProps<PageProps>) => {
+  const themes = theme({ mode: 'light' });
   return (
-    <React.Fragment>
-      {/* <CssBaseline /> */}
-      <AccountProvider>
-        <Component {...pageProps} />
-      </AccountProvider>
-    </React.Fragment>
+    <>
+      <ThemeProvider theme={themes}>
+        <CssBaseline />
+        <AccountProvider>
+          <Header />
+          <Component {...pageProps} />
+        </AccountProvider>
+      </ThemeProvider>
+      <Footer />
+    </>
   );
 };
 

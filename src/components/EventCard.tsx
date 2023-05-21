@@ -1,32 +1,6 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Image from 'next/image';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { format, compareAsc, parseISO } from 'date-fns';
-import { Cause, CauseInput } from '@/domain/cause';
-import RecommendIcon from '@mui/icons-material/Recommend';
-import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
-import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
-import CommentIcon from '@mui/icons-material/Comment';
-import PaidIcon from '@mui/icons-material/Paid';
-import { useActiveProfile, useCollect } from '@lens-protocol/react-web';
-import { EventInput, Event } from '@/domain/event';
-import { AvatarGroup } from '@mui/material';
-import { User } from '@/domain/user';
+import { Card, CardHeader, CardMedia, CardContent, Grid } from '@mui/material';
+import { format } from 'date-fns';
+import { Event } from '@/domain/event';
 import { withIpfsGateway } from '@/libs/lens/utils';
 
 // decouple lens specific actions / api from presentation
@@ -39,43 +13,54 @@ export const EventCard = ({
   actions?: any;
   isThumbnailOnly?: boolean;
 }) => {
-  const { data } = useActiveProfile();
-  const collector = data!;
-
-  const imageUrl = withIpfsGateway(event.imageUrl || '');
+  const imageUrl = withIpfsGateway(event.imageUrl);
   const displayedDate = format(new Date() || event.date, 'MM/dd/yyyy HH:mm');
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardHeader
-        title={
-          <>
-            {event.title} <br />
-          </>
-        }
-        subheader={displayedDate}
-      />
-      {event.imageUrl && (
-        <CardMedia
-          component="img"
-          height="194"
-          image={imageUrl}
-          alt="Post Image"
-        />
-      )}
-
-      <AvatarGroup max={6} total={event.volunteersCount}>
-        {event.volunteers.map((volunteer: Partial<User>, i: number) => {
-          return (
-            <Avatar
-              key={i}
-              alt={volunteer.name}
-              src="/static/images/avatar/1.jpg"
+    <Card
+      raised
+      sx={{
+        width: '300px',
+        height: '450px',
+        borderRadius: '10px',
+      }}
+    >
+      <Grid container spacing={1}>
+        <Grid item height={'100px'}>
+          <CardHeader title={event.title} subheader={displayedDate} />
+        </Grid>
+        <Grid item>
+          {event.imageUrl && (
+            <CardMedia
+              component="img"
+              image={imageUrl}
+              alt="Post Image"
+              sx={{ height: '200px', width: '280px', margin: '10px' }}
             />
-          );
-        })}
-      </AvatarGroup>
-      {!isThumbnailOnly && event.descriptionShort}
-      {!isThumbnailOnly && actions}
+          )}
+        </Grid>
+
+        {/* <AvatarGroup max={6} total={event.volunteersCount}>
+            {event.volunteers.map((volunteer: Partial<User>, i: number) => {
+              return (
+                <Avatar
+                  key={i}
+                  alt={volunteer.name}
+                  src="/static/images/avatar/1.jpg"
+                />
+              );
+            })}
+          </AvatarGroup> */}
+        <Grid
+          item
+          sx={{
+            height: '60px',
+            overflowY: 'auto',
+          }}
+        >
+          <CardContent>{event.descriptionShort}</CardContent>
+        </Grid>
+        <Grid item>{actions}</Grid>
+      </Grid>
     </Card>
   );
 };

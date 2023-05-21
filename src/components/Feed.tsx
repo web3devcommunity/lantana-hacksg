@@ -1,7 +1,3 @@
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import { useRouter } from 'next/router';
-
-import { Inter } from 'next/font/google';
 import Grid from '@mui/material/Grid';
 import { Avatar, Button, Link } from '@mui/material';
 import Typography from '@mui/material/Typography';
@@ -24,6 +20,7 @@ import {
 import { CauseCard } from './CauseCard';
 import { Event, mapPublicationAsEvent } from '@/domain/event';
 import { EventCard } from './EventCard';
+import { EventCardActions } from './EventCardAction';
 import { styled } from 'styled-components';
 
 // we want to use feed of lens directly
@@ -37,19 +34,35 @@ const FeedItemsWrapper = styled.div`
   }
 `;
 
-export const FeedItems = ({ publications, linkFactory = (event: Event) => `/cause/${event.causeKey}` }: { publications: any[], linkFactory?: (event: Event) => string }) => {
+export const FeedItems = ({
+  publications,
+  linkFactory = (event: Event) => `/cause/${event.causeKey}`,
+}: {
+  publications: any[];
+  linkFactory?: (event: Event) => string;
+}) => {
+  const { data } = useActiveProfile();
+  const actions = EventCardActions({ profile: data });
+  // filter out void content: 'Happy Volunteering'
   return (
     <FeedItemsWrapper>
-      <Grid container spacing={6}>
+      <Grid container spacing={4}>
         {publications.map((publication, i) => {
           const event = mapPublicationAsEvent(publication);
-          return (
-            <Grid item key={i} className="item">
-              <Link href={linkFactory(event)}>
-                <EventCard event={event} />
-              </Link>
-            </Grid>
-          );
+          if (event.title != 'Happy Volunteering!')
+            return (
+              <Grid
+                item
+                key={i}
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Link href={linkFactory(event)}>
+                  <EventCard event={event} actions={actions} />
+                </Link>
+              </Grid>
+            );
         })}
       </Grid>
     </FeedItemsWrapper>
