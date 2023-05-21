@@ -83,14 +83,12 @@ describe('#createPublication', () => {
 
     await lensClient.transaction.waitForIsIndexed(results.txId);
 
-    const fetchPublicationsResult = await lensClient.publication.fetchAll({
-      profileId,
+    const publication = await lensClient.publication.fetch({
+      txHash: results.txHash,
     });
 
-    const [publication] = fetchPublicationsResult?.items || [];
-
     const createCommentResults = await createCommentWithClient(lensClient)(
-      publication.id,
+      publication!.id,
       {
         profileId,
         name: 'sample comment title',

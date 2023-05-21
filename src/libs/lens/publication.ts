@@ -195,7 +195,7 @@ export const createCollectModule = (
         /** The collect module recipient address */
         recipient: options['recipientAddress'],
         /** The collect module referral fee */
-        referralFee: 0.01,
+        referralFee: 0,
       },
     };
   };

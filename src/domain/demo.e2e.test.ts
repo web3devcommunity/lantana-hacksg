@@ -133,15 +133,11 @@ describe('#demo', () => {
       wallet: collectWallet,
     });
 
-    const fetchPublicationsResult = await lensClient.publication.fetchAll({
-      profileId: profileIds[0],
+    const publication = await lensClient.publication.fetch({
+      txHash: createCauseResults.txHash,
     });
 
-    console.log('fetchPublicationsResult', fetchPublicationsResult);
-
-    const [publication] = fetchPublicationsResult.items;
-
-    await collect(adminLensClient)(collectWallet, publication.id);
+    await collect(adminLensClient)(collectWallet, publication!.id);
     // collectWallet
   });
 });

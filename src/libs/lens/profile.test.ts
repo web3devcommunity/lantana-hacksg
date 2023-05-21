@@ -59,5 +59,6 @@ describe('profile', () => {
 
     const sentTxn = await provider.sendTransaction(signedTransaction);
     console.log('sentTxn', sentTxn);
+    // not working for now, manual approve via ui
   });
 });

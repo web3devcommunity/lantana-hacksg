@@ -2,12 +2,13 @@ import {
     Amount, TokenAllowanceLimit, AnyPublication, Post,
     UsePublicationArgs, useActiveProfile, useActiveWallet, useApproveModule,
     useCollect, useEnabledModules, usePublication, useWalletLogin, useCurrencies, useWhoCollectedPublication,
-    PublicationId
+    PublicationId,
+    FeeCollectPolicy
 } from "@lens-protocol/react-web";
 
 // https://github.com/lens-protocol/lens-sdk/blob/main/examples/web-wagmi/src/publications/UseCollect.tsx
 import { useState } from "react";
-import { Chip } from "@mui/material";
+import { Alert, Chip } from "@mui/material";
 
 export const CollectButtonWrapper = ({ publicationId, currencyAddress, children }: { publicationId: string, currencyAddress: string, children: React.ReactNode }) => {
     const { data, loading } = useActiveProfile();
@@ -24,11 +25,11 @@ export const CollectButtonWrapper = ({ publicationId, currencyAddress, children 
     // TODO query if alraeady approved
 
     // approve first (not necessary for sandbox env)
-    const { execute: login, error, isPending } = useWalletLogin();
-    const { execute: collect, error: collectEror } = useCollect({ collector, publication: publication as AnyPublication });
-    const { data: activeWallet } = useActiveWallet();
+    const { execute: collect, error: collectEror, isPending } = useCollect({ collector, publication: publication as AnyPublication });
     // TODO fix action
 
+
+    const collectPolicy = publication?.collectPolicy as FeeCollectPolicy;
 
     return (
         !publication || !wallet?.address ? (
@@ -36,26 +37,37 @@ export const CollectButtonWrapper = ({ publicationId, currencyAddress, children 
         )
             : (
                 <>
-                    {collectEror && <div>{collectEror?.message}</div>}
+                    {collectEror && !isPending &&
+                        <Alert severity="error">{collectEror?.message}</Alert>
+                    }
+                    <div>Collect Price ${collectPolicy?.amount.toNumber()} </div>
                     {
                         isCollected ? <Chip label="Thank you for donating" variant="outlined" /> : (
                             <div onClick={async () => {
                                 let results = await collect();
                                 // could approve from the amount of policy while easier to approve in bulk at once
                                 // @ts-ignore
-                                if (collectEror?.name === 'InsufficientFundsError') {
-                                    await approve({
+                                if (collectEror?.name === 'InsufficientAllowanceError') {
+                                    const approvalResults = await approve({
                                         spender: enabledModules?.collectModules.find(m => m.moduleName === 'FeeCollectModule')!.contractAddress!,
                                         amount: Amount.erc20(currencies!.find(c => c.address === currencyAddress)!, 0.5),
                                         limit: TokenAllowanceLimit.EXACT,
 
                                     });
-                                    results = await collect();
+                                    if (approvalResults.isSuccess()) {
+                                        results = await collect();
+                                        console.log('approvalResults', approvalResults)
+                                    } else {
+                                        console.log('error in approval', approvalResults)
+                                    }
 
                                 }
                                 if (results) {
                                     console.log('collect', results)
-                                    setIsCollected(true)
+                                    if (results.isSuccess()) {
+                                        setIsCollected(true)
+                                    }
+
                                 }
 
                             }}>{children}</div>
