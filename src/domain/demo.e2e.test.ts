@@ -18,6 +18,7 @@ import { uploadWithPaths } from '@/libs/storage/file';
 import path from 'path';
 import { TEST_PRIVATE_KEY, TEST_RECIPIENT_ADDRESS } from '@/env';
 import { collect } from '@/libs/lens/collect';
+import { profile } from 'console';
 // we hijacked the jest runner to execute the data loading
 // which is better done via ts-node .mjs
 
@@ -34,10 +35,9 @@ jest.setTimeout(5 * 60 * 1000);
 
 const timer = (ms: number) => new Promise((res) => setTimeout(res, ms));
 describe('#demo', () => {
-  const causes = _.take(TEST_CAUSES, 2);
+  const causes = _.take(TEST_CAUSES, 1);
   const TOTAL_PROFILES_COUNT = causes.length;
 
-  let lensClient: LensClient;
   let wallets: ethers.Wallet[] = Array(TOTAL_PROFILES_COUNT);
   let profileIds: string[] = Array(TOTAL_PROFILES_COUNT);
 
@@ -47,8 +47,10 @@ describe('#demo', () => {
   beforeAll(async () => {
     // TODO simulate avatars
     // avatarUrl: '',
+
     await Promise.all(
       _.range(0, TOTAL_PROFILES_COUNT).map(async (i) => {
+        let lensClient: LensClient;
         wallets[i] = ethers.Wallet.createRandom();
         const wallet = wallets[i];
         lensClient = await loadClientAuthenticated({ wallet });
@@ -75,11 +77,17 @@ describe('#demo', () => {
       causes.map(async (cause: Cause, i: number) => {
         // use diff for rate limit
         const wallet = wallets[i];
-        lensClient = await loadClientAuthenticated({ wallet });
+        const lensClient = await loadClientAuthenticated({ wallet });
         const profileId = profileIds[i];
 
         const postInput = mapCauseAsPublication(cause);
-        console.log('post', postInput);
+        console.log(
+          'wallet, profileId, post',
+          i,
+          wallet?.address,
+          profileId,
+          postInput,
+        );
         const imageUrl = await withInternetUrl(cause.imageUrl);
         const createCauseResults = await createPostWithClient(lensClient)({
           ...postInput,
@@ -127,13 +135,14 @@ describe('#demo', () => {
 
     const { createCauseResults } = results?.[0];
 
-    await lensClient.transaction.waitForIsIndexed(createCauseResults['txId']);
-
     const adminLensClient = await loadClientAuthenticated({
       wallet: collectWallet,
     });
+    await adminLensClient.transaction.waitForIsIndexed(
+      createCauseResults['txId'],
+    );
 
-    const publication = await lensClient.publication.fetch({
+    const publication = await adminLensClient.publication.fetch({
       txHash: createCauseResults.txHash,
     });
 
