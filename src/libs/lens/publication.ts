@@ -36,7 +36,7 @@ export type PublicationInputBase = {
   collectModuleOptions?: Record<string, any>;
   attributes?: {
     traitType: string;
-    value: string;
+    value: string | number;
   }[];
   stats?: any;
   id?: string;
@@ -86,99 +86,98 @@ export const createPublicationMetadataFactory = (
 
     content,
 
-    mainContentFocus:
-      strategy === PublicationStrategy.Post
-        ? PublicationMainFocus.Image
-        : PublicationMainFocus.TextOnly,
-
-    // TODO support generic or do type detection for png
-    media: [
-      {
-        type: 'image/jpeg',
-        altTag: 'image',
-        // can be ipfs:// or https:
-        item: imageUrl,
-        // item: 'https://pbs.twimg.com/media/Fs4xCTGWYAULIW_?format=jpg&name=large'
-      },
-    ],
     ...metadata,
   };
 
-  if (strategy === 'post') {
+  // For now, restrict comment to text only but not necessarily so in future
+  if (strategy === PublicationStrategy.Post) {
     return {
       ...baseMetadata,
+      mainContentFocus: PublicationMainFocus.Image,
+      media: [
+        {
+          type: 'image/jpeg',
+          altTag: 'image',
+          // can be ipfs:// or https:
+          item: imageUrl,
+          // item: 'https://pbs.twimg.com/media/Fs4xCTGWYAULIW_?format=jpg&name=large'
+        },
+      ],
     };
   }
-};
 
-export const createComment = async (
-  publicationId: string,
-  wallet: ethers.Wallet,
-  profileId: string,
-  metadata = {},
-) => {
-  const lensClient = await loadClientAuthenticated({ wallet });
-
-  console.log('createComment', publicationId, profileId, metadata);
-
-  const contentMetadata = {
-    attributes: [
-      // {
-      //   displayType: PublicationMetadataDisplayTypes.String,
-      //   traitType: "Created with",
-      //   value: "LensClient SDK",
-      // },
-    ],
-    version: '2.0.0',
-    metadata_id: uuidv4(),
-    locale: 'en-US',
-    external_url: null,
-    image: null,
-    imageMimeType: null,
-    name: 'Post created with LensClient SDK',
-    tags: [APP_VERSION_TAG],
-
-    mainContentFocus: PublicationMainFocus.TextOnly,
-    content: `Amazing!`,
-    ...metadata,
-
-    // mainContentFocus: PublicationMainFocus.Image,
-    // media :[
-    // {
-    //   type: 'image/jpeg',
-    //   altTag: 'image',
-    //   // can be ipfs:// or https:
-    //   // item: imageUrl
-    //   // item: 'https://pbs.twimg.com/media/Fs4xCTGWYAULIW_?format=jpg&name=large'
-    // }
-    // ],
-  };
-
-  const cid = await uploadWithValues([contentMetadata]);
-  // seems cid wrapped in directory is not supported. ensure configure at file client
-
-  const contentURI = `ipfs://${cid}`;
-
-  // create a comment via dispatcher, you need to have the dispatcher enabled for the profile
-  const viaDispatcherResult =
-    await lensClient.publication.createCommentViaDispatcher({
-      profileId,
-      publicationId,
-      contentURI,
-      collectModule: {
-        revertCollectModule: true, // collect disabled
-      },
-      referenceModule: {
-        followerOnlyReferenceModule: false, // anybody can comment or mirror
-      },
-    });
+  if (strategy === PublicationStrategy.Comment) {
+    return {
+      ...baseMetadata,
+      mainContentFocus: PublicationMainFocus.TextOnly,
+    };
+  }
 
   return {
-    contentMetadata,
-    contentURI,
-    viaDispatcherResult,
+    ...baseMetadata,
   };
 };
+
+export interface CreateCommentInput {
+  profileId: string;
+  name: string;
+  content: string;
+}
+
+export const uploadMetadata =
+  (lensClient: LensClient) => async (contentMetadata: any) => {
+    // seems cid wrapped in directory is not supported. ensure configure at file client
+
+    const validateResult = await lensClient.publication.validateMetadata(
+      contentMetadata,
+    );
+
+    if (!validateResult.valid) {
+      throw new Error('invalid metadata: ' + validateResult.reason);
+    }
+    const cid = await uploadWithValues([contentMetadata]);
+
+    const contentURI = `ipfs://${cid}`;
+    console.log('contentURI', contentURI, JSON.stringify(contentMetadata));
+
+    return contentURI;
+  };
+
+export const createCommentWithClient =
+  (lensClient: LensClient) =>
+  async (publicationId: string, input: CreateCommentInput) => {
+    console.log('createComment', publicationId, input);
+
+    const { profileId } = input;
+
+    const contentMetadata = createPublicationMetadataFactory(
+      PublicationStrategy.Comment,
+      {
+        ...input,
+      },
+    );
+
+    const contentURI = await uploadMetadata(lensClient)(contentMetadata);
+    // create a comment via dispatcher, you need to have the dispatcher enabled for the profile
+    const viaDispatcherResult =
+      await lensClient.publication.createCommentViaDispatcher({
+        profileId,
+        publicationId,
+        contentURI,
+        collectModule: {
+          revertCollectModule: true, // collect disabled
+        },
+        referenceModule: {
+          followerOnlyReferenceModule: false, // anybody can comment or mirror
+        },
+      });
+
+    return {
+      contentMetadata,
+      contentURI,
+      viaDispatcherResult,
+    };
+  };
 
 export const createCollectModule = (
   strategy: CollectionStrategy,
@@ -222,8 +221,7 @@ export const createCollectModule = (
 };
 
 export const createPostWithClient =
-  (lensClient: LensClient) =>
-  async (wallet: ethers.Wallet, input: PostInput) => {
+  (lensClient: LensClient) => async (input: PostInput) => {
     const { profileId, imageUrl, collectModuleOptions = {} } = input;
 
     const contentMetadata = createPublicationMetadataFactory(
@@ -231,22 +229,9 @@ export const createPostWithClient =
       input,
     );
 
-    // seems cid wrapped in directory is not supported. ensure configure at file client
-    const cid = await uploadWithValues([contentMetadata]);
+    const contentURI = await uploadMetadata(lensClient)(contentMetadata);
 
-    const contentURI = `ipfs://${cid}`;
-
-    console.log('contentURI', contentURI, JSON.stringify(contentMetadata));
-
-    const validateResult = await lensClient.publication.validateMetadata(
-      contentMetadata,
-    );
-
-    if (!validateResult.valid) {
-      throw new Error('invalid metadata: ' + validateResult.reason);
-    }
-
-    const viaDispatcherResult =
+    const createViaDispatcherResult =
       await lensClient.publication.createPostViaDispatcher({
         profileId,
         contentURI,
@@ -259,10 +244,13 @@ export const createPostWithClient =
         },
       });
 
-    console.log('viaDispatcherResult', viaDispatcherResult.unwrap());
+    console.log(
+      'createViaDispatcherResult',
+      createViaDispatcherResult.unwrap(),
+    );
 
     return {
-      ...(viaDispatcherResult.unwrap() as RelayerResult),
+      ...(createViaDispatcherResult.unwrap() as RelayerResult),
       contentMetadata,
     };
   };

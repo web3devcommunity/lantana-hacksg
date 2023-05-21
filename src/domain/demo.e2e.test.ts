@@ -5,7 +5,7 @@ import { mapEventAsPublication } from './event';
 import { loadClientAuthenticated } from '@/libs/lens/client';
 
 import { LensClient } from '@lens-protocol/client';
-import { ethers } from 'ethers';
+import { Wallet, ethers } from 'ethers';
 import { createProfileWithWallet } from '@/libs/lens/profile';
 import { Cause } from './cause';
 import { generateHandle } from '@/libs/lens/utils';
@@ -16,7 +16,8 @@ import {
 import { mapCauseAsPublication } from './cause';
 import { uploadWithPaths } from '@/libs/storage/file';
 import path from 'path';
-import { TEST_RECIPIENT_ADDRESS } from '@/env';
+import { TEST_PRIVATE_KEY, TEST_RECIPIENT_ADDRESS } from '@/env';
+import { collect } from '@/libs/lens/collect';
 // we hijacked the jest runner to execute the data loading
 // which is better done via ts-node .mjs
 
@@ -29,12 +30,19 @@ const withInternetUrl = async (url: string) => {
   return 'ipfs://' + cid + url;
 };
 
-jest.setTimeout(60 * 1000);
+jest.setTimeout(5 * 60 * 1000);
+
+const timer = (ms: number) => new Promise((res) => setTimeout(res, ms));
 describe('#demo', () => {
-  const TOTAL_PROFILES_COUNT = 1;
+  const causes = _.take(TEST_CAUSES, 1);
+  const TOTAL_PROFILES_COUNT = causes.length;
+
   let lensClient: LensClient;
   let wallets: ethers.Wallet[] = Array(TOTAL_PROFILES_COUNT);
   let profileIds: string[] = Array(TOTAL_PROFILES_COUNT);
+
+  // funded
+  let collectWallet: ethers.Wallet;
 
   beforeAll(async () => {
     // TODO simulate avatars
@@ -52,43 +60,53 @@ describe('#demo', () => {
           handle,
         );
 
+        console.log('create profile result', result);
         profileIds[i] = result?.profileId || '';
       }),
     );
+
+    collectWallet = new Wallet(TEST_PRIVATE_KEY || '');
   });
 
   // TODO think about profile creating it
 
   test('#create cause and events', async () => {
-    const wallet = wallets[0];
-    console.log('demo wallet', wallet?.address);
+    const results = await Promise.all(
+      causes.map(async (cause: Cause, i: number) => {
+        // use diff for rate limit
+        const wallet = wallets[i];
+        lensClient = await loadClientAuthenticated({ wallet });
+        const profileId = profileIds[i];
 
-    await Promise.all(
-      TEST_CAUSES.map(async (cause: Cause) => {
         const postInput = mapCauseAsPublication(cause);
         console.log('post', postInput);
         const imageUrl = await withInternetUrl(cause.imageUrl);
-        const createCauseResults = await createPostWithClient(lensClient)(
-          wallet,
-          {
-            ...postInput,
-            imageUrl,
-            profileId: profileIds[0],
+        const createCauseResults = await createPostWithClient(lensClient)({
+          ...postInput,
+          imageUrl,
+          profileId,
+          collectModuleStrategy: CollectionStrategy.Wmatic,
+          collectModuleOptions: {
+            recipientAddress: TEST_RECIPIENT_ADDRESS,
           },
-        );
+        });
 
-        await Promise.all(
-          cause.events.map(async (event) => {
+        // avoid rate limit
+        await timer(3000);
+
+        const createEventResults = await Promise.all(
+          cause.events.map(async (event, i) => {
+            await timer(1000 * i);
             const postInput = mapEventAsPublication({
               ...event,
               causeKey: cause.key,
             });
             const imageUrl = await withInternetUrl(postInput.imageUrl);
 
-            return createPostWithClient(lensClient)(wallet, {
+            return createPostWithClient(lensClient)({
               ...postInput,
               imageUrl,
-              profileId: profileIds[0],
+              profileId,
               content: event.descriptionShort || '',
               collectModuleStrategy: CollectionStrategy.Wmatic,
               collectModuleOptions: {
@@ -97,7 +115,33 @@ describe('#demo', () => {
             });
           }),
         );
+
+        // const createEventResults = {};
+
+        return {
+          createCauseResults,
+          createEventResults,
+        };
       }),
     );
+
+    const { createCauseResults } = results?.[0];
+
+    await lensClient.transaction.waitForIsIndexed(createCauseResults['txId']);
+
+    const adminLensClient = await loadClientAuthenticated({
+      wallet: collectWallet,
+    });
+
+    const fetchPublicationsResult = await lensClient.publication.fetchAll({
+      profileId: profileIds[0],
+    });
+
+    console.log('fetchPublicationsResult', fetchPublicationsResult);
+
+    const [publication] = fetchPublicationsResult.items;
+
+    await collect(adminLensClient)(collectWallet, publication.id);
+    // collectWallet
   });
 });

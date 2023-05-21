@@ -45,13 +45,20 @@ export const invoke = (
   });
 };
 
-export const invokeAiEsgRecommendations = async () => {
-  const results = await invoke(ApiEndpoint.AiEsgRecommendations, {
-    method: 'GET',
+export const invokeAiEsgRecommendations = async (causeData: any) => {
+  const res = await invoke(ApiEndpoint.AiEsgRecommendations, {
+    method: 'POST',
     isUseCors: true,
+    body: {
+      causeData,
+    },
   });
 
-  return results;
+  if (res.status !== 200) {
+    throw new Error(res?.statusText);
+  }
+
+  return res;
 };
 
 export const invokeCreateUser = async (

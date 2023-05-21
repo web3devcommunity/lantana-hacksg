@@ -1,8 +1,16 @@
 import * as _ from 'lodash';
 import { loadClientAuthenticated } from './client';
 import { jest, describe, test, expect, it, beforeAll } from '@jest/globals';
-import { CollectionStrategy, createPostWithClient } from './publication';
-import { CollectModules, LensClient } from '@lens-protocol/client';
+import {
+  CollectionStrategy,
+  createCommentWithClient,
+  createPostWithClient,
+} from './publication';
+import {
+  CollectModules,
+  LensClient,
+  PublicationsQueryRequest,
+} from '@lens-protocol/client';
 
 import { ethers } from 'ethers';
 import { createProfileWithWallet } from './profile';
@@ -39,12 +47,12 @@ describe('#createPublication', () => {
     profileId = results.profileId;
   });
 
-  test.skip('create', async () => {
+  test('create', async () => {
     const mockAttribute = asPublicationAttribute({
       entity: Entity.Cause,
       value: 'beach-cleanup',
     });
-    const results = await createPostWithClient(lensClient)(wallet, {
+    const results = await createPostWithClient(lensClient)({
       profileId,
       ...fixture,
       attributes: [mockAttribute],
@@ -72,19 +80,37 @@ describe('#createPublication', () => {
       APP_VERSION_TAG,
       'cause-123',
     ]);
+
+    await lensClient.transaction.waitForIsIndexed(results.txId);
+
+    const fetchPublicationsResult = await lensClient.publication.fetchAll({
+      profileId,
+    });
+
+    const [publication] = fetchPublicationsResult?.items || [];
+
+    const createCommentResults = await createCommentWithClient(lensClient)(
+      publication.id,
+      {
+        profileId,
+        name: 'sample comment title',
+        content: 'a sample comment',
+      },
+    );
+
+    console.log('createCommentResults', createCommentResults);
   });
 
   test('create with collect strategies', async () => {
     const lensClient = await loadClientAuthenticated({ wallet });
-    const result = await lensClient.modules.fetchEnabledCurrencies();
 
-    const resultsFree = await createPostWithClient(lensClient)(wallet, {
+    const resultsFree = await createPostWithClient(lensClient)({
       profileId,
       ...fixture,
       content: 'with collect free',
       collectModuleStrategy: CollectionStrategy.Free,
     });
-    const resultsWmatic = await createPostWithClient(lensClient)(wallet, {
+    const resultsWmatic = await createPostWithClient(lensClient)({
       profileId,
       ...fixture,
       content: 'with collect wmatic',
