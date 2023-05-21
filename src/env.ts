@@ -1,5 +1,5 @@
 // manaully bump this to only loaded data of this version from lens
-export const APP_VERSION_TAG = 'lantanav202305190101';
+export const APP_VERSION_TAG = 'lantanav202305220101';
 
 export const POLYGON_MUMBAI_CHAIN_ID = 80001;
 

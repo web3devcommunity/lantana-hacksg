@@ -34,7 +34,7 @@ jest.setTimeout(5 * 60 * 1000);
 
 const timer = (ms: number) => new Promise((res) => setTimeout(res, ms));
 describe('#demo', () => {
-  const causes = _.take(TEST_CAUSES, 1);
+  const causes = _.take(TEST_CAUSES, 2);
   const TOTAL_PROFILES_COUNT = causes.length;
 
   let lensClient: LensClient;
