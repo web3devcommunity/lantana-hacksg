@@ -1,11 +1,11 @@
 import * as _ from 'lodash';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
 import { useRouter } from "next/router";
-import { ReportRecommendations } from '@/components/ReportRecommendations';
+import { AiRecommendations, ReportRecommendations } from '@/components/ReportRecommendations';
 import EnterpriseLayout from '../../../components/EnterpriseLayout';
-import { Container, Tabs, Typography } from '@mui/material';
+import { Box, Container, Tabs, Typography } from '@mui/material';
 import { formatEntityTag, mapPublicationAsCause } from "@/domain/cause";
 import { createFilters } from "@/libs/lens/create-filters";
 import { Entity } from "@/domain/entity";
@@ -14,6 +14,36 @@ import { useExplorePublications } from "@lens-protocol/react-web";
 import Image from 'next/image';
 import CustomTabs from '@/components/CustomTabs';
 import { aggregateCauseData } from '@/domain/data';
+import { invokeAiEsgRecommendations } from '@/libs/retool-api';
+import styled from 'styled-components';
+
+export const EnterpriseTagCSRRecommendationTab = ({ aiRecommendations }: { aiRecommendations: AiRecommendations }) => {
+
+    return (
+        <div><ReportRecommendations aiRecommendations={aiRecommendations} /></div>
+    )
+}
+
+const StyledRawData = styled.div`
+    background-color: lightgray;
+    min-height: 20rem;
+`
+
+export const EnterpriseOpenDataTab = ({ causeData }: any) => {
+
+    return (
+        <Box>
+            <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
+                Open Social Graph Data on Polygon Network via Lens protocol
+            </Alert>
+
+            <Box sx={{ m: 2 }} >
+                <StyledRawData><code>{JSON.stringify(causeData, null, 4)}</code></StyledRawData>
+            </Box>
+        </Box >
+    )
+}
+
 
 export default function EnterpriseCausePage() {
     const router = useRouter();
@@ -36,13 +66,32 @@ export default function EnterpriseCausePage() {
 
     const post = _.first(data);
 
+
+    const [aiRecommendations, setAiRecommendations] = useState({
+        gri: '',
+        sasb: '',
+        csr: ''
+    });
+
+    const cause = mapPublicationAsCause(post || {});
+
+    const causeData = aggregateCauseData(post || {});
+
+    // ensure not lazy load for perf
+    useEffect(() => {
+        invokeAiEsgRecommendations(causeData).then(async (res) => {
+            const results = await res.json();
+            setAiRecommendations(results.recommendations);
+        }).catch((err) => {
+            console.log('Error loadding recommendations', err)
+        });
+    }, [causeData]);
+
     if (!post) {
         return <div>Loading...</div>
     }
 
-    const cause = mapPublicationAsCause(post);
 
-    const causeData = aggregateCauseData(post);
 
     // alternative approaches
 
@@ -59,7 +108,9 @@ export default function EnterpriseCausePage() {
                     cause.imageUrl && <Image src={cause.imageUrl} width={600} height={400} alt="Lantana" />
                 }
                 <div>
-                    <Typography variant="h3">on chain data</Typography>
+                    <Box sx={{ marginTop: 3 }}>
+                        <Typography variant="h3">Cause Data and Recommendations</Typography>
+                    </Box>
                     <CustomTabs tabs={
                         [
                             {
@@ -75,7 +126,13 @@ export default function EnterpriseCausePage() {
                             {
                                 tabLabel: 'Open Data',
                                 tabChildren: (
-                                    <div>{JSON.stringify(causeData, null, 4)}</div>
+                                    <EnterpriseOpenDataTab causeData={causeData} />
+                                )
+                            },
+                            {
+                                tabLabel: 'Recommendations',
+                                tabChildren: (
+                                    <EnterpriseTagCSRRecommendationTab aiRecommendations={aiRecommendations} />
                                 )
                             }
                         ]
@@ -83,13 +140,6 @@ export default function EnterpriseCausePage() {
                 </div>
 
 
-                <Typography variant="h4">Recommendations</Typography>
-                <Typography variant="h6">CSR</Typography>
-                <Typography variant="h6">ESG</Typography>
-                <ReportRecommendations causeData={{}} />
-
-                <Typography>Tree Planning</Typography>
-                {/* <ReportRecommendations causeData={{}} /> */}
             </Container>
         </EnterpriseLayout>
     );

@@ -9,7 +9,7 @@ import { PUBLICATIONS_RAW } from '@/libs/lens/publication.fixture';
 import React from 'react';
 import { CURRENCY_LANTANA_ADDRESS, CURRENCY_USDC_ADDRESS, CURRENCY_WMATIC_ADDRESS } from '@/env';
 
-const publicationId = '0x81f0-0x01'
+const publicationId = '0x82c2-0x04';
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction
 const meta: Meta<typeof CollectButtonWrapper> = {
@@ -23,8 +23,7 @@ const meta: Meta<typeof CollectButtonWrapper> = {
             <AccountProvider>
                 <div>
                     <Account />
-                    <a target="_blank" href={"https://testnet.lenster.xyz/posts/" + args.publicationId}>Lens Url</a>
-
+                    <a target="_blank" href={"https://testnet.lenster.xyz/posts/" + publicationId}>Lens Url</a>
                     <ConnectLens />
                     <div style={{ minHeight: '200px' }}>
                         <Story />
@@ -41,21 +40,24 @@ type Story = StoryObj<typeof CollectButtonWrapper>;
 export const Wmatic: Story = {
     args: {
         publicationId,
-        currencyAddress: CURRENCY_WMATIC_ADDRESS
+        currencyAddress: CURRENCY_WMATIC_ADDRESS,
+        children: <button>Collect</button>
     },
 };
 
 export const Usdc: Story = {
     args: {
         publicationId,
-        currencyAddress: CURRENCY_USDC_ADDRESS
+        currencyAddress: CURRENCY_USDC_ADDRESS,
+        children: <button>Collect</button>
     },
 };
 
 export const Lantana: Story = {
     args: {
         publicationId,
-        currencyAddress: CURRENCY_LANTANA_ADDRESS
+        currencyAddress: CURRENCY_LANTANA_ADDRESS,
+        children: <button>Collect</button>
     },
 };
 

@@ -1,5 +1,7 @@
 // manaully bump this to only loaded data of this version from lens
-export const APP_VERSION_TAG = 'lantanav202305190101';
+export const APP_VERSION_TAG = 'lantanav202305220101';
+
+export const POLYGON_MUMBAI_CHAIN_ID = 80001;
 
 export const APP_DEFAULT_LOGO_URL =
   'https://github.com/lens-protocol/lens-sdk/assets/1883877/1815c300-6833-4d4b-8e25-049f94b783f0';
@@ -25,3 +27,12 @@ export const PN_APP_ID = process.env.NEXT_PUBLIC_PN_APP_ID;
 export const PN_SERVER_KEY = process.env.PN_SERVER_KEY;
 
 export const PN_CLIENT_KEY = process.env.NEXT_PUBLIC_PN_CLIENT_KEY;
+
+export const TEST_PRIVATE_KEY = process.env.TEST_PRIVATE_KEY;
+
+// created via current test private key
+
+export const TEST_PROFILE_HANDLE = process.env.TEST_PROFILE_HANDLE;
+export const TEST_PROFILE_ID = process.env.TEST_PROFILE_ID;
+
+export const ALCHEMY_API_TOKEN_MUMBAI = process.env.ALCHEMY_API_TOKEN_MUMBAI;

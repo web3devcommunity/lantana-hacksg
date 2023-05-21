@@ -1,27 +1,39 @@
 // aggregate data via lens / on-chain e.g. polygon/optimism
-
+import * as _ from 'lodash';
 import { Post } from '@lens-protocol/react-web';
 import { Cause, mapPublicationAsCause } from './cause';
 import { LensClient, PublicationsQueryRequest } from '@lens-protocol/client';
 import { LensPublication } from '@/libs/lens/utils';
 import { findAttributeWithEntity } from '@/libs/lens/publication-entity';
+import { Entity, WhiteListedEntities } from './entity';
 
-export const aggregateCauseData = (publicaiton: LensPublication) => {
-  const cause = mapPublicationAsCause(publicaiton);
+export const withDemoData = (publication: LensPublication) => {};
 
-  // const volunteersCount = publicaiton.stats;
+export const aggregateCauseData = (
+  publication: LensPublication,
+): Record<string, any> | null => {
+  if (!publication) {
+    return null;
+  }
+  const cause = mapPublicationAsCause(publication);
 
   // load custom data from the attributes
-  // const v = findAttributeWithEntity(publication, Entity.Cause);
 
-  const donateCount = publicaiton?.stats?.totalAmountOfCollects;
+  const metadata = Object.fromEntries(
+    WhiteListedEntities.map((entity) => {
+      return [entity, findAttributeWithEntity(publication, entity)];
+    }),
+  );
 
-  const donatePrice = publicaiton?.collectModule?.amount?.value;
+  const donateCount = publication?.stats?.totalAmountOfCollects;
+
+  const donatePrice = parseFloat(publication?.collectModule?.amount?.value);
 
   const donateTotal = donateCount * donatePrice;
 
   return {
-    cause,
+    ..._.pick(cause, ['title', 'organizer']),
+    ...metadata,
     donateCount,
     donatePrice,
     donateTotal,

@@ -11,7 +11,14 @@ import { generateHandle } from './lens/utils';
 jest.setTimeout(60 * 1000);
 describe('retool-api', () => {
   it('#invokeAiEsgRecommendations', async () => {
-    const res = await invokeAiEsgRecommendations();
+    const causeDataFixture = {
+      volunteers_count: 120,
+      title: 'beach clean up in Singapore',
+      total_donations_received_in_sgd: 4000,
+      cause_category: 'Beach Clean up',
+      waste_collected_in_kg: '5',
+    };
+    const res = await invokeAiEsgRecommendations(causeDataFixture);
     const results = await res.json();
     console.log('results', results);
   });

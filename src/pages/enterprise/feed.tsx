@@ -11,6 +11,9 @@ import { Event } from '@/domain/event';
 
 export default function EnterpriseFeed() {
 
+    const company = {
+        name: 'SynTech'
+    }
     // TODO fix to show only those I supported
     // just show 1. all causes & those selected
 
@@ -21,26 +24,34 @@ export default function EnterpriseFeed() {
         },
     })?.metadataFilter;
 
-
     const { data: publication1 } = usePublication({
-        publicationId: '0x77-0x0149' as PublicationId,
+        publicationId: '0x826e-0x19' as PublicationId,
     });
 
     const { data: publication2 } = usePublication({
-        publicationId: '0x77-0x0149' as PublicationId,
+        publicationId: '0x826e-0x17' as PublicationId,
     });
 
     return (
         <SocialLayout>
             <main>
-                <Typography variant="h2">Donating Causes</Typography>
+                <Typography variant="h2">Donating Causes of {company.name}</Typography>
                 <Typography variant="h4" color="text.secondary">
                     Singapore
                 </Typography>
                 <br />
-                <Feed metadataFilter={appFilter} sortCriteria={PublicationSortCriteria.Latest} />
 
-                <FeedItems publications={[publication1, publication2]} linkFactory={(event: Event) => '/enterprise/cause/' + event.causeKey} />;
+
+                <FeedItems publications={[publication1, publication2]}
+                    linkFactory={(event: Event) => '/enterprise/cause/' + event.causeKey} />
+                {
+                    /* 
+                    
+                    <Typography variant="h2">Recommended Causes to Donate</Typography>
+                    
+                    <Feed metadataFilter={appFilter} sortCriteria={PublicationSortCriteria.Latest} /> */
+                }
+
             </main>
         </SocialLayout>
     );
