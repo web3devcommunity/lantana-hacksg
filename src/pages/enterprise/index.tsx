@@ -1,14 +1,10 @@
 import SocialLayout from '@/components/SocialLayout';
-import Image from 'next/image';
-import { Feed, FeedItems } from '../../components/Feed';
-import { Typography } from '@mui/material';
+import { FeedItems } from '../../components/Feed';
+import { Typography, Button, Grid } from '@mui/material';
+import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
 import { APP_VERSION_TAG } from '@/env';
 import { createFilters } from '@/libs/lens/create-filters';
-import {
-  PublicationId,
-  PublicationSortCriteria,
-  usePublication,
-} from '@lens-protocol/react-web';
+import { PublicationId, usePublication } from '@lens-protocol/react-web';
 import { Event } from '@/domain/event';
 
 export default function EnterpriseFeed() {
@@ -35,9 +31,29 @@ export default function EnterpriseFeed() {
 
   return (
     <SocialLayout>
-      <Typography variant="h2" marginBottom={1}>
-        Donating Causes of {company.name}
-      </Typography>
+      <Grid container>
+        <Grid item xs={8}>
+          <Typography variant="h2" marginBottom={1}>
+            Donating Causes of {company.name}
+          </Typography>
+        </Grid>
+        <Grid item xs={4}>
+          <Button
+            variant="text"
+            size="small"
+            href="/dashboard"
+            sx={{
+              marginTop: '5px',
+              height: '20px',
+              color: 'black',
+              fontSize: '15px',
+            }}
+          >
+            <SpaceDashboardIcon sx={{ marginRight: '5px' }} />
+            Dashboard
+          </Button>
+        </Grid>
+      </Grid>
       <Typography variant="h4" color="text.secondary" marginBottom={1}>
         Singapore
       </Typography>

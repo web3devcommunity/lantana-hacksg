@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import React, { useEffect, useState } from 'react';
-import Alert from '@mui/material/Alert';
+import { Alert, Backdrop, CircularProgress } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import { useRouter } from 'next/router';
 import {
@@ -96,8 +96,17 @@ export default function EnterpriseCausePage() {
       });
   }, [causeData]);
 
-  if (!post) {
-    return <div>Loading...</div>;
+  if (!cause) {
+    return (
+      <div>
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={!post}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      </div>
+    );
   }
 
   // alternative approaches
