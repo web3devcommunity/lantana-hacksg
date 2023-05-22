@@ -20,7 +20,7 @@ export const asCause = (causeInput: CauseInput): Cause => {
 export const TEST_CAUSES_RAW: CauseInput[] = [
   {
     key: 'eco-warriors-sg',
-    title: 'EcoWarriors SG',
+    title: 'EcoWarriors SG Beach Clean Up',
     imageUrl: '/eco-warriors.jpg',
     descriptionShort: 'Working towards a sustainable environment',
     organizer: {
@@ -33,7 +33,7 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
         date: '2023-05-08T14:00:14Z',
         imageUrl: '/clean1.jpg',
         descriptionShort:
-          'Join us for a community clean-up to make our environment cleaner and greener.',
+          '5kg of rubbish is collected. Join EcoWarriors for a community clean-up to make our environment cleaner and greener.',
         volunteers: _.take(TEST_USERS_RAW, 5),
         // volunteers: [ { name: 'John', }, { name: 'Emily' }, { name: 'Michael' }],
         volunteersCount: 25,
@@ -46,7 +46,7 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
         descriptionShort:
           'Raise awareness about environmental issues by participating in our walkathon.',
         volunteers: _.take(TEST_USERS_RAW, 5),
-          // volunteers: [ { name: 'Sophia' }, { name: 'David' }, { name: 'Emma' } ],
+        // volunteers: [ { name: 'Sophia' }, { name: 'David' }, { name: 'Emma' } ],
         volunteersCount: 40,
       },
       {
@@ -57,7 +57,7 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
         descriptionShort:
           'Help us create a vibrant community garden by planting trees and flowers.',
         volunteers: _.take(TEST_USERS_RAW, 5),
-          // volunteers: [ { name: 'Oliver' }, { name: 'Ava' }, { name: 'Jacob' } ],
+        // volunteers: [ { name: 'Oliver' }, { name: 'Ava' }, { name: 'Jacob' } ],
         volunteersCount: 15,
       },
       {

@@ -14,20 +14,11 @@ import {
   createPostWithClient,
 } from '@/libs/lens/publication';
 import { mapCauseAsPublication } from './cause';
-import { uploadWithPaths } from '@/libs/storage/file';
+import { uploadWithPaths, withInternetUrl } from '@/libs/storage/file';
 import path from 'path';
 import { TEST_RECIPIENT_ADDRESS } from '@/env';
 // we hijacked the jest runner to execute the data loading
 // which is better done via ts-node .mjs
-
-const withInternetUrl = async (url: string) => {
-  if (url.match(/http/)) {
-    return url;
-  }
-  const src = path.resolve(__dirname, '../../public' + url);
-  const cid = await uploadWithPaths([src]);
-  return 'ipfs://' + cid + url;
-};
 
 jest.setTimeout(60 * 1000);
 describe('#demo', () => {
