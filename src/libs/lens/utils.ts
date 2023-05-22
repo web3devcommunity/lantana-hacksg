@@ -82,3 +82,25 @@ export const withIpfsGateway = (url: string) => {
   }
   return url;
 };
+
+// testnet only for now
+export const getHypercertsUrl = ({
+  contractAddress = '0x822f17a9a5eecfd66dbaff7946a8071c265d1d07',
+  tokenId,
+}: {
+  contractAddress: string;
+  tokenId: string;
+}) => {
+  return `https://testnet.hypercerts.org/app/view#claimId=${contractAddress}-${tokenId}`;
+};
+
+export const getExplorerUrl = (
+  network: string,
+  contractAddress: string,
+  tokenId: string,
+) => {
+  if (network === 'goerli') {
+    return `https://goerli.etherscan.io/token/${contractAddress}?a=${tokenId}`;
+  }
+  return `https://mumbai.polygonscan.com/address/${contractAddress}?a=${tokenId}`;
+};

@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { styled } from 'styled-components';
 import Image from 'next/image';
-import LogoImage from '../../public/logo.png';
+import LogoImage from '../../public/lantana_logo_new.png';
 import Link from 'next/link';
 import { ConnectLens } from './ConnectLens';
 
@@ -20,7 +20,7 @@ export const Header = () => {
       <StyledAppBar position="static" elevation={0}>
         <Toolbar>
           <Box sx={{ display: 'flex', m: 1 }}>
-            <Image src={LogoImage} width={100} alt="Lantana" />
+            <Image src={LogoImage} width={60} alt="Lantana" />
           </Box>
           <Box sx={{ display: 'flex', m: 2 }}>
             <Link href="/">Discover</Link>

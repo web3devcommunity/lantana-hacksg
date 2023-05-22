@@ -5,17 +5,21 @@ import CheckIcon from '@mui/icons-material/Check';
 import { useRouter } from "next/router";
 import { AiRecommendations, ReportRecommendations } from '@/components/ReportRecommendations';
 import EnterpriseLayout from '../../../components/EnterpriseLayout';
-import { Box, Container, Tabs, Typography } from '@mui/material';
+import { Box, Container, Grid, Tabs, Typography } from '@mui/material';
 import { formatEntityTag, mapPublicationAsCause } from "@/domain/cause";
 import { createFilters } from "@/libs/lens/create-filters";
 import { Entity } from "@/domain/entity";
 import { APP_VERSION_TAG } from "@/env";
-import { useExplorePublications } from "@lens-protocol/react-web";
+import { PublicationId, useExplorePublications, usePublicationRevenue, useWhoCollectedPublication } from "@lens-protocol/react-web";
 import Image from 'next/image';
 import CustomTabs from '@/components/CustomTabs';
 import { aggregateCauseData } from '@/domain/data';
 import { invokeAiEsgRecommendations } from '@/libs/retool-api';
 import styled from 'styled-components';
+import { getHypercertsUrl } from '@/libs/lens/utils';
+import { NFTCard, NFTList } from '@/components/NFTCard';
+
+
 
 export const EnterpriseTagCSRRecommendationTab = ({ aiRecommendations }: { aiRecommendations: AiRecommendations }) => {
 
@@ -44,6 +48,58 @@ export const EnterpriseOpenDataTab = ({ causeData }: any) => {
     )
 }
 
+export const EnterpriseStatsTabs = ({ publicationId }: { publicationId: PublicationId }) => {
+    const { data: whoCollected, loading: whoCollectedLoading } = useWhoCollectedPublication({
+        limit: 10,
+        publicationId
+    });
+
+    const hypercertsContractAddress = '0x822f17a9a5eecfd66dbaff7946a8071c265d1d07';
+    const hypercertsTokenId = '131008711264561308433399223861230761410560';
+
+    // TODO
+    const collectionContractAddress = '0xa4f68403fa88b9bbc9fd4f52b94d14e5d6a396ed'
+
+    const { data: revenue } = usePublicationRevenue({
+        publicationId
+    });
+
+    return (
+        <Grid container direction="column" spacing={4}>
+            <Grid item xs={12}>
+                <Typography variant="h6">Collected NFTs</Typography>
+
+                <NFTList
+                    contractAddress={collectionContractAddress}
+                    network={"mumbai"}
+                />
+
+            </Grid>
+
+            <Grid item xs={12}>
+                <Typography variant="h6">Stats</Typography>
+                {JSON.stringify(whoCollected)}
+
+                {JSON.stringify(revenue)}
+            </Grid>
+            <Grid item>
+                <Typography variant="h6">HyperCert</Typography>
+                <NFTCard
+                    contractAddress={hypercertsContractAddress}
+                    tokenId={hypercertsTokenId}
+                    tokenType={"ERC1155"}
+                    network={"optimism"}
+                />
+                <a href={getHypercertsUrl({ contractAddress: hypercertsContractAddress, tokenId: hypercertsTokenId })}
+                    target="_blank">View Hyper Cert </a>
+
+            </Grid>
+        </Grid >
+
+
+    )
+
+}
 
 export default function EnterpriseCausePage() {
     const router = useRouter();
@@ -77,19 +133,19 @@ export default function EnterpriseCausePage() {
 
     const causeData = aggregateCauseData(post || {});
 
+    const publicationId = post?.id!;
     // ensure not lazy load for perf
     useEffect(() => {
+        if (!post) {
+            return;
+        }
         invokeAiEsgRecommendations(causeData).then(async (res) => {
             const results = await res.json();
             setAiRecommendations(results.recommendations);
         }).catch((err) => {
             console.log('Error loadding recommendations', err)
         });
-    }, [causeData]);
-
-    if (!post) {
-        return <div>Loading...</div>
-    }
+    }, [publicationId]);
 
 
 
@@ -99,28 +155,32 @@ export default function EnterpriseCausePage() {
         <EnterpriseLayout>
 
             <Container>
-                <h1>Enterprise Page</h1>
-                <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">You are able to access on-chain open data for the cause</Alert>
-
-                <Typography >Supporting Cause</Typography>
+                <Typography variant="subtitle1">Supporting Cause</Typography>
                 <Typography variant="h4">{cause.title}</Typography>
-                {
-                    cause.imageUrl && <Image src={cause.imageUrl} width={600} height={400} alt="Lantana" />
-                }
+
+                <Grid container alignItems="flex-start" spacing={2}>
+                    <Grid item xs={12}>
+                        <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">You are able to access on-chain open data for the cause</Alert>
+                    </Grid>
+
+                    <Grid item xs={6}>
+                        {
+                            cause.imageUrl && <Image src={cause.imageUrl} width={600} height={400} alt="Lantana" />
+                        }
+                    </Grid>
+                </Grid>
+
                 <div>
                     <Box sx={{ marginTop: 3 }}>
-                        <Typography variant="h3">Cause Data and Recommendations</Typography>
+                        <Typography variant="h5">Open Data and Recommendations</Typography>
                     </Box>
                     <CustomTabs tabs={
                         [
                             {
                                 tabLabel: 'On-Chain NFTs',
                                 tabChildren: (
-                                    <div>
+                                    publicationId && <EnterpriseStatsTabs publicationId={publicationId as PublicationId} />
 
-                                        Link to related NFTs
-
-                                    </div>
                                 )
                             },
                             {

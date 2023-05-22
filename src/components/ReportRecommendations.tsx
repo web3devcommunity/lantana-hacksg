@@ -1,4 +1,3 @@
-import { invokeAiEsgRecommendations } from '@/libs/retool-api';
 import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import React from 'react';

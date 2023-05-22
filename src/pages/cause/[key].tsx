@@ -65,6 +65,7 @@ export default function CausePage() {
 
   const publicationId = post?.id as PublicationId;
 
+
   const { data: whoCollected, loading: whoCollectedLoading } = useWhoCollectedPublication({
     limit: 10,
     publicationId
@@ -85,6 +86,8 @@ export default function CausePage() {
   const cause = mapPublicationAsCause(post);
 
   const events = (eventPublications || [])?.map(mapPublicationAsEvent)
+
+  console.log('cause page', causeKey, post?.id)
 
   console.log('whoCollected', whoCollected, whoCollectedLoading, revenue);
 

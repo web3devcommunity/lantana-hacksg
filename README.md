@@ -4,6 +4,10 @@
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+## Material ui
+
+- we're forcing @mui/styled-engine to resolve to @mui/styled-engine-sc, so make sure this is installed under node_modules instead of @mui/styled-engine
+
 ## Objects on Lens
 
 - We create both Causes and Events as lens object Publication, so we can query in similar fashion

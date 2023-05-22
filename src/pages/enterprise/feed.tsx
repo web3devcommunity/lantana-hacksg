@@ -1,19 +1,19 @@
 import SocialLayout from '@/components/SocialLayout';
 import Image from 'next/image';
 import { Feed, FeedItems } from '../../components/Feed';
-import { Typography } from '@mui/material';
+import { Box, Container, Grid, Typography } from '@mui/material';
 import { APP_VERSION_TAG } from '@/env';
 import { createFilters } from '@/libs/lens/create-filters';
 import { PublicationId, PublicationSortCriteria, usePublication } from '@lens-protocol/react-web';
 import { Event } from '@/domain/event';
+import EnterpriseLayout from '@/components/EnterpriseLayout';
+import Dashboard from '@/components/dashboard';
 
 
 
 export default function EnterpriseFeed() {
 
-    const company = {
-        name: 'SynTech'
-    }
+
     // TODO fix to show only those I supported
     // just show 1. all causes & those selected
 
@@ -25,7 +25,7 @@ export default function EnterpriseFeed() {
     })?.metadataFilter;
 
     const { data: publication1 } = usePublication({
-        publicationId: '0x826e-0x19' as PublicationId,
+        publicationId: '0x82ce-0x03' as PublicationId,
     });
 
     const { data: publication2 } = usePublication({
@@ -33,17 +33,27 @@ export default function EnterpriseFeed() {
     });
 
     return (
-        <SocialLayout>
-            <main>
-                <Typography variant="h2">Donating Causes of {company.name}</Typography>
-                <Typography variant="h4" color="text.secondary">
+        <EnterpriseLayout>
+            <Container>
+                {/* <Box mb={4}>
+                    <Typography variant="h2">{company.name}</Typography>
+                </Box> */}
+                <Typography variant="h4">Donating Causes</Typography>
+                <Typography variant="h5" color="text.secondary">
                     Singapore
                 </Typography>
+
+
                 <br />
+                <Box mb={4}>
+                    {
+                        publication1 && publication2 ? (<FeedItems publications={[publication1, publication2]}
+                            linkFactory={(event: Event) => '/enterprise/cause/' + event.causeKey} />
+                        ) : <Box sx={{ m: 2, minHeight: '300px' }}>Loading...</Box>
+                    }
+                </Box>
 
 
-                <FeedItems publications={[publication1, publication2]}
-                    linkFactory={(event: Event) => '/enterprise/cause/' + event.causeKey} />
                 {
                     /* 
                     
@@ -52,7 +62,7 @@ export default function EnterpriseFeed() {
                     <Feed metadataFilter={appFilter} sortCriteria={PublicationSortCriteria.Latest} /> */
                 }
 
-            </main>
-        </SocialLayout>
+            </Container>
+        </EnterpriseLayout>
     );
 }
