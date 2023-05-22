@@ -1,29 +1,32 @@
 import { splitSignature } from 'ethers/lib/utils.js';
 import { loadClientAuthenticated } from './client';
 import { ethers } from 'ethers';
+import { LensClient } from '@lens-protocol/client';
 
-export const collect = async (wallet: ethers.Wallet, publicationId: string) => {
-  const lensClient = await loadClientAuthenticated({ wallet });
+export const collect =
+  (lensClient: LensClient) =>
+  async (wallet: ethers.Wallet, publicationId: string) => {
+    const typedDataResult = await lensClient.publication.createCollectTypedData(
+      {
+        publicationId,
+      },
+    );
 
-  const typedDataResult = await lensClient.publication.createCollectTypedData({
-    publicationId,
-  });
+    console.log('collect publicationId', publicationId);
 
-  console.log('publicationId', publicationId);
+    const data = typedDataResult.unwrap();
 
-  const data = typedDataResult.unwrap();
+    // sign with the wallet
+    const signedTypedData = await wallet._signTypedData(
+      data.typedData.domain,
+      data.typedData.types,
+      data.typedData.value,
+    );
 
-  // sign with the wallet
-  const signedTypedData = await wallet._signTypedData(
-    data.typedData.domain,
-    data.typedData.types,
-    data.typedData.value,
-  );
+    const broadcastResult = await lensClient.transaction.broadcast({
+      id: data.id,
+      signature: signedTypedData,
+    });
 
-  const broadcastResult = await lensClient.transaction.broadcast({
-    id: data.id,
-    signature: signedTypedData,
-  });
-
-  console.log('broadcastResult', broadcastResult.unwrap());
-};
+    console.log('broadcastResult', broadcastResult.unwrap());
+  };

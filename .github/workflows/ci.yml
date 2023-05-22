@@ -17,6 +17,8 @@ env:
   NEXT_PUBLIC_PN_APP_ID: ${{ secrets.PN_APP_ID }}
   NFT_STORAGE_TOKEN: ${{ secrets.NFT_STORAGE_TOKEN }}
   WEB3_STORAGE_TOKEN: ${{ secrets.WEB3_STORAGE_TOKEN }}
+  TEST_PRIVATE_KEY: ${{ secrets.TEST_PRIVATE_KEY }}
+  ALCHEMY_API_TOKEN_MUMBAI: ${{ secrets.TEST_PRIVATE_KEY }}
 
 jobs:
   test:

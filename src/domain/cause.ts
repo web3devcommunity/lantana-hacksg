@@ -38,7 +38,7 @@ export type CauseInput = {
 
 export type PublicationKeyValue = {
   entity: string;
-  value: string;
+  value: string | number;
 };
 
 export const asPublicationAttribute = ({
@@ -47,7 +47,7 @@ export const asPublicationAttribute = ({
 }: PublicationKeyValue) => {
   return {
     traitType: entity,
-    value,
+    value: value.toString(),
   };
 };
 
@@ -55,6 +55,7 @@ export const asPublicationTag = ({ entity, value }: PublicationKeyValue) => {
   return [entity, value].join('-');
 };
 
+// Could be Dynamic in the sense everytime someone mint the ERC1155 nft each attributes being different
 export const mapCauseAsPublication = (cause: Cause) => {
   const { key, title, descriptionShort, imageUrl } = cause;
 
@@ -66,6 +67,10 @@ export const mapCauseAsPublication = (cause: Cause) => {
     {
       entity: Entity.Cause,
       value: cause.key,
+    },
+    {
+      entity: Entity.VolunteerCount,
+      value: cause.volunteersCount,
     },
   ];
 
