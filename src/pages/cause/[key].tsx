@@ -21,15 +21,17 @@ import {
   useExplorePublications,
   usePublicationRevenue,
   useWhoCollectedPublication,
+  useActiveProfile,
 } from '@lens-protocol/react-web';
 import styled from 'styled-components';
 import { CollectButtonWrapper } from '@/components/CollectButtonWrapper';
+import { CommentComposer } from '@/components/CommentComposer';
 import { Entity } from '@/domain/entity';
 import { mapPublicationAsEvent } from '@/domain/event';
+import { PublicationComments } from '@/components/PublicationComments';
 
 export default function CausePage() {
   const router = useRouter();
-
   const causeKey = router.query.key;
 
   // alternative approaches
@@ -50,6 +52,8 @@ export default function CausePage() {
       ],
     },
   })?.metadataFilter;
+
+  const { data: activeProfile } = useActiveProfile();
 
   const { data } = useExplorePublications({
     metadataFilter: appFilter,
@@ -72,6 +76,9 @@ export default function CausePage() {
   });
 
   const publicationId = post?.id as PublicationId;
+
+  // TODO: to pick the correct publicationId from path
+  const fixedPublicationId = '0x82ce-0x02' as PublicationId;
 
   const { data: whoCollected, loading: whoCollectedLoading } =
     useWhoCollectedPublication({
@@ -99,9 +106,7 @@ export default function CausePage() {
     );
 
   // event loaded separately
-
   const cause = mapPublicationAsCause(post);
-
   const events = (eventPublications || [])?.map(mapPublicationAsEvent);
 
   console.log('whoCollected', whoCollected, whoCollectedLoading, revenue);
@@ -114,27 +119,32 @@ export default function CausePage() {
         </Typography>
       </Grid>
       <Grid container>
-        <Grid item xs={1}>
-          <Avatar sx={{ margin: '0px 7px 7px 7px' }}>N</Avatar>
+        <Grid item>
+          <Avatar sx={{ margin: '0px 10px 7px 7px' }}>N</Avatar>
         </Grid>
-        <Grid item xs={11}>
-          <Typography variant="h4" color="text.secondary">
+        <Grid item xs={10}>
+          <Typography variant="h5" color="text.secondary">
             organized by
           </Typography>
           <Typography variant="h4">{cause.organizer.title}</Typography>
         </Grid>
       </Grid>
-      <Image src={cause.imageUrl} width={600} height={400} alt={cause.title} />
-      <Grid container sx={{ marginTop: '50px' }}>
-        <Grid item xs={12} md={12}>
-          <Typography variant="h3">Upcoming Events</Typography>
-        </Grid>
+      <Grid container rowSpacing={3} sx={{ marginTop: '35px' }}>
         <Grid item xs={12} md={6}>
-          <EventList events={events} />
+          <Image
+            src={cause.imageUrl}
+            width={450}
+            height={350}
+            alt={cause.title}
+          />
         </Grid>
         <Grid item xs={12} md={6}>
           <StatsWrapper>
-            <Typography variant="body1" color="text.secondary">
+            <Typography
+              variant="body1"
+              color="text.secondary"
+              sx={{ marginBottom: '20px' }}
+            >
               Funding Received: ${total} <br />
               from {whoCollected?.length} people
             </Typography>
@@ -143,13 +153,44 @@ export default function CausePage() {
                 publicationId={post.id}
                 currencyAddress={CURRENCY_LANTANA_ADDRESS}
               >
-                <Button>Donate</Button>
+                <Button
+                  size="small"
+                  variant="contained"
+                  sx={{ marginTop: '15px' }}
+                >
+                  Donate
+                </Button>
               </CollectButtonWrapper>
             </div>
           </StatsWrapper>
           <CauseAttestationList
             causeAttestations={TEST_CAUSE_ATTESTATION_RAW}
           />
+        </Grid>
+        <Grid item xs={12} md={12}>
+          <Typography variant="h3">Upcoming Events</Typography>
+        </Grid>
+        <Grid item xs={12} md={12}>
+          <EventList events={events} />
+        </Grid>
+
+        <Grid container rowSpacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h4">Comments</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <PublicationComments
+              publicationId={fixedPublicationId}
+            ></PublicationComments>
+          </Grid>
+          {activeProfile && (
+            <Grid item xs={12}>
+              <CommentComposer
+                publisher={activeProfile}
+                publicationId={fixedPublicationId}
+              />
+            </Grid>
+          )}
         </Grid>
       </Grid>
     </SocialLayout>

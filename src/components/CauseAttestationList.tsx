@@ -74,7 +74,7 @@ export const CauseAttestationList = ({
             })}
         </List>
       </section>
-      <section>
+      {/* <section>
         <h3>community support</h3>
         <Grid container alignItems="flex-start">
           <Grid item>
@@ -93,7 +93,7 @@ export const CauseAttestationList = ({
             </AvatarGroup>
           </Grid>
         </Grid>
-      </section>
+      </section> */}
     </div>
   );
 };

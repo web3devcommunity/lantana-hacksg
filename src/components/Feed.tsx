@@ -53,7 +53,7 @@ export const FeedItems = ({
             return (
               <Grid
                 item
-                key={i}
+                key={event.title}
                 display="flex"
                 justifyContent="center"
                 alignItems="center"

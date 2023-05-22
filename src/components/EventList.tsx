@@ -38,7 +38,9 @@ export const EventList = ({ events }: { events: Event[] }) => {
     <ImageList
       gap={10}
       sx={{
-        width: '600px',
+        marginTop: '0px',
+        width: 'auto',
+        maxWidth: '800px',
         height: '250px',
         gridAutoFlow: 'column',
         gridTemplateColumns: 'repeat(auto-fit, minmax(200px,200px)) !important',
