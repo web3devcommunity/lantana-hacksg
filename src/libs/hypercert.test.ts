@@ -27,12 +27,11 @@ describe('hypercert', () => {
     // const image = await datauri(src);
 
     cause.imageUrl =
-      'https://github.com/web3devcommunity/lantana-hacksg/assets/1883877/8e9a42e0-eb7a-45b3-ab8f-342981681006';
-
+      'https://github-production-user-asset-6210df.s3.amazonaws.com/1883877/239870898-8e9a42e0-eb7a-45b3-ab8f-342981681006.png';
     const { data: metadata } = mapCauseAsHyperCertMetadata(cause);
 
     if (!metadata) throw new Error('metadata is undefined');
-
+    console.log('metadata', metadata);
     const res = await mintHyperCert({
       chainId,
       signer,

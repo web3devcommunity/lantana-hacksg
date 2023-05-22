@@ -8,6 +8,7 @@ import {
 import { ethers } from 'ethers';
 import { TEST_ORGANIZER_ACCOUNT_ADDRESS } from '@/env';
 import { Cause } from '@/domain/cause';
+import _ from 'lodash';
 
 export const mapCauseAsHyperCertMetadata = (cause: Cause) => {
   const rawData = {
@@ -16,8 +17,8 @@ export const mapCauseAsHyperCertMetadata = (cause: Cause) => {
     // seems ipfs not being picked up
     // Consider making any images at a width between 320 and 1080 pixels and aspect ratio between 1.91:1 and 4:5 inclusive.
     image: cause.imageUrl,
-    version: '0.1',
-
+    version: '0.0.1',
+    external_url: 'https://lantana.social',
     workScope: [cause.title],
     excludedWorkScope: [],
     impactScope: [cause.title],
@@ -42,7 +43,19 @@ export const mapCauseAsHyperCertMetadata = (cause: Cause) => {
     excludedRights: [],
   };
 
-  return formatHypercertData(rawData);
+  // seems goerli contract outdated
+  // return formatHypercertData(rawData);
+
+  return {
+    data: _.pick(rawData, [
+      'name',
+      'description',
+      'external_url',
+      'image',
+      'version',
+      'properties',
+    ]),
+  };
 };
 
 export const mintHyperCert = async ({
@@ -64,24 +77,21 @@ export const mintHyperCert = async ({
     },
   });
   const properties: HypercertMetadata['properties'] = [
-    {
-      impact_scope: {},
-      work_timeframe: {},
-      impact_timeframe: {},
-      impact_location: {},
-      work_location: {},
-      ...metadata?.properties,
-    },
+    // {
+    //   ...metadata?.properties,
+    // },
   ];
 
   const claimData = {
     ...metadata,
     properties,
   };
+
+  console.log('claimData', claimData);
   const results = await mintHypercert(
     TEST_ORGANIZER_ACCOUNT_ADDRESS!,
     claimData,
-    500000,
+    10,
     2,
   );
   console.log('results', results);
