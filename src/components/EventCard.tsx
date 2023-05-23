@@ -55,7 +55,7 @@ export const EventCard = ({
           component="img"
           height="194"
           image={imageUrl}
-          alt="Post Image"
+          alt="Event Image"
         />
       )}
 

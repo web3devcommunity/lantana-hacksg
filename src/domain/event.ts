@@ -43,6 +43,8 @@ export const mapPublicationAsEvent = (publication: LensPublication): Event => {
   const causeKey = findAttributeWithEntity(publication, Entity.Cause) || '';
   const eventKey = findAttributeWithEntity(publication, Entity.Event) || '';
 
+  const date = findAttributeWithEntity(publication, Entity.EventDate) || '';
+
   return {
     causeKey,
     title: publication?.metadata?.name,
@@ -53,6 +55,7 @@ export const mapPublicationAsEvent = (publication: LensPublication): Event => {
     stats: publication?.stats,
     publicationId: publication?.id,
     key: eventKey,
+    date: parseISO(date),
     // TODO load from followers
     // volunteers: event.volunteers,
     volunteers: _.take(TEST_USERS_RAW, 5),

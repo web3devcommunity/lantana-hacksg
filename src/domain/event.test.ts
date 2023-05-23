@@ -35,6 +35,6 @@ describe('#event', () => {
       Entity.Cause,
     );
 
-    expect(attributeValue).toEqual('123');
+    expect(attributeValue).toEqual('eco-warriors-sg');
   });
 });
