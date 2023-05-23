@@ -48,7 +48,7 @@ export const mapPublicationAsEvent = (publication: LensPublication): Event => {
   return {
     causeKey,
     title: publication?.metadata?.name,
-    date: parseISO(publication?.createdAt) || new Date(),
+    // date: parseISO(publication?.createdAt) || new Date(),
     // date: publication,
     imageUrl: publication?.metadata?.media?.[0]?.original.url,
     descriptionShort: publication?.metadata?.content,

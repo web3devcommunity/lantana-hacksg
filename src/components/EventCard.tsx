@@ -39,7 +39,13 @@ export const EventCard = ({
   const collector = data!;
 
   const imageUrl = withIpfsGateway(event.imageUrl || '');
-  const displayedDate = format(event.date, 'MM/dd/yyyy HH:mm');
+  let displayedDate = '05/01/2023';
+
+  try {
+    displayedDate = format(event.date, 'MM/dd/yyyy HH:mm');
+  } catch (err) {
+    console.log('error in parsing date', err);
+  }
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader

@@ -20,7 +20,7 @@ import SensorsIcon from '@mui/icons-material/Sensors';
 import { getExplorerUrl, withIpfsGateway } from '@/libs/lens/utils';
 import { ALCHEMY_API_TOKEN_GOERLI, ALCHEMY_API_TOKEN_MUMBAI, ALCHEMY_API_TOKEN_OPTIMISM } from '@/env';
 import { NfcSharp } from '@mui/icons-material';
-import { withInternetUrl } from '@/libs/storage/file';
+import { Grid } from '@mui/material';
 
 export const getAlchemySettings = (network: string) => {
     if (network === 'optimism') {
@@ -130,25 +130,26 @@ export const NFTList = ({ contractAddress, userAddress, network }: {
         return <></>
     }
 
-    return <div>
+    return <Grid container>
         {
             nfts.map(
                 nft => {
                     return (
-                        <NFTCard
-                            key={"nft-" + nft.tokenId}
-                            contractAddress={contractAddress}
-                            tokenId={nft?.tokenId}
-                            tokenType={nft?.tokenType}
-                            network={network}
-                        />
+                        <Grid item key={"nft-" + nft.tokenId} xs={6} md={3} spacing={3}>
+                            <NFTCard
+                                contractAddress={contractAddress}
+                                tokenId={nft?.tokenId}
+                                tokenType={nft?.tokenType}
+                                network={network}
+                            />
+                        </Grid>
                     )
 
                 }
             )
         }
 
-    </div>
+    </Grid>
 }
 
 

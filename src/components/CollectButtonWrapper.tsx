@@ -63,7 +63,7 @@ export const CollectButtonWrapper = ({ publicationId, currencyAddress, children 
 
                                 }
                                 if (results) {
-                                    console.log('collect', results)
+                                    console.log('collect', results, wallet?.address)
                                     if (results.isSuccess()) {
                                         setIsCollected(true)
                                     }
