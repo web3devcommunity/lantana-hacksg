@@ -12,6 +12,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@bundlr-network/client": "^0.11.2",
     "@lens-protocol/client": "^1.0.1",
     "@lens-protocol/react-web": "^1.0.1",
     "@lens-protocol/wagmi": "^1.0.1",
@@ -40,6 +41,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "sass": "^1.62.1",
+    "sharp": "^0.32.1",
     "styled-components": "^6.0.0-rc.1",
     "typescript": "5.0.4",
     "wagmi": "0.12.13",

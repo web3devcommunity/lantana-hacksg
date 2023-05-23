@@ -6,24 +6,21 @@ import styled from 'styled-components';
 // easier to just override per our need
 const StyledConnectButtonWrapper = styled.div`
   .rainbowkit-connect-btn button {
-    height: 100px;
-    font-size: 1em;
-    width: 100%;
-    color: black;
-    text-decoration: underline;
+    height: 30px;
+    min-width: max-content;
+    text-decoration: none;
     border: 0px;
     cursor: pointer;
+    margin-top: 3px;
   }
 `;
 
 export const Account = () => {
-  const wagmiAccount = useAccount();
-
   return (
     <StyledConnectButtonWrapper>
       <div className="rainbowkit-box">
         <div className="rainbowkit-connect-btn">
-          <ConnectButton label="Sign Up" />
+          <ConnectButton label="Log In" />
         </div>
       </div>
     </StyledConnectButtonWrapper>

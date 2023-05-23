@@ -8,34 +8,41 @@ import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import CommentIcon from '@mui/icons-material/Comment';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
-import { ProfileOwnedByMe, useActiveProfile, useCollect, useCreateMirror } from '@lens-protocol/react-web';
+import {
+  ProfileOwnedByMe,
+  useActiveProfile,
+  useCollect,
+  useCreateMirror,
+} from '@lens-protocol/react-web';
 import styled from 'styled-components';
 
+const MirrorButton = styled(IconButton)<{ isMirroredByMe: boolean }>`
+  color: ${(props) => (props.isMirroredByMe ? `blue` : `#757575`)};
+`;
 
-const MirrorButton = styled(IconButton) <{ isMirroredByMe: boolean }>`
-color: ${props => (props.isMirroredByMe ? `blue` : `#757575`)};
-`
-
-
-
-export const EventCardActions = ({ profile, publication, collectAction, mirrorAction, isMirroredByMe = false }:
-  {
-    profile: ProfileOwnedByMe | null | undefined, publication: any,
-    collectAction: () => void, mirrorAction: () => void,
-    isMirroredByMe?: boolean
-  }) => {
-
-
+export const EventCardActions = ({
+  profile,
+  publication,
+  collectAction,
+  mirrorAction,
+  isMirroredByMe = false,
+}: {
+  profile: ProfileOwnedByMe | null | undefined;
+  publication?: any;
+  collectAction?: () => void;
+  mirrorAction?: () => void;
+  isMirroredByMe?: boolean;
+}) => {
   // change the share link to respective cause
   return (
-    <CardActions>
+    <CardActions disableSpacing>
       <IconButton aria-label="vote up">
         <FavoriteIcon />
       </IconButton>
       <IconButton
         onClick={(event) => {
-          event.preventDefault()
-          collectAction();
+          event.preventDefault();
+          collectAction!();
         }}
         aria-label="support"
       >
@@ -44,8 +51,8 @@ export const EventCardActions = ({ profile, publication, collectAction, mirrorAc
       <MirrorButton
         isMirroredByMe={isMirroredByMe}
         onClick={(event) => {
-          event.preventDefault()
-          mirrorAction();
+          event.preventDefault();
+          mirrorAction!();
         }}
         aria-label="share-to-lenster"
       >
@@ -55,7 +62,9 @@ export const EventCardActions = ({ profile, publication, collectAction, mirrorAc
         aria-label="share-to-twitter"
         target="_blank"
         href="https://twitter.com/intent/tweet?text=Check%20out%20this%20cause&url=https://lantana.social/cause&via=Lantana&hashtags=lantana,lens,web3"
-      ><TwitterIcon /></IconButton>
+      >
+        <TwitterIcon />
+      </IconButton>
 
       {/* <IconButton aria-label="collect">
         <BookmarkAddIcon />
@@ -70,44 +79,52 @@ export const EventCardActions = ({ profile, publication, collectAction, mirrorAc
   );
 };
 
-
 // smart component to pick up profile while pure component to show psuedo actions in case of unconnected
 // hack around lens sdk types to grouo conditionals
-export const EventCardActionsWithProfile = ({ publication }: { publication: any }) => {
-
+export const EventCardActionsWithProfile = ({
+  publication,
+}: {
+  publication: any;
+}) => {
   const { data: activeProfile } = useActiveProfile();
 
-  const { execute: collect } = useCollect({ collector: activeProfile as ProfileOwnedByMe, publication });
-
-  const { execute: createMirror, isPending: isMirrorPending } = useCreateMirror({
-    publisher: activeProfile!,
+  const { execute: collect } = useCollect({
+    collector: activeProfile as ProfileOwnedByMe,
+    publication,
   });
 
+  const { execute: createMirror, isPending: isMirrorPending } = useCreateMirror(
+    {
+      publisher: activeProfile!,
+    },
+  );
 
+  const isMirroredByMe =
+    publication.isOptimisticMirroredByMe || publication.mirrors.length > 0;
+  console.log('isMirrorPending', isMirrorPending, isMirroredByMe);
 
-  const isMirroredByMe = publication.isOptimisticMirroredByMe || publication.mirrors.length > 0;
-  console.log('isMirrorPending', isMirrorPending, isMirroredByMe)
+  const collectAction = activeProfile
+    ? () => {
+        // collect();
+      }
+    : _.noop;
 
-  const collectAction = activeProfile ? () => {
-    // collect();
-  } : _.noop;
+  const mirrorAction =
+    activeProfile && !isMirrorPending && !isMirroredByMe
+      ? async () => {
+          await createMirror({
+            publication: publication,
+          });
+        }
+      : _.noop;
 
-  const mirrorAction = activeProfile && !isMirrorPending && !isMirroredByMe ? async () => {
-
-    await createMirror({
-      publication: publication,
-    });
-  } : _.noop;
-
-
-
-
-  return <EventCardActions
-    profile={activeProfile}
-    publication={publication}
-    collectAction={collectAction}
-    mirrorAction={mirrorAction}
-    isMirroredByMe={isMirroredByMe}
-  />;
-
-}
+  return (
+    <EventCardActions
+      profile={activeProfile}
+      publication={publication}
+      collectAction={collectAction}
+      mirrorAction={mirrorAction}
+      isMirroredByMe={isMirroredByMe}
+    />
+  );
+};

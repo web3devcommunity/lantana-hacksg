@@ -5,7 +5,7 @@
 
 export default function themePalette(theme) {
   return {
-    mode: theme?.customization?.navType,
+    mode: theme?.mode,
     common: {
       black: theme.colors?.darkPaper,
     },
