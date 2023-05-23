@@ -34,8 +34,8 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
         imageUrl: '/clean1.jpg',
         descriptionShort:
           '5kg of rubbish is collected. Join EcoWarriors for a community clean-up to make our environment cleaner and greener.',
-        volunteers: _.take(TEST_USERS_RAW, 5),
-        // volunteers: [ { name: 'John', }, { name: 'Emily' }, { name: 'Michael' }],
+        volunteers: _.take(TEST_USERS_RAW, 3),
+
         volunteersCount: 25,
       },
       {
@@ -46,7 +46,6 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
         descriptionShort:
           'Raise awareness about environmental issues by participating in our walkathon.',
         volunteers: _.take(TEST_USERS_RAW, 5),
-        // volunteers: [ { name: 'Sophia' }, { name: 'David' }, { name: 'Emma' } ],
         volunteersCount: 40,
       },
       {
@@ -57,7 +56,6 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
         descriptionShort:
           'Help us create a vibrant community garden by planting trees and flowers.',
         volunteers: _.take(TEST_USERS_RAW, 5),
-        // volunteers: [ { name: 'Oliver' }, { name: 'Ava' }, { name: 'Jacob' } ],
         volunteersCount: 15,
       },
       {
@@ -68,12 +66,10 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
         descriptionShort:
           'Join us in cleaning up the coast and promoting marine conservation.',
         volunteers: _.take(TEST_USERS_RAW, 5),
-        // volunteers: [ { name: 'Mia' }, { name: 'Daniel' }, { name: 'Sophie' } ],
         volunteersCount: 30,
       },
     ],
     volunteers: _.take(TEST_USERS_RAW, 5),
-    // volunteers: [{ name: 'Liam' }, { name: 'Olivia' }, { name: 'Ethan', } ],
     volunteersCount: 100,
   },
   {
@@ -93,12 +89,10 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
         descriptionShort:
           'Equip the youth with essential financial knowledge through our workshop.',
         volunteers: _.take(TEST_USERS_RAW, 5),
-        // volunteers: [ { name: 'Noah' }, { name: 'Sophia' }, { name: 'William' } ],
         volunteersCount: 20,
       },
     ],
     volunteers: _.take(TEST_USERS_RAW, 5),
-    // volunteers: [{ name: 'Isabella' }, { name: 'Mason' }, { name: 'Abigail' } ],
     volunteersCount: 50,
   },
   {
@@ -119,12 +113,10 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
         descriptionShort:
           'Let your children explore their artistic side with our art and craft day.',
         volunteers: _.take(TEST_USERS_RAW, 5),
-        // volunteers: [ { name: 'James' }, { name: 'Sophie' }, { name: 'Elijah' } ],
         volunteersCount: 30,
       },
     ],
     volunteers: _.take(TEST_USERS_RAW, 5),
-    // volunteers: [{ name: 'Charlotte' }, { name: 'Benjamin' }, { name: 'Avery' } ],
     volunteersCount: 40,
   },
   {
@@ -145,7 +137,6 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
         descriptionShort:
           'Join our support group and learn how to provide better care for the elderly.',
         volunteers: _.take(TEST_USERS_RAW, 5),
-        // volunteers: [ { name: 'Harper' }, { name: 'Jackson' }, { name: 'Amelia' } ],
         volunteersCount: 15,
       },
       {
@@ -157,7 +148,6 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
         descriptionShort:
           'Promote healthy living among seniors through our fitness bootcamp.',
         volunteers: _.take(TEST_USERS_RAW, 5),
-        // volunteers: [ { name: 'Liam' }, { name: 'Olivia' }, { name: 'Ethan' } ],
         volunteersCount: 25,
       },
       {
@@ -169,12 +159,10 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
         descriptionShort:
           'Help seniors become more tech-savvy by participating in our workshop.',
         volunteers: _.take(TEST_USERS_RAW, 5),
-        // volunteers: [ { name: 'Isabella' }, { name: 'Mason' }, { name: 'Abigail' } ],
         volunteersCount: 10,
       },
     ],
     volunteers: _.take(TEST_USERS_RAW, 5),
-    // volunteers: [{ name: 'Oliver' }, { name: 'Ava' }, { name: 'Jacob' } ],
     volunteersCount: 50,
   },
   {
@@ -196,7 +184,6 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
         descriptionShort:
           'Donate food items for homeless shelters and make a difference in their lives.',
         volunteers: _.take(TEST_USERS_RAW, 5),
-        // volunteers: [ { name: 'Mia' }, { name: 'Daniel' }, { name: 'Sophie' } ],
         volunteersCount: 20,
       },
       {
@@ -208,12 +195,10 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
         descriptionShort:
           'Spend a day at the animal shelter and provide care for our furry friends.',
         volunteers: _.take(TEST_USERS_RAW, 5),
-        // volunteers: [ { name: 'Emily' }, { name: 'Michael' }, { name: 'Grace' } ],
         volunteersCount: 10,
       },
     ],
     volunteers: _.take(TEST_USERS_RAW, 5),
-    // volunteers: [{ name: 'Joshua' }, { name: 'Emily' }, { name: 'Daniel' } ],
     volunteersCount: 30,
   },
   {
@@ -235,12 +220,10 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
         descriptionShort:
           'Equip young individuals with essential life skills through our empowering workshop.',
         volunteers: _.take(TEST_USERS_RAW, 5),
-        // volunteers: [ { name: 'Noah' }, { name: 'Sophia' }, { name: 'William' } ],
         volunteersCount: 40,
       },
     ],
     volunteers: _.take(TEST_USERS_RAW, 5),
-    // volunteers: [{ name: 'James' }, { name: 'Sophie' }, { name: 'Elijah', } ],
     volunteersCount: 50,
   },
   {
@@ -262,7 +245,6 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
         descriptionShort:
           'Guide underprivileged students towards a brighter future through career mentoring.',
         volunteers: _.take(TEST_USERS_RAW, 5),
-        // volunteers: [ { name: 'Charlotte' }, { name: 'Benjamin' }, { name: 'Avery' } ],
         volunteersCount: 20,
       },
       {
@@ -274,7 +256,6 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
         descriptionShort:
           'Provide support and care for children with special needs and their families.',
         volunteers: _.take(TEST_USERS_RAW, 5),
-        // volunteers: [ { name: 'Harper' }, { name: 'Jackson' }, { name: 'Amelia' } ],
         volunteersCount: 15,
       },
       {
@@ -286,7 +267,6 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
         descriptionShort:
           'Make a difference in the lives of orphaned children by volunteering at a local orphanage.',
         volunteers: _.take(TEST_USERS_RAW, 5),
-        // volunteers: [ { name: 'Liam' }, { name: 'Olivia' }, { name: 'Ethan' } ],
         volunteersCount: 25,
       },
       {
@@ -298,7 +278,6 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
         descriptionShort:
           'Join us in renovating a community library and create a better learning environment.',
         volunteers: _.take(TEST_USERS_RAW, 5),
-        // volunteers: [ { name: 'Isabella' }, { name: 'Mason' }, { name: 'Abigail' } ],
         volunteersCount: 30,
       },
       {
@@ -310,7 +289,6 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
         descriptionShort:
           'Promote gender equality in the workplace through awareness campaigns and initiatives.',
         volunteers: _.take(TEST_USERS_RAW, 5),
-        // volunteers: [ { name: 'Sophia' }, { name: 'David' }, { name: 'Emma' } ],
         volunteersCount: 20,
       },
       {
@@ -322,12 +300,10 @@ export const TEST_CAUSES_RAW: CauseInput[] = [
         descriptionShort:
           'Support refugees in their journey towards integration into a new community.',
         volunteers: _.take(TEST_USERS_RAW, 5),
-        // volunteers: [ { name: 'Oliver' }, { name: 'Ava' }, { name: 'Jacob' } ],
         volunteersCount: 35,
       },
     ],
     volunteers: _.take(TEST_USERS_RAW, 5),
-    // volunteers: [{ name: 'Joshua' }, { name: 'Emily' }, { name: 'Daniel' } ],
     volunteersCount: 150,
   },
 ];

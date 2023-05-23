@@ -109,7 +109,7 @@ export const mapPublicationAsCause = (publication: LensPublication): Cause => {
     volunteers: _.take(TEST_USERS_RAW, 5),
     // TODO load from attributes
     // volunteersCount: event.volunteersCount,
-    volunteersCount: 234,
+    volunteersCount: _.random(45, 234),
     events: [],
   };
 };

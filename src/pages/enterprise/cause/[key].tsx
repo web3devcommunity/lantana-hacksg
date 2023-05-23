@@ -58,7 +58,7 @@ export const EnterpriseStatsTabs = ({ publicationId }: { publicationId: Publicat
     const hypercertsTokenId = '131008711264561308433399223861230761410560';
 
     // TODO
-    const collectionContractAddress = '0xa4f68403fa88b9bbc9fd4f52b94d14e5d6a396ed'
+    const collectionContractAddress = '0xfe324CD94d32258ad9dBFF2C47beaf6E0E82b02C'
 
     const { data: revenue } = usePublicationRevenue({
         publicationId
@@ -155,7 +155,7 @@ export default function EnterpriseCausePage() {
         <EnterpriseLayout>
 
             <Container>
-                <Typography variant="subtitle1">Supporting Cause</Typography>
+                <Typography variant="h5" color="text.secondary">Supporting Cause</Typography>
                 <Typography variant="h4">{cause.title}</Typography>
 
                 <Grid container alignItems="flex-start" spacing={2}>

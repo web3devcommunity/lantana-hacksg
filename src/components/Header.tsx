@@ -13,7 +13,12 @@ import { ConnectLens } from './ConnectLens';
 const StyledAppBar = styled(AppBar)`
   color: black;
   background-color: #fff;
+
+  & a {
+    text-decoration: none;
+  }
 `;
+
 export const Header = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -23,13 +28,18 @@ export const Header = () => {
             <Image src={LogoImage} width={60} alt="Lantana" />
           </Box>
           <Box sx={{ display: 'flex', m: 2 }}>
-            <Link href="/">Discover</Link>
+            <Link href="/">
+              <Typography variant="h6">Discover</Typography>
+            </Link>
           </Box>
           {/* <Box sx={{ display: 'flex', m: 2 }}>
             <Link href="/organize">Organize</Link>
           </Box> */}
           <Box sx={{ display: 'flex', m: 2 }}>
-            <Link href="/enterprise/feed">Enterprise</Link>
+            <Link href="/enterprise/feed">
+              <Typography variant="h6">Enterprise</Typography>
+
+            </Link>
           </Box>
           {/* <Box sx={{ display: 'flex', m: 2 }}>
             <Link href="/dashboard">Dashboard</Link>
@@ -38,8 +48,8 @@ export const Header = () => {
           <AccountDrawer>
             <div>
               <Grid container direction="column">
-                <Grid item>
-                  <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                <Grid item >
+                  <Typography variant="h4" component="div" sx={{ flexGrow: 1, m: 2 }}>
                     Account
                   </Typography>
                 </Grid>

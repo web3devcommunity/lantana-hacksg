@@ -14,7 +14,7 @@ import { format, compareAsc, parseISO } from 'date-fns';
 import { Cause, CauseInput } from '@/domain/cause';
 
 import { useActiveProfile, useCollect } from '@lens-protocol/react-web';
-import { AvatarGroup } from '@mui/material';
+import { AvatarGroup, Box } from '@mui/material';
 import { User } from '@/domain/user';
 import { withIpfsGateway } from '@/libs/lens/utils';
 
@@ -79,13 +79,15 @@ export const CauseCard = ({
 
       {!isThumbnailOnly && (
         <CardContent>
-          <Typography variant="body2" color="text.secondary">
-            {featuredEvent.descriptionShort}
-            <br />
-            <b>{'totalComments'}</b>{' '}
-            {featuredEvent.stats?.totalAmountOfComments}
-            <b> {'totalMirrors'}</b> {featuredEvent.stats?.totalAmountOfMirrors}
-          </Typography>
+          <Box m={1} >
+            <Typography variant="body2" color="text.secondary">
+              {featuredEvent.descriptionShort}
+              <br />
+              <b>{'totalComments'}</b>{' '}
+              {featuredEvent.stats?.totalAmountOfComments}
+              <b> {'totalMirrors'}</b> {featuredEvent.stats?.totalAmountOfMirrors}
+            </Typography>
+          </Box>
         </CardContent>
       )}
       {!isThumbnailOnly && actions}

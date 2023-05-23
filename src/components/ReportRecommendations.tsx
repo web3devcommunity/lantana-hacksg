@@ -1,5 +1,4 @@
-import { Box } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Box, Divider } from '@mui/material';
 import React from 'react';
 import Alert from '@mui/material/Alert';
 import CheckIcon from '@mui/icons-material/Check';
@@ -17,7 +16,6 @@ export const ReportRecommendations = ({
 }: {
   aiRecommendations: AiRecommendations;
 }) => {
-
   // Not asking openAI to return HTML directly as its css is hard to customize, also not a good secure practice
 
   return (
@@ -28,7 +26,7 @@ export const ReportRecommendations = ({
         <h1>CSR</h1>
         {aiRecommendations.csr || 'Loading...'}
       </Box>
-
+      <Divider />
       <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">AI Recommendations by ESG standards. Base on OpenAI GPT 4.0</Alert>
 
       <Box>
