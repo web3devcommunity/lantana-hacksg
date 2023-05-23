@@ -104,3 +104,7 @@ export const getExplorerUrl = (
   }
   return `https://mumbai.polygonscan.com/address/${contractAddress}?a=${tokenId}`;
 };
+
+export const getAvatarUrl = () => {
+  return `https://mui.com/static/images/avatar/${_.random(1, 7)}.jpg`;
+};

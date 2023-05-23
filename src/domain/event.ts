@@ -75,6 +75,10 @@ export const mapEventAsPublication = (event: Event) => {
       entity: Entity.Event,
       value: event.key,
     },
+    {
+      entity: Entity.EventDate,
+      value: event.date.toISOString(),
+    },
   ];
   const attributes = kvs.map(asPublicationAttribute);
   const tags = kvs.map(asPublicationTag);

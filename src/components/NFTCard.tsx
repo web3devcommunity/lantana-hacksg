@@ -17,15 +17,15 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SensorsIcon from '@mui/icons-material/Sensors';
-import { getExplorerUrl } from '@/libs/lens/utils';
-import { ALCHEMY_API_TOKEN_MUMBAI, ALCHEMY_API_TOKEN_OPTIMISM } from '@/env';
+import { getExplorerUrl, withIpfsGateway } from '@/libs/lens/utils';
+import { ALCHEMY_API_TOKEN_GOERLI, ALCHEMY_API_TOKEN_MUMBAI, ALCHEMY_API_TOKEN_OPTIMISM } from '@/env';
 import { NfcSharp } from '@mui/icons-material';
+import { withInternetUrl } from '@/libs/storage/file';
 
 export const getAlchemySettings = (network: string) => {
     if (network === 'optimism') {
         return {
-            apiKey: ALCHEMY_API_TOKEN_OPTIMISM,
-            //tricky need eth insetaed for optimi
+            apiKey: ALCHEMY_API_TOKEN_GOERLI,
             network: Network.ETH_GOERLI
             // network: Network.OPT_GOERLI, // Replace with your network.
         }
@@ -41,6 +41,7 @@ export const useAlchemySdk = (network: string) => {
 
     return useMemo(() => {
         const alchemySettings = getAlchemySettings(network);
+        console.log('useAlchemySdk', network, alchemySettings);
         return new Alchemy(alchemySettings).nft;
     }, [network])
 
@@ -97,29 +98,22 @@ export const useNFTsSelected = ({
     const [nfts, setNfts] = useState<Nft[]>([]);
 
     useEffect(() => {
-
         if (userAddress) {
             sdk.getNftsForOwner(userAddress, {
                 contractAddresses: [contractAddress]
             })
                 .then((results) => {
                     setNfts(results?.ownedNfts as Nft[]);
-                    // console.log('nfts', nfts, results);
-                    // setNfts(nfts)
                 });
 
         } else {
             sdk.getNftsForContract(contractAddress)
                 .then((results) => {
-                    // setNfts(results?.ownedNfts as never[]);
-                    // console.log('nfts', nfts, results);
                     setNfts(results.nfts)
                 });
         }
 
-
-
-    }, []);
+    }, [contractAddress, userAddress]);
 
     return {
         nfts
@@ -168,24 +162,36 @@ export const NFTCard = ({ contractAddress, tokenId, tokenType, network, external
 }) => {
     const { nft } = useNFTMetadata({ contractAddress, tokenId, tokenType, network });
 
-    const [imageSrc, setImageSrc] = useState<string>(null)
+    const [imageSrc, setImageSrc] = useState<string>('')
+
+    // data uri token metadata of hypercert will be Too large for alchemy
+
+
+    useEffect(() => {
+        if (!nft) {
+            return;
+        }
+
+        const media = nft.media?.length ? nft.media : nft.rawMetadata?.media;
+        const imageUrl = media?.[0]?.thumbnail || media?.[0]?.item;
+
+        if (imageUrl) {
+            setImageSrc(withIpfsGateway(imageUrl));
+        } else if (!media?.length && nft.tokenUri) {
+            fetch(nft.tokenUri.gateway).then(res => {
+                res.json().then(data => {
+                    setImageSrc(data.image)
+                })
+            })
+        }
+    }, [nft])
+
 
     if (!nft) {
         return <></>
     }
 
-    const { title, description, media } = nft;
-
-    // data uri token metadata of hypercert will be Too large for alchemy
-    if (!media.length && nft.tokenUri) {
-        fetch(nft.tokenUri.gateway).then(res => {
-            res.json().then(data => {
-                setImageSrc(data.image)
-            })
-        })
-    } else if (media?.[0]?.thumbnail) {
-        setImageSrc(media?.[0]?.thumbnail);
-    }
+    const { title, description } = nft;
 
     const explorerUrl = getExplorerUrl(network, contractAddress, tokenId?.toString());
 

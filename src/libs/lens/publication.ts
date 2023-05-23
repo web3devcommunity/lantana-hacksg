@@ -1,11 +1,10 @@
 import _ from 'lodash';
-import { loadClientAuthenticated } from './client';
-import { jest, describe, expect, it, beforeAll } from '@jest/globals';
-import { ethers } from 'ethers';
+
 import {
   APP_VERSION_TAG,
   CURRENCY_WMATIC_ADDRESS,
   CURRENCY_LANTANA_ADDRESS,
+  LENSTER_APP_ID,
 } from '@/env';
 import {
   LensClient,
@@ -83,7 +82,7 @@ export const createPublicationMetadataFactory = (
     imageMimeType: null,
     name,
     tags: [APP_VERSION_TAG, ...(tags || [])],
-
+    appId: LENSTER_APP_ID,
     content,
 
     ...metadata,

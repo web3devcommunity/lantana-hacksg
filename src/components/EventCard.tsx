@@ -23,7 +23,7 @@ import { useActiveProfile, useCollect } from '@lens-protocol/react-web';
 import { EventInput, Event } from '@/domain/event';
 import { AvatarGroup, Box } from '@mui/material';
 import { User } from '@/domain/user';
-import { withIpfsGateway } from '@/libs/lens/utils';
+import { getAvatarUrl, withIpfsGateway } from '@/libs/lens/utils';
 
 // decouple lens specific actions / api from presentation
 export const EventCard = ({
@@ -65,7 +65,7 @@ export const EventCard = ({
             <Avatar
               key={volunteer.name! + i}
               alt={volunteer.name}
-              src={`https://mui.com/static/images/avatar/${i}.jpg`}
+              src={getAvatarUrl()}
             />
           );
         })}

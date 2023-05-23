@@ -2,7 +2,8 @@
 export enum Entity {
   Cause = 'cause',
   Event = 'event',
-  Lantana = 'Lantana',
+  EventDate = 'event-date',
+  Lantana = 'lantana',
   VolunteerCount = 'volunteer-count',
   EventCategory = 'event-category',
   WasteCollectedKg = 'waste-collected-kg',
@@ -15,4 +16,5 @@ export const WhiteListedEntities = [
   Entity.EventCategory,
   Entity.WasteCollectedKg,
   Entity.TreesPlanntedCount,
+  Entity.EventDate,
 ];

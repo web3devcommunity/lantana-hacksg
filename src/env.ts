@@ -1,5 +1,6 @@
+export const LENSTER_APP_ID = 'lantana';
 // manaully bump this to only loaded data of this version from lens
-export const APP_VERSION_TAG = 'lantanav202305220101';
+export const APP_VERSION_TAG = 'lantanav202305230101';
 
 export const POLYGON_MUMBAI_CHAIN_ID = 80001;
 
@@ -20,7 +21,10 @@ export const TEST_RECIPIENT_ADDRESS =
   process.env.TEST_RECIPIENT_ADDRESS ||
   '0xD6cA1230e3C334daA0BECf91BaaA4E5C2470dFFe';
 
-export const ALCHEMY_API_TOKEN_GOERLI = process.env.ALCHEMY_API_TOKEN_GOERLI;
+// For simplicity exposed for frontend
+export const ALCHEMY_API_TOKEN_GOERLI =
+  process.env.NEXT_PUBLIC_ALCHEMY_API_TOKEN_GOERLI ||
+  process.env.ALCHEMY_API_TOKEN_GOERLI;
 export const ALCHEMY_API_TOKEN_MUMBAI =
   process.env.NEXT_PUBLIC_ALCHEMY_API_TOKEN_MUMBAI ||
   process.env.ALCHEMY_API_TOKEN_MUMBAI;
