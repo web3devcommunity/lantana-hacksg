@@ -40,7 +40,7 @@ export const CollectButtonWrapper = ({ publicationId, currencyAddress, children 
                     {collectEror && !isPending &&
                         <Alert severity="error">{collectEror?.message}</Alert>
                     }
-                    <div>Collect Price ${collectPolicy?.amount.toNumber()} </div>
+                    <div>Collect at ${collectPolicy?.amount.toNumber()} </div>
                     {
                         isCollected ? <Chip label="Thank you for donating" variant="outlined" /> : (
                             <div onClick={async () => {

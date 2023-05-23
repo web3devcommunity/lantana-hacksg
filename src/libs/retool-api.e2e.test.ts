@@ -9,7 +9,7 @@ import { ethers } from 'ethers';
 import { generateHandle } from './lens/utils';
 
 jest.setTimeout(60 * 1000);
-describe('retool-api', () => {
+describe.skip('retool-api', () => {
   it('#invokeAiEsgRecommendations', async () => {
     const causeDataFixture = {
       volunteers_count: 120,

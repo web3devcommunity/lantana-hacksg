@@ -3,9 +3,8 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   transformIgnorePatterns: [
-    'node_modules/(?!@hypercerts-org)',
-
-    'node_modules/(?!@lens-protocol)',
+    // https://stackoverflow.com/questions/52035066/how-to-write-jest-transformignorepatterns
+    'node_modules/(?!@hypercerts-org|@lens-protocol)'
   ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',

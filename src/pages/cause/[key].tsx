@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { EventList } from '@/components/EventList';
 import SocialLayout from '@/components/SocialLayout';
-import { Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import Image from 'next/image';
 import { CauseAttestationList } from '@/components/CauseAttestationList';
 import { TEST_CAUSE_ATTESTATION_RAW } from '@/domain/cause-attestation.fixture';
@@ -65,6 +65,7 @@ export default function CausePage() {
 
   const publicationId = post?.id as PublicationId;
 
+
   const { data: whoCollected, loading: whoCollectedLoading } = useWhoCollectedPublication({
     limit: 10,
     publicationId
@@ -78,7 +79,7 @@ export default function CausePage() {
   const total = revenue?.totalAmount || 0;
 
 
-  if (!post) return (<div>loading</div>);
+  if (!post) return (<div>loading...</div>);
 
   // event loaded separately
 
@@ -86,27 +87,34 @@ export default function CausePage() {
 
   const events = (eventPublications || [])?.map(mapPublicationAsEvent)
 
+  console.log('cause page', causeKey, post?.id)
+
   console.log('whoCollected', whoCollected, whoCollectedLoading, revenue);
 
   return (
     <SocialLayout>
       <main>
-        <Typography variant="h2"> {cause.title}</Typography>
-        <Typography variant="h4" color="text.secondary">
-          organized by {cause.organizer.title}
-        </Typography>
-        <Image src={cause.imageUrl} width={800} height={600} alt="Lantana" />
         <Grid container sx={{ marginTop: '50px' }}>
-          <Grid item xs={12} md={12}>
-            <Typography variant="h2">Upcoming Events</Typography>
+          <Grid item xs={12} md={12} sx={{ mt: 2, mb: 4 }}>
+            <Typography variant="h2"> {cause.title}</Typography>
+            <Typography variant="h4" color="text.secondary">
+              organized by {cause.organizer.title}
+            </Typography>
+            <Box sx={{ mt: 2, mb: 4 }} style={{ position: "relative", width: '100%', height: '600px' }} >
+              <Image src={cause.imageUrl} fill alt="Lantana" style={{ objectFit: "contain" }} />
+            </Box>
+
+            <Typography variant="body1" color="text.secondary">{cause.descriptionShort}</Typography>
           </Grid>
-          <Grid item xs={12} md={6}>
+
+          <Grid item xs={12} md={8}>
+            <Typography variant="h3">Upcoming Events</Typography>
             <EventList events={events} />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={4}>
             <StatsWrapper>
 
-              <Typography variant="body1" color="text.secondary">
+              <Typography variant="subtitle1" color="text.secondary">
 
                 Funding Received: ${total} <br />
                 from {whoCollected?.length} people
@@ -114,7 +122,7 @@ export default function CausePage() {
               <div>
 
                 <CollectButtonWrapper publicationId={post.id} currencyAddress={CURRENCY_LANTANA_ADDRESS}>
-                  <Button>
+                  <Button variant="outlined">
                     Donate
                   </Button>
                 </CollectButtonWrapper>
@@ -126,6 +134,6 @@ export default function CausePage() {
           </Grid>
         </Grid>
       </main>
-    </SocialLayout>
+    </SocialLayout >
   );
 }

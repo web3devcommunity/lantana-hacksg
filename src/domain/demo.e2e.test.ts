@@ -1,4 +1,4 @@
-import _, { keyBy } from 'lodash';
+import _ from 'lodash';
 import { TEST_CAUSES, TEST_CAUSES_RAW } from './cause.fixture';
 import { jest, describe, test, expect, it, beforeAll } from '@jest/globals';
 import { mapEventAsPublication } from './event';
@@ -14,27 +14,16 @@ import {
   createPostWithClient,
 } from '@/libs/lens/publication';
 import { mapCauseAsPublication } from './cause';
-import { uploadWithPaths } from '@/libs/storage/file';
-import path from 'path';
+import { withInternetUrl } from '@/libs/storage/file';
 import { TEST_PRIVATE_KEY, TEST_RECIPIENT_ADDRESS } from '@/env';
 import { collect } from '@/libs/lens/collect';
-import { profile } from 'console';
 // we hijacked the jest runner to execute the data loading
 // which is better done via ts-node .mjs
-
-const withInternetUrl = async (url: string) => {
-  if (url.match(/http/)) {
-    return url;
-  }
-  const src = path.resolve(__dirname, '../../public' + url);
-  const cid = await uploadWithPaths([src]);
-  return 'ipfs://' + cid + url;
-};
 
 jest.setTimeout(5 * 60 * 1000);
 
 const timer = (ms: number) => new Promise((res) => setTimeout(res, ms));
-describe.skip('#demo', () => {
+describe('#demo', () => {
   const causes = _.take(TEST_CAUSES, 1);
   const TOTAL_PROFILES_COUNT = causes.length;
 
@@ -45,9 +34,6 @@ describe.skip('#demo', () => {
   let collectWallet: ethers.Wallet;
 
   beforeAll(async () => {
-    // TODO simulate avatars
-    // avatarUrl: '',
-
     await Promise.all(
       _.range(0, TOTAL_PROFILES_COUNT).map(async (i) => {
         let lensClient: LensClient;
@@ -75,19 +61,13 @@ describe.skip('#demo', () => {
   test('#create cause and events', async () => {
     const results = await Promise.all(
       causes.map(async (cause: Cause, i: number) => {
-        // use diff for rate limit
+        // use diff wallets for rate limit
         const wallet = wallets[i];
         const lensClient = await loadClientAuthenticated({ wallet });
         const profileId = profileIds[i];
 
         const postInput = mapCauseAsPublication(cause);
-        console.log(
-          'wallet, profileId, post',
-          i,
-          wallet?.address,
-          profileId,
-          postInput,
-        );
+
         const imageUrl = await withInternetUrl(cause.imageUrl);
         const createCauseResults = await createPostWithClient(lensClient)({
           ...postInput,
@@ -146,7 +126,12 @@ describe.skip('#demo', () => {
       txHash: createCauseResults.txHash,
     });
 
-    await collect(adminLensClient)(collectWallet, publication!.id);
-    // collectWallet
+    // can collect multiple times but with rate limit
+    await Promise.all(
+      _.range(0, 3).map(async (i) => {
+        await collect(adminLensClient)(collectWallet, publication!.id);
+        await timer(i * 3000);
+      }),
+    );
   });
 });

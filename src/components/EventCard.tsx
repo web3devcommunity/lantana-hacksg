@@ -9,11 +9,7 @@ import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+
 import Image from 'next/image';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { format, compareAsc, parseISO } from 'date-fns';
@@ -25,9 +21,9 @@ import CommentIcon from '@mui/icons-material/Comment';
 import PaidIcon from '@mui/icons-material/Paid';
 import { useActiveProfile, useCollect } from '@lens-protocol/react-web';
 import { EventInput, Event } from '@/domain/event';
-import { AvatarGroup } from '@mui/material';
+import { AvatarGroup, Box } from '@mui/material';
 import { User } from '@/domain/user';
-import { withIpfsGateway } from '@/libs/lens/utils';
+import { getAvatarUrl, withIpfsGateway } from '@/libs/lens/utils';
 
 // decouple lens specific actions / api from presentation
 export const EventCard = ({
@@ -43,7 +39,7 @@ export const EventCard = ({
   const collector = data!;
 
   const imageUrl = withIpfsGateway(event.imageUrl || '');
-  const displayedDate = format(new Date() || event.date, 'MM/dd/yyyy HH:mm');
+  const displayedDate = format(event.date, 'MM/dd/yyyy HH:mm');
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
@@ -59,23 +55,31 @@ export const EventCard = ({
           component="img"
           height="194"
           image={imageUrl}
-          alt="Post Image"
+          alt="Event Image"
         />
       )}
 
-      <AvatarGroup max={6} total={event.volunteersCount}>
+      <AvatarGroup max={6} total={event.volunteersCount} sx={{ mt: 2 }}>
         {event.volunteers.map((volunteer: Partial<User>, i: number) => {
           return (
             <Avatar
-              key={i}
+              key={volunteer.name! + i}
               alt={volunteer.name}
-              src="/static/images/avatar/1.jpg"
+              src={getAvatarUrl()}
             />
           );
         })}
       </AvatarGroup>
-      {!isThumbnailOnly && event.descriptionShort}
+
+      {!isThumbnailOnly && (
+        <CardContent sx={{ minHeight: '2rem' }}>
+          <Typography variant="body2" color="text.secondary">
+            {event.descriptionShort}
+          </Typography>
+        </CardContent>
+      )
+      }
       {!isThumbnailOnly && actions}
-    </Card>
+    </Card >
   );
 };

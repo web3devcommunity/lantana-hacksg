@@ -11,6 +11,7 @@ import { CauseAttestation } from '@/domain/cause-attestation';
 import Badge from '@mui/material/Badge';
 import styled from 'styled-components';
 import Grid from '@mui/material/Grid';
+import { getAvatarUrl } from '@/libs/lens/utils';
 
 const SmallAvatar = styled(Avatar)(({ theme }) => ({
   width: 22,
@@ -86,7 +87,7 @@ export const CauseAttestationList = ({
                     <Avatar
                       key={i}
                       alt={causeAttestation.user.name}
-                      src="/static/images/avatar/1.jpg"
+                      src={getAvatarUrl()}
                     />
                   );
                 })}

@@ -12,6 +12,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@hypercerts-org/hypercerts-sdk": "^0.0.32",
     "@lens-protocol/client": "^1.0.1",
     "@lens-protocol/react-web": "^1.0.1",
     "@lens-protocol/wagmi": "^1.0.1",
@@ -28,8 +29,10 @@
     "@rainbow-me/rainbowkit": "^0.12.0",
     "@wagmi/cli": "^1.0.1",
     "@walletconnect/ethereum-provider": "1.8.0",
+    "alchemy-sdk": "^2.8.3",
     "autoprefixer": "10.4.14",
     "cross-fetch": "^3.1.5",
+    "datauri": "^4.1.0",
     "date-fns": "^2.30.0",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.1",

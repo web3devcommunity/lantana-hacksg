@@ -43,6 +43,8 @@ export const mapPublicationAsEvent = (publication: LensPublication): Event => {
   const causeKey = findAttributeWithEntity(publication, Entity.Cause) || '';
   const eventKey = findAttributeWithEntity(publication, Entity.Event) || '';
 
+  const date = findAttributeWithEntity(publication, Entity.EventDate) || '';
+
   return {
     causeKey,
     title: publication?.metadata?.name,
@@ -53,12 +55,12 @@ export const mapPublicationAsEvent = (publication: LensPublication): Event => {
     stats: publication?.stats,
     publicationId: publication?.id,
     key: eventKey,
+    date: parseISO(date),
     // TODO load from followers
     // volunteers: event.volunteers,
     volunteers: _.take(TEST_USERS_RAW, 5),
     // TODO load from attributes
-    // volunteersCount: event.volunteersCount,
-    volunteersCount: 234,
+    volunteersCount: _.random(20, 123),
   };
 };
 
@@ -75,6 +77,10 @@ export const mapEventAsPublication = (event: Event) => {
     {
       entity: Entity.Event,
       value: event.key,
+    },
+    {
+      entity: Entity.EventDate,
+      value: event.date.toISOString(),
     },
   ];
   const attributes = kvs.map(asPublicationAttribute);

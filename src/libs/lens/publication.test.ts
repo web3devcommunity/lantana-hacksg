@@ -37,6 +37,7 @@ describe('#createPublication', () => {
       'https://pbs.twimg.com/media/Fs4xCTGWYAULIW_?format=jpg&name=large',
     content: 'Thanks for doing Beach Cleanups',
     name: 'Happy Volunteering!',
+    date: '2023-02-05T14:00:00Z',
   };
 
   beforeAll(async () => {
@@ -80,6 +81,8 @@ describe('#createPublication', () => {
       APP_VERSION_TAG,
       'cause-123',
     ]);
+
+    expect(results.contentMetadata.createdAt).toEqual(123);
 
     await lensClient.transaction.waitForIsIndexed(results.txId);
 
