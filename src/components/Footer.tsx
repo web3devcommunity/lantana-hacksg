@@ -17,29 +17,27 @@ export default function Footer() {
       square
       variant="outlined"
     >
-      <Container maxWidth="lg">
-        <Box
-          sx={{
-            flexGrow: 1,
-            justifyContent: 'center',
-            display: 'flex',
-            my: 1,
-          }}
-        ></Box>
+      <Box
+        sx={{
+          flexGrow: 1,
+          justifyContent: 'center',
+          display: 'flex',
+          my: 1,
+        }}
+      ></Box>
 
-        <Box
-          sx={{
-            flexGrow: 1,
-            justifyContent: 'center',
-            display: 'flex',
-            mb: 2,
-          }}
-        >
-          <Typography variant="caption" color="initial">
-            Lantana ©2023. Follow us
-          </Typography>
-        </Box>
-      </Container>
+      <Box
+        sx={{
+          flexGrow: 1,
+          justifyContent: 'center',
+          display: 'flex',
+          mb: 2,
+        }}
+      >
+        <Typography variant="caption" color="initial">
+          Lantana ©2023. Follow us
+        </Typography>
+      </Box>
     </Paper>
   );
 }

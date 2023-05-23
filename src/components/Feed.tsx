@@ -1,23 +1,11 @@
 import Grid from '@mui/material/Grid';
-import { Avatar, Button, Link } from '@mui/material';
-import Typography from '@mui/material/Typography';
+import { Link } from '@mui/material';
 
 import {
-  usePublications,
-  useFeed,
   useExplorePublications,
-  useSearchPublications,
-  useComments,
   PublicationTypes,
-  PublicationSortCriteria,
 } from '@lens-protocol/react-web';
-import { createFilters } from '@/libs/lens/create-filters';
-import {
-  useActiveProfile,
-  useActiveWallet,
-  useWalletLogout,
-} from '@lens-protocol/react-web';
-import { CauseCard } from './CauseCard';
+import { useActiveProfile } from '@lens-protocol/react-web';
 import { Event, mapPublicationAsEvent } from '@/domain/event';
 import { EventCard } from './EventCard';
 import { EventCardActions } from './EventCardAction';
@@ -36,7 +24,8 @@ const FeedItemsWrapper = styled.div`
 
 export const FeedItems = ({
   publications,
-  linkFactory = (event: Event) => `/cause/${event.causeKey}`,
+  linkFactory = (event: Event) =>
+    `/cause/${event.causeKey}?id=${event.publicationId}`,
 }: {
   publications: any[];
   linkFactory?: (event: Event) => string;

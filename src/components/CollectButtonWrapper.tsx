@@ -60,7 +60,11 @@ export const CollectButtonWrapper = ({
   const collectPolicy = publication?.collectPolicy as FeeCollectPolicy;
 
   return !publication || !wallet?.address ? (
-    <div> Loading...</div>
+    <div>
+      <Alert severity="warning">
+        Please log in your Lens Profile for more details...
+      </Alert>
+    </div>
   ) : (
     <>
       {collectEror && !isPending && (

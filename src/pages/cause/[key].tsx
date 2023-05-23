@@ -8,6 +8,7 @@ import {
   Backdrop,
   CircularProgress,
   Avatar,
+  Alert,
 } from '@mui/material';
 import Image from 'next/image';
 import { CauseAttestationList } from '@/components/CauseAttestationList';
@@ -33,6 +34,7 @@ import { PublicationComments } from '@/components/PublicationComments';
 export default function CausePage() {
   const router = useRouter();
   const causeKey = router.query.key;
+  const postIdFromPath = router.query.id;
 
   // alternative approaches
   // - use publication id to query (missing in attribute now)
@@ -59,7 +61,7 @@ export default function CausePage() {
     metadataFilter: appFilter,
   });
 
-  const post = _.first(data);
+  const post = _.filter(data, (d) => d.id == postIdFromPath)[0];
 
   const eventFilter = createFilters({
     restrictPublicationTagsTo: {
@@ -76,9 +78,6 @@ export default function CausePage() {
   });
 
   const publicationId = post?.id as PublicationId;
-
-  // TODO: to pick the correct publicationId from path
-  const fixedPublicationId = '0x82ce-0x02' as PublicationId;
 
   const { data: whoCollected, loading: whoCollectedLoading } =
     useWhoCollectedPublication({
@@ -174,20 +173,25 @@ export default function CausePage() {
           <EventList events={events} />
         </Grid>
 
-        <Grid container rowSpacing={2}>
+        <Grid container rowSpacing={2} marginTop={2}>
           <Grid item xs={12}>
             <Typography variant="h4">Comments</Typography>
           </Grid>
           <Grid item xs={12}>
             <PublicationComments
-              publicationId={fixedPublicationId}
+              publicationId={publicationId}
             ></PublicationComments>
           </Grid>
+          {!activeProfile && (
+            <Alert severity="warning">
+              Please log in your Lens Profile to comment...
+            </Alert>
+          )}
           {activeProfile && (
             <Grid item xs={12}>
               <CommentComposer
                 publisher={activeProfile}
-                publicationId={fixedPublicationId}
+                publicationId={publicationId}
               />
             </Grid>
           )}
