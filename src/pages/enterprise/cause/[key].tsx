@@ -66,23 +66,25 @@ export const EnterpriseStatsTabs = ({ publicationId }: { publicationId: Publicat
 
     return (
         <Grid container direction="column" spacing={4}>
-            <Grid item xs={12}>
+            <Grid item xs={12} >
                 <Typography variant="h6">Collected NFTs</Typography>
+                <Box style={{ maxWidth: '800px' }}>
+                    <NFTList
 
-                <NFTList
-                    contractAddress={collectionContractAddress}
-                    network={"mumbai"}
-                />
+                        contractAddress={collectionContractAddress}
+                        network={"mumbai"}
+                    />
+                </Box>
 
             </Grid>
-
+            {/* 
             <Grid item xs={12}>
                 <Typography variant="h6">Stats</Typography>
                 {JSON.stringify(whoCollected)}
 
                 {JSON.stringify(revenue)}
-            </Grid>
-            <Grid item>
+            </Grid> */}
+            <Grid item xs={4}>
                 <Typography variant="h6">HyperCert</Typography>
                 <NFTCard
                     contractAddress={hypercertsContractAddress}

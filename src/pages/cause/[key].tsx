@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import { TEST_CAUSES } from '@/domain/cause.fixture';
 import { createFilters } from '@/libs/lens/create-filters';
 import { formatEntityTag, mapPublicationAsCause } from '@/domain/cause';
-import { APP_VERSION_TAG, CURRENCY_LANTANA_ADDRESS } from '@/env';
+import { APP_VERSION_TAG, CURRENCY_LANTANA_ADDRESS, CURRENCY_WMATIC_ADDRESS } from '@/env';
 import { PublicationId, useExplorePublications, usePublicationRevenue, usePublications, useWhoCollectedPublication } from '@lens-protocol/react-web';
 import styled from 'styled-components';
 import { CollectButtonWrapper } from '@/components/CollectButtonWrapper';
@@ -121,7 +121,7 @@ export default function CausePage() {
               </Typography>
               <div>
 
-                <CollectButtonWrapper publicationId={post.id} currencyAddress={CURRENCY_LANTANA_ADDRESS}>
+                <CollectButtonWrapper publicationId={post.id} currencyAddress={CURRENCY_WMATIC_ADDRESS}>
                   <Button variant="outlined">
                     Donate
                   </Button>

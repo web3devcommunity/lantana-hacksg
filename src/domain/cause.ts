@@ -97,7 +97,7 @@ export const mapPublicationAsCause = (publication: LensPublication): Cause => {
     title: publication?.metadata?.name,
     // TODO store in attribute
     organizer: {
-      title: 'Singapore Council',
+      title: 'Eco Warriors SG',
     },
 
     imageUrl: withIpfsGateway(publication?.metadata?.media?.[0]?.original.url),

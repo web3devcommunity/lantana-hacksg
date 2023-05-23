@@ -48,7 +48,7 @@ export const CauseAttestationList = ({
                       >
                         <Avatar
                           alt="Travis Howard"
-                          src="/static/images/avatar/2.jpg"
+                          src={getAvatarUrl()}
                         />
                       </Badge>
                     </ListItemAvatar>
