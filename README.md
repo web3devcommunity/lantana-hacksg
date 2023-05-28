@@ -1,5 +1,29 @@
 # Lantana
 
+## Overview
+
+- Application Deck can be found at [here] (https://docs.google.com/presentation/d/1eAeva1noI_XTJQfPGRWLnhdjqVC1VVHqZQeC3eWNE6I/edit?usp=sharing)
+
+This is a platform for grassroot organizer to organize sustainability and fundraise form companies, which can easily report on their CSR & ESG initiatives. Social Data and Donating Data are on-chain based on lens protocol with mint of Hypercerts as impact certificate
+
+### Screenshots
+
+Discover
+
+- ![image](https://github.com/web3devcommunity/lantana-hacksg/assets/1883877/1d5e20bd-013a-46b8-ab3b-e7da3d0c1be2)
+
+Donate & Participate
+
+- ![image](https://github.com/web3devcommunity/lantana-hacksg/assets/1883877/dff2b32e-d20b-4175-a65d-d922aa546bb6)
+
+Dashboard
+
+- ![image](https://github.com/web3devcommunity/lantana-hacksg/assets/1883877/9148e0b4-a665-4898-ab2d-f12511253280)
+
+AI Reporting Recommendations
+
+- ![image](https://github.com/web3devcommunity/you-will-never-rust-alone/assets/1883877/46bea6fa-b801-4577-9cba-6c1d36ef277b)
+
 ## Structure
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).

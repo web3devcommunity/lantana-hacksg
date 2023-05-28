@@ -41,7 +41,6 @@ export const useAlchemySdk = (network: string) => {
 
     return useMemo(() => {
         const alchemySettings = getAlchemySettings(network);
-        console.log('useAlchemySdk', network, alchemySettings);
         return new Alchemy(alchemySettings).nft;
     }, [network])
 

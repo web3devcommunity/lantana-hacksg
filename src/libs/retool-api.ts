@@ -45,14 +45,15 @@ export const invoke = (
   });
 };
 
-export const invokeAiEsgRecommendations = async (causeData: any) => {
-  const res = await invoke(ApiEndpoint.AiEsgRecommendations, {
-    method: 'POST',
-    isUseCors: true,
-    body: {
-      causeData,
+export const invokeAiEsgRecommendations = async (causeData: any = {}) => {
+  const res = await invoke(
+    ApiEndpoint.AiEsgRecommendations,
+    {
+      method: 'POST',
+      isUseCors: true,
     },
-  });
+    causeData,
+  );
 
   if (res.status !== 200) {
     throw new Error(res?.statusText);
